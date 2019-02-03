@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Services;
@@ -42,7 +42,7 @@ namespace TomasosPizzeria
 
             services.Configure<IdentityOptions>(options =>
             {
-                // Default Password settings.
+                // Password settings for Core Identity users, dumbed down for testing purpose.
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -82,20 +82,43 @@ namespace TomasosPizzeria
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
-            //Adding Admin Role
+            // Creating Admin Role
             var roleCheck = await roleManager.RoleExistsAsync("Admin");
             if (!roleCheck)
             {
-                //create the roles and seed them to the database
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+                // Creating the admin account
+                var user = new AppUser
+                {
+                    UserName = "AdminUser",
+                    Email = "default@default.com"
+
+                };
+                var adminPsw = "Admin";
+                var createUser = await userManager.CreateAsync(user, adminPsw);
+                if (createUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Admin");
+                }
+            }
+
+            // Creating PremiumUser Role
+            roleCheck = await roleManager.RoleExistsAsync("PremiumUser");
+            if (!roleCheck)
+            {
+               
                 await roleManager.CreateAsync(new IdentityRole("PremiumUser"));
+            }
+
+            // Creating RegularUser Role
+            roleCheck = await roleManager.RoleExistsAsync("RegularUser");
+            if (!roleCheck)
+            {
+                
                 await roleManager.CreateAsync(new IdentityRole("RegularUser"));
             }
 
-            //Assign Admin role to the main User here we have given our newly registered 
-            //login id for Admin management
-            var user = await userManager.FindByNameAsync("ASDF");
-            await userManager.AddToRoleAsync(user, "Admin");
         }
     }
 }
