@@ -4,14 +4,35 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<h1>Admin Only</h1>
 
-@foreach (var user in Model)
-{
-    @user.UserName
-    <br/>
-    @user.Id
-    <br/>
-    @user.Email
-}
+
+
+<div class="container-fluid">
+    
+    <h1 class="text-center">Admin Only</h1>
+    
+
+    <table class="table table-hover table-sm">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>TODO ROLE</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
 
