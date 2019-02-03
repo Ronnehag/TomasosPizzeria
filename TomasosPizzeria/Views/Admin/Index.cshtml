@@ -1,0 +1,17 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewData["Title"] = "Admin Page";
+}
+
+<h1>Admin Only</h1>
+
+@foreach (var user in Model)
+{
+    @user.UserName
+    <br/>
+    @user.Id
+    <br/>
+    @user.Email
+}
+

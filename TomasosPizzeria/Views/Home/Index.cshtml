@@ -1,0 +1,87 @@
+﻿@model FoodMenu
+
+<div class="container-fluid h-100" id="site-header">
+    <div class="row h-100">
+        <div class="col-sm-12 text-center mt-5">
+            <h1 class="header-text mt-5">
+                Tomasos Pizzeria
+            </h1>
+            <h4 class="secondary-header">Pizza | Pasta | Sallad</h4>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <!-- ABOUT SECTION-->
+    <partial name="_AboutPartial"/>
+    
+    <!-- FOOD MENU SECTION -->
+    <section id="foodmenu" class="text-center mt-5">
+        <h1 class="text-uppercase">Vår meny</h1>
+        <h6 class="text-uppercase">tillagad med färska råvaror</h6>
+        <div class="card-deck mt-3">
+            <!-- PIZZA -->
+            <div class="card bg-light text-dark">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-uppercase">pizzor</h4>
+                    @foreach (var dish in Model.PizzaDishes)
+                    {
+                        <p class="card-text mt-2">
+                            <span class="text-uppercase">@dish.MatrattNamn</span>
+                            <span class="price-text">@dish.Pris.ToString("C")</span>
+                            <br/>
+                            @foreach (var ingredient in dish.MatrattProdukt)
+                            {
+                                <small>@ingredient.Produkt.ProduktNamn </small>
+                            }
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <!-- PASTA -->
+            <div class="card bg-light text-dark">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-uppercase">pastarätter</h4>
+                    @foreach (var dish in Model.PastaDishes)
+                    {
+                        <p class="card-text">
+                            <span class="text-uppercase">@dish.MatrattNamn</span>
+                            <span class="price-text">@dish.Pris.ToString("C")</span>
+                            <br/>
+                            @foreach (var ingredient in dish.MatrattProdukt)
+                            {
+                                <small>@ingredient.Produkt.ProduktNamn </small>
+                            }
+
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <!-- SALAD -->
+            <div class="card bg-light text-dark">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-uppercase">Sallad</h4>
+                    @foreach (var dish in Model.SaladDishes)
+                    {
+                        <p class="card-text">
+                            <span class="text-uppercase">@dish.MatrattNamn</span>
+                            <span class="price-text">@dish.Pris.ToString("C")</span>
+                            <br/>
+                            @foreach (var ingredient in dish.MatrattProdukt)
+                            {
+                                <small>@ingredient.Produkt.ProduktNamn </small>
+                            }
+
+                        </p>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+</div>

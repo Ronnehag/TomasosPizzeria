@@ -1,0 +1,71 @@
+﻿@model KundViewModel
+@{
+    ViewData["Title"] = "User Manager";
+}
+
+
+<div class="container-fluid h-100 mt-5">
+    
+    <header class="text-center">
+        <h1>Redigera dina användaruppgifter</h1>
+    </header>
+
+    <form asp-action="EditDetails" method="post">
+        <div asp-validation-summary="All"></div>
+        <input type="hidden" asp-for="@Model.Kund.UserId"/>
+        <input type="hidden" asp-for="@Model.Kund.KundId"/>
+        <div class="row mt-3">
+            <div class="col">
+                <label asp-for="@Model.Kund.Namn"></label>
+                <input maxlength="100" class="form-control" asp-for="@Model.Kund.Namn" value="@Model.Kund.Namn">
+            </div>
+            <div class="col">
+                <label asp-for="@Model.Kund.Gatuadress"></label>
+                <input maxlength="50" class="form-control" asp-for="@Model.Kund.Gatuadress" value="@Model.Kund.Gatuadress">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label asp-for="@Model.Kund.Postnr"></label>
+                <input maxlength="20" class="form-control" asp-for="@Model.Kund.Postnr" value="@Model.Kund.Postnr">
+            </div>
+            <div class="col">
+                <label asp-for="@Model.Kund.Postort"></label>
+                <input maxlength="100" class="form-control" asp-for="@Model.Kund.Postort" value="@Model.Kund.Postort">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label asp-for="Kund.Email"></label>
+                <input maxlength="50" class="form-control" asp-for="Kund.Email" value="@Model.Kund.Email">
+            </div>
+            <div class="col">
+                <label asp-for="Kund.Telefon"></label>
+                <input maxlength="50" class="form-control" asp-for="Kund.Telefon" value="@Model.Kund.Telefon">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label asp-for="AnvandarNamn"></label>
+                <input maxlength="20" class="form-control" asp-for="AnvandarNamn" value="@Model.AnvandarNamn" readonly="true">
+            </div>
+            <div class="col">
+                <label asp-for="@Model.Losenord"></label>
+                <input maxlength="20" class="form-control" asp-for="@Model.Losenord" value="@Model.Losenord">
+            </div>
+            <div class="col">
+                <label asp-for="ConfirmPassword"></label>
+                <input maxlength="20" class="form-control" asp-for="ConfirmPassword">
+            </div>
+        </div>
+        <div class="form-group mt-3 text-right">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Avbryt</a>
+            <button type="submit" class="btn btn-primary">Uppdatera</button>
+        </div>
+        
+    </form>
+</div>
+

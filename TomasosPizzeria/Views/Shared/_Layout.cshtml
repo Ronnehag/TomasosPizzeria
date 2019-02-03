@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,600,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css" asp-append-version="true" />
+
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">Tomasos Pizzeria</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Hem</a>
+                </li>
+                <partial name="_LoginPartial"/>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+    <main id="main-content">
+        @RenderBody()
+    </main>
+
+
+    <footer class="footer pt-4 mt-3" id="main-footer">
+        <div class="container-fluid text-center">
+            <div class="row">
+                <div class="col-12 mt-3 mb-3">
+                    <h5 class="text-uppercase">Varmt välkomna till oss</h5>
+                    <hr />
+                    <p>
+                        Svenssongatan 14, Stockholm
+                    </p>
+                    <p>
+                        Tel: 08-12345678
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-2">
+            &copy; @DateTime.Now.Year by Tomasos Pizzeria
+        </div>
+    </footer>
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

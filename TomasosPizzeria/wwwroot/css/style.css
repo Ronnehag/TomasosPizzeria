@@ -1,0 +1,130 @@
+﻿body, html {
+    height: 100%;
+    width: 100%;
+    font-family: "EB Garamond", Arial, sans-serif;
+    line-height: 1.5em;
+    font-size: 17px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Oswald", Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.card, btn, .form-control {
+    border-radius: 0;
+}
+#main-content {
+    padding-top: 55px;
+}
+
+/* SITE NAVIGATION */
+.navbar-dark .navbar-nav .nav-link {
+    color: silver;
+}
+
+/* FOOD MENU SECTION */
+#foodmenu small {
+    font-style: italic;
+}
+
+#foodmenu h4 {
+    text-shadow: 1px #000;
+}
+
+.price-text {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* SITE MAIN HEADER */
+#site-header {
+    background: url(../img/image.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 600px;
+}
+
+.header-text {
+    font-size: 115px;
+    color: antiquewhite;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px black;
+}
+
+.secondary-header {
+    font-size: 50px;
+    color: antiquewhite;
+    text-shadow: 2px 2px black;
+}
+
+/* ABOUT SECTION */
+#about i {
+    font-size: 50px;
+    color: #2C344E;
+}
+
+
+/* MAIN FOOTER SECTION */
+#main-footer {
+    background: #343A40;
+    color: #fff;
+}
+
+#main-footer hr {
+    width: 50%;
+    margin: .4em auto;
+    border-top: 1px solid rgba(204, 204, 204, .5);
+}
+
+#main-footer p {
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    letter-spacing: .2em;
+}
+
+.footer-copyright {
+    background: #1B2127;
+    font-size: 12px;
+}
+
+/* USER REGISTRATION FORM AND GENERAL VALIDATION LOOKS */
+#registryForm span {
+    font-size: 12px;
+    color: crimson;
+}
+.field-validation-error {
+    color: #f00;
+}
+
+.field-valdation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: crimson;
+}
