@@ -19,5 +19,14 @@ namespace TomasosPizzeria.Controllers
         {
             return View(_userManager.Users);
         }
+
+        [HttpPost]
+        public IActionResult UpdateUser(string id)
+        {
+            // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
+           
+            // Returerar till Index som visar alla Users
+            return RedirectToAction("Index");
+        }
     }
 }

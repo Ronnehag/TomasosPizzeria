@@ -7,28 +7,32 @@
 
 
 
-<div class="container-fluid">
+<div class="container-fluid mt-5">
     
-    <h1 class="text-center">Admin Only</h1>
+    <h1 class="text-center">Admin Dashboard</h1>
     
 
-    <table class="table table-hover table-sm">
+    <table class="table table-hover table-sm mt-3">
         <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Username</th>
+            <th scope="col">Användarnamn</th>
             <th scope="col">Email</th>
-            <th scope="col">Role</th>
+            <th scope="col">Roll</th>
+            <th scope="col">Ändra</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.Id</td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
                 <td>TODO ROLE</td>
+                <td>
+                    <form asp-action="UpdateUser" asp-route-id="@user.Id" method="POST">
+                        <button type="submit" class="btn btn-sm btn-primary">Ändra roll</button>
+                    </form> <!-- TODO Behövs Delete? -->
+                </td>
             </tr>
         }
         </tbody>
