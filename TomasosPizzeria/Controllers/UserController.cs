@@ -5,6 +5,9 @@ using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
+
+/* User controller handles registration, login and log out. */
+
 namespace TomasosPizzeria.Controllers
 {
     [Route("user")]
@@ -41,23 +44,24 @@ namespace TomasosPizzeria.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
+                var user = await _userManager.FindByNameAsync(model.Username); // Gets user
                 if (user != null)
                 {
-                    await _signInManager.SignOutAsync();
-                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    await _signInManager.SignOutAsync(); // Signs out current user (if any)
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false); // Signs in the new user
 
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "Home");
                     }
                 }
+                // If error with sign in (most likely wrong username or password)
                 ModelState.AddModelError(nameof(LoginViewModel.Username), "Felaktigt användarnamn eller lösenord");
+                ModelState.AddModelError(nameof(LoginViewModel.Password), ""); // Just for visibility in the View
             }
             return View(model);
         }
 
-        //Logga ut en användare
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
