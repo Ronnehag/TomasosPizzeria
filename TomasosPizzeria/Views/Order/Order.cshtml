@@ -11,35 +11,44 @@
 
 
     <div class="row">
-        <section id="orderContent">
-            <div class="col-6">
-                <div class="row">
-                    @foreach (var dish in Model.PizzaDishes)
-                    {
-                        <div class="col-12">
-                            <partial name="_OrderDishCardPartial" model="@dish" />
-                        </div>
-                    }
-                </div>
+        <div class="col-6">
 
-                <div class="row">
-                    @foreach (var dish in Model.PastaDishes)
-                    {
-                        <div class="col-12">
-                            <partial name="_OrderDishCardPartial" model="@dish" />
-                        </div>
-                    }
-                </div>
-                <div class="row">
-                    @foreach (var dish in Model.SaladDishes)
-                    {
-                        <div class="col-12">
-                            <partial name="_OrderDishCardPartial" model="@dish" />
-                        </div>
-                    }
-                </div>
+            <h4 class="text-center p-2"><span class="dotted-red">• • •</span> Pizzor <span class="dotted-red">• • •</span></h4>
+            <div class="row">
+                @foreach (var dish in Model.PizzaDishes)
+                {
+                    <div class="col-12">
+                        <partial name="_OrderDishCardPartial" model="@dish"/>
+                    </div>
+                }
             </div>
-        </section>
-    </div>
 
+            <h4 class="text-center p-2 mt-3"><span class="dotted-red">• • •</span> Pasta <span class="dotted-red">• • •</span></h4>
+            <div class="row">
+                @foreach (var dish in Model.PastaDishes)
+                {
+                    <div class="col-12">
+                        <partial name="_OrderDishCardPartial" model="@dish"/>
+                    </div>
+                }
+            </div>
+
+            <h4 class="text-center p-2 mt-3"><span class="dotted-red">• • •</span> Sallad <span class="dotted-red">• • •</span></h4>
+            <div class="row">
+                @foreach (var dish in Model.SaladDishes)
+                {
+                    <div class="col-12">
+                        <partial name="_OrderDishCardPartial" model="@dish"/>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="col-6">
+            <h3 class="text-center">Din beställning</h3>
+            
+            
+
+        </div>
+    </div>
 </div>
