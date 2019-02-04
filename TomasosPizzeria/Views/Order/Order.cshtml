@@ -7,63 +7,39 @@
 
 <div class="container-fluid mt-5">
 
-    <h1 class="text-center mb-3">Skapa en beställning</h1>
+    <h1 class="text-center mb-5">Skapa en beställning</h1>
+
 
     <div class="row">
-        <div class="col-6">
-            <div class="row">
-                @foreach (var dish in Model.PizzaDishes)
-                {
-                    <div class="col text-center">
-                        @dish.MatrattNamn
+        <section id="orderContent">
+            <div class="col-6">
+                <div class="row">
+                    @foreach (var dish in Model.PizzaDishes)
+                    {
+                        <div class="col-12">
+                            <partial name="_OrderDishCardPartial" model="@dish" />
+                        </div>
+                    }
+                </div>
 
-                        <br />
-                        @foreach (var ingredient in dish.MatrattProdukt)
-                        {
-                            @ingredient.Produkt.ProduktNamn
-                        }
-                        <br />
-                        <a class="btn btn-sm btn-success" href="#">Lägg till i varukorg</a>
-                    </div>
-                }
+                <div class="row">
+                    @foreach (var dish in Model.PastaDishes)
+                    {
+                        <div class="col-12">
+                            <partial name="_OrderDishCardPartial" model="@dish" />
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    @foreach (var dish in Model.SaladDishes)
+                    {
+                        <div class="col-12">
+                            <partial name="_OrderDishCardPartial" model="@dish" />
+                        </div>
+                    }
+                </div>
             </div>
-
-            <div class="row">
-                @foreach (var dish in Model.PastaDishes)
-                {
-                    <div class="col text-center">
-                        @dish.MatrattNamn
-
-                        <br />
-                        @foreach (var ingredient in dish.MatrattProdukt)
-                        {
-                            @ingredient.Produkt.ProduktNamn
-                        }
-                        <br />
-                        <a class="btn btn-sm btn-secondary">Köp</a>
-                    </div>
-                }
-            </div>
-            <div class="row">
-                @foreach (var dish in Model.SaladDishes)
-                {
-                    <div class="col text-center">
-                        @dish.MatrattNamn
-
-                        <br />
-                        @foreach (var ingredient in dish.MatrattProdukt)
-                        {
-                            @ingredient.Produkt.ProduktNamn
-                        }
-                        <br />
-                        <a class="btn btn-sm btn-secondary">Köp</a>
-                    </div>
-                }
-            </div>
-        </div>
+        </section>
     </div>
+
 </div>
-
-<p>Presentera maträtter här med quantity och köp knapp.</p>
-
-<p>Använta en viewmodel med CartItem där listan av maträtter + kundens items sparas?</p>
