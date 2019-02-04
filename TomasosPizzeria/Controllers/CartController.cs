@@ -61,12 +61,19 @@ namespace TomasosPizzeria.Controllers
             return RedirectToAction("Products", "Order");
         }
 
+        [Route("checkout")]
         public async Task<IActionResult> CheckOut()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) Challenge();
 
+            // Hämta kund
+            var kund = await _userService.FindUserAsync(user.Id);
 
+            var serializedValue = ( HttpContext.Session.GetString("varukorg") );
+            var model = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
+
+            return View(model);
         }
 
     }
