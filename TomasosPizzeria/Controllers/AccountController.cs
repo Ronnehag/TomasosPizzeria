@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
-using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
@@ -39,7 +38,10 @@ namespace TomasosPizzeria.Controllers
                 };
                 return View(model);
             }
-            return BadRequest(new { error = "Ingen registrerad kund med angivet ID" });
+
+            return BadRequest(new {Error = "User not found"});
+            // TODO lägga in Admin i en egen model till View
+
         }
 
         [HttpPost]

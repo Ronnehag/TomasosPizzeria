@@ -1,0 +1,69 @@
+﻿@model FoodMenu
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+
+<div class="container-fluid mt-5">
+
+    <h1 class="text-center mb-3">Skapa en beställning</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                @foreach (var dish in Model.PizzaDishes)
+                {
+                    <div class="col text-center">
+                        @dish.MatrattNamn
+
+                        <br />
+                        @foreach (var ingredient in dish.MatrattProdukt)
+                        {
+                            @ingredient.Produkt.ProduktNamn
+                        }
+                        <br />
+                        <a class="btn btn-sm btn-success" href="#">Lägg till i varukorg</a>
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                @foreach (var dish in Model.PastaDishes)
+                {
+                    <div class="col text-center">
+                        @dish.MatrattNamn
+
+                        <br />
+                        @foreach (var ingredient in dish.MatrattProdukt)
+                        {
+                            @ingredient.Produkt.ProduktNamn
+                        }
+                        <br />
+                        <a class="btn btn-sm btn-secondary">Köp</a>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                @foreach (var dish in Model.SaladDishes)
+                {
+                    <div class="col text-center">
+                        @dish.MatrattNamn
+
+                        <br />
+                        @foreach (var ingredient in dish.MatrattProdukt)
+                        {
+                            @ingredient.Produkt.ProduktNamn
+                        }
+                        <br />
+                        <a class="btn btn-sm btn-secondary">Köp</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>Presentera maträtter här med quantity och köp knapp.</p>
+
+<p>Använta en viewmodel med CartItem där listan av maträtter + kundens items sparas?</p>

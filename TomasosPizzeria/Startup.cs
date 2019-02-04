@@ -95,8 +95,8 @@ namespace TomasosPizzeria
                     Email = "default@default.com"
 
                 };
-                var adminPsw = "Admin";
-                var createUser = await userManager.CreateAsync(user, adminPsw);
+                const string password = "Admin";
+                var createUser = await userManager.CreateAsync(user, password);
                 if (createUser.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Admin");

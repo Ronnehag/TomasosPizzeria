@@ -28,5 +28,11 @@ namespace TomasosPizzeria.Controllers
             // Returerar till Index som visar alla Users
             return RedirectToAction("Index");
         }
+
+        public IActionResult EditDetails()
+        {
+            // TODO admin setting dashboard, change password and email only
+            throw new System.NotImplementedException();
+        }
     }
 }
