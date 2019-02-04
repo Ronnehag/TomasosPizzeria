@@ -31,5 +31,10 @@ namespace TomasosPizzeria.Controllers
 
             return View(model);
         }
+
+        public IActionResult AddItem(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

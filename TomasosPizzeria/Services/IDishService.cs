@@ -7,5 +7,6 @@ namespace TomasosPizzeria.Services
     public interface IDishService
     {
         Task<List<Matratt>> GetAllDishesAsync();
+        Task<Matratt> GetDishAsync(int id);
     }
 }
