@@ -29,6 +29,7 @@ namespace TomasosPizzeria.Services
         public async Task<Kund> FindUserAsync(string id)
         {
             return await _context.Kund.FirstOrDefaultAsync(k => k.UserId == id);
+
         }
 
         public async Task<Kund> UpdateUserAsync(Kund kund)

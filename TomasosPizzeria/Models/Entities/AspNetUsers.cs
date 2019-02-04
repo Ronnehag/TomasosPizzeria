@@ -12,6 +12,7 @@ namespace TomasosPizzeria.Models.Entities
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
             Kund = new HashSet<Kund>();
+            ShoppingCart = new HashSet<ShoppingCart>();
         }
 
         public string Id { get; set; }
@@ -35,5 +36,6 @@ namespace TomasosPizzeria.Models.Entities
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual ICollection<Kund> Kund { get; set; }
+        public virtual ICollection<ShoppingCart> ShoppingCart { get; set; }
     }
 }

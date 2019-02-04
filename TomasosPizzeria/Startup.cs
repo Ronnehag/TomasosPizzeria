@@ -51,6 +51,9 @@ namespace TomasosPizzeria
                 options.Password.RequiredUniqueChars = 0;
             });
 
+            services.AddMemoryCache();
+            services.AddSession();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +67,7 @@ namespace TomasosPizzeria
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseSession();
             app.UseMvc(route =>
             {
                 route.MapRoute(

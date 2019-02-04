@@ -8,6 +8,7 @@ namespace TomasosPizzeria.Models.Entities
         public Matratt()
         {
             BestallningMatratt = new HashSet<BestallningMatratt>();
+            CartItem = new HashSet<CartItem>();
             MatrattProdukt = new HashSet<MatrattProdukt>();
         }
 
@@ -19,6 +20,7 @@ namespace TomasosPizzeria.Models.Entities
 
         public virtual MatrattTyp MatrattTypNavigation { get; set; }
         public virtual ICollection<BestallningMatratt> BestallningMatratt { get; set; }
+        public virtual ICollection<CartItem> CartItem { get; set; }
         public virtual ICollection<MatrattProdukt> MatrattProdukt { get; set; }
     }
 }
