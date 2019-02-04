@@ -51,7 +51,7 @@ namespace TomasosPizzeria
                 options.Password.RequiredUniqueChars = 0;
             });
 
-            services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
             services.AddSession();
 
         }

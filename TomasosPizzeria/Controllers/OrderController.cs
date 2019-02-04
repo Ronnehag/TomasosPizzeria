@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Newtonsoft.Json;
 using TomasosPizzeria.IdentityData;
+using TomasosPizzeria.Models;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
@@ -25,7 +29,7 @@ namespace TomasosPizzeria.Controllers
         }
 
 
-        public async Task<IActionResult> Order()
+        public async Task<IActionResult> Products()
         {
             var allDishes = await _dishService.GetAllDishesAsync();
             var model = new FoodMenu
@@ -37,19 +41,6 @@ namespace TomasosPizzeria.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddItem(int id)
-        {
-            var user = await _usermanager.GetUserAsync(User);
-            if (user == null) Challenge();
 
-            var kund = await _userService.FindUserAsync(user.Id);
-            if (kund != null)
-            {
-                // Add product to temporary session variable
-            }
-
-            return View("Order");
-
-        }
     }
 }

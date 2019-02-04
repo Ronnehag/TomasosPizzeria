@@ -10,7 +10,7 @@
         <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a></li>
     }
 
-    <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Order">Beställning</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Products">Beställning</a></li>
 
     if (User.IsInRole(UserRole.Admin.ToString()))
     {
