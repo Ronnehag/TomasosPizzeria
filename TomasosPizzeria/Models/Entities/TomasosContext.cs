@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace TomasosPizzeria.Models.Entities
 {
@@ -24,13 +22,11 @@ namespace TomasosPizzeria.Models.Entities
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Bestallning> Bestallning { get; set; }
         public virtual DbSet<BestallningMatratt> BestallningMatratt { get; set; }
-        public virtual DbSet<CartItem> CartItem { get; set; }
         public virtual DbSet<Kund> Kund { get; set; }
         public virtual DbSet<Matratt> Matratt { get; set; }
         public virtual DbSet<MatrattProdukt> MatrattProdukt { get; set; }
         public virtual DbSet<MatrattTyp> MatrattTyp { get; set; }
         public virtual DbSet<Produkt> Produkt { get; set; }
-        public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -177,27 +173,6 @@ namespace TomasosPizzeria.Models.Entities
                     .HasConstraintName("FK_BestallningMatratt_Matratt");
             });
 
-            modelBuilder.Entity<CartItem>(entity =>
-            {
-                entity.Property(e => e.CartItemId).HasColumnName("CartItemID");
-
-                entity.Property(e => e.CartId).HasColumnName("CartID");
-
-                entity.Property(e => e.MatrattId).HasColumnName("MatrattID");
-
-                entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartItem)
-                    .HasForeignKey(d => d.CartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CartItem_ShoppingCart");
-
-                entity.HasOne(d => d.Matratt)
-                    .WithMany(p => p.CartItem)
-                    .HasForeignKey(d => d.MatrattId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CartItem_Matratt");
-            });
-
             modelBuilder.Entity<Kund>(entity =>
             {
                 entity.Property(e => e.KundId).HasColumnName("KundID");
@@ -303,24 +278,6 @@ namespace TomasosPizzeria.Models.Entities
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<ShoppingCart>(entity =>
-            {
-                entity.HasKey(e => e.CartId);
-
-                entity.Property(e => e.CartId).HasColumnName("CartID");
-
-                entity.Property(e => e.UserId)
-                    .IsRequired()
-                    .HasColumnName("UserID")
-                    .HasMaxLength(450);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.ShoppingCart)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShoppingCart_AspNetUsers");
             });
         }
     }

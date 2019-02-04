@@ -12,21 +12,14 @@ namespace TomasosPizzeria.Controllers
     {
         private readonly IDishService _dishService;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IShoppingCartService _cartService;
 
 
-        public CartController(IDishService dishService, UserManager<AppUser> userManager, IShoppingCartService cartService)
+        public CartController(IDishService dishService, UserManager<AppUser> userManager)
         {
             _dishService = dishService;
             _userManager = userManager;
-            _cartService = cartService;
         }
 
-        public async Task<IActionResult> AddToCart(int productId)
-        {
 
-
-            return null;
-        }
     }
 }
