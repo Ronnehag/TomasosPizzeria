@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TomasosPizzeria.Models.Entities;
+using TomasosPizzeria.Models.ViewModels;
 
 namespace TomasosPizzeria.Models
 {
@@ -24,5 +25,23 @@ namespace TomasosPizzeria.Models
         {
             return Products.Count(p => p.MatrattId == id);
         }
+
+
+        public List<CartItemViewModel> GroupItems()
+        {
+            var q = Products
+                .GroupBy(p => p.MatrattNamn)
+                .Select(g => new CartItemViewModel
+                {
+                    ProductName = g.First().MatrattNamn,
+                    Count = g.Count(),
+                    TotalSum = g.Sum(d => d.Pris),
+                }).ToList();
+
+            return q;
+        }
+
     }
+
+
 }

@@ -53,6 +53,7 @@ namespace TomasosPizzeria.Controllers
                 SaladDishes = allDishes.Where(d => d.MatrattTyp == 3),
                 ShoppingCart = cart
             };
+
             return View(model);
         }
 

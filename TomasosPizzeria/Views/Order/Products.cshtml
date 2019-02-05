@@ -53,20 +53,28 @@
                         <!-- Null check of session object shoppingCart & it's products -->
                         @if (Model.ShoppingCart?.Products != null)
                         {
-                            foreach (var item in Model.ShoppingCart.Products)
+                            <!-- Group items by name, count and totalsum to display in the list-->
+                            foreach (var item in Model.ShoppingCart.GroupItems())
                             {
-                                <li>@item.MatrattNamn : @item.Pris.ToString("C")</li>
+                                <li>@item.Count - @item.ProductName - @item.TotalSum</li>
                             }
                         }
 
                     </ul>
                     <hr class="sm-light" />
-                    <p class="card-text">
-                        Summa: @if (Model.ShoppingCart?.Products != null)
-                        {
-                            @Model.ShoppingCart.TotalSum().ToString("C");
-                        }
-                    </p>
+
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            Totalt:
+                        </div>
+                        <div class="col-6 text-right">
+                            <!-- Total sum for the items in the cart -->
+                            @if (Model.ShoppingCart?.Products != null)
+                            {
+                                @Model.ShoppingCart.TotalSum().ToString("C")
+                            }
+                        </div>
+                    </div>
                     <div class="text-center">
                         <a class="btn btn-primary p-2 mt-2" href="#">Beställ</a>
                     </div>
