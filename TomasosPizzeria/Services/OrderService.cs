@@ -41,7 +41,9 @@ namespace TomasosPizzeria.Services
             _context.Add(order);
             await _context.SaveChangesAsync();
 
-            return order;
+            return await _context.Bestallning
+                .Include(b => b.BestallningMatratt)
+                .Include(b => b.Kund).FirstOrDefaultAsync(x => x.KundId == kund.KundId);
         }
     }
 }

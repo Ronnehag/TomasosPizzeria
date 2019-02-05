@@ -1,9 +1,9 @@
 ﻿body, html {
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
     font-family: "EB Garamond", Arial, sans-serif;
     line-height: 1.5em;
     font-size: 17px;
+    overflow: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -78,6 +78,8 @@ p {
 #main-footer {
     background: #343A40;
     color: #fff;
+    width: 100%;
+   
 }
 
     #main-footer hr {
@@ -97,6 +99,7 @@ p {
     background: #1B2127;
     font-size: 12px;
 }
+
 
 /* USER REGISTRATION FORM AND GENERAL VALIDATION LOOKS */
 #registryForm span {
@@ -146,4 +149,9 @@ p {
 
 .scrollable::-webkit-scrollbar {
       background: transparent;
+}
+
+/* CHECKOUT */
+#checkout {
+    min-height: 400px;
 }

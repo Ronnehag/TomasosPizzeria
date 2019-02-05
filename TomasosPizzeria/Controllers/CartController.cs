@@ -18,15 +18,13 @@ namespace TomasosPizzeria.Controllers
     {
         private readonly IDishService _dishService;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IUserService _userService;
         private readonly IOrderService _orderService;
 
 
-        public CartController(IDishService dishService, UserManager<AppUser> userManager, IUserService userService, IOrderService orderService)
+        public CartController(IDishService dishService, UserManager<AppUser> userManager, IOrderService orderService)
         {
             _dishService = dishService;
             _userManager = userManager;
-            _userService = userService;
             _orderService = orderService;
         }
 
@@ -82,7 +80,10 @@ namespace TomasosPizzeria.Controllers
 
             // todo check premium user, addOrder
 
-
+            // Resetting cart
+            model.Products = new List<Matratt>();
+            var temp = JsonConvert.SerializeObject(model);
+            HttpContext.Session.SetString("varukorg", temp);
 
             return View(bestallning);
         }
