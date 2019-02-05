@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TomasosPizzeria.Models;
 using TomasosPizzeria.Models.Entities;
-using ShoppingCart = TomasosPizzeria.Models.ShoppingCart;
 
 namespace TomasosPizzeria.Services
 {
@@ -20,17 +19,29 @@ namespace TomasosPizzeria.Services
         public async Task<Bestallning> AddOrder(string userId, ShoppingCart cart)
         {
             var kund = await _context.Kund.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (kund == null) return null;
 
-            //TODO bestallningmatratt ??
+            // Group the products by ID and counting them into new BestallningMatratt objects
+            var orders = cart.Products
+                .GroupBy(p => p.MatrattId)
+                .Select(g => new BestallningMatratt
+                {
+                    MatrattId = g.First().MatrattId,
+                    Antal = g.Count()
+                }).ToList();
+
             var order = new Bestallning
             {
                 BestallningDatum = DateTime.Now,
                 KundId = kund.KundId,
                 Levererad = false,
                 Totalbelopp = cart.TotalSum(),
+                BestallningMatratt = orders
             };
-            return null;
+            _context.Add(order);
+            await _context.SaveChangesAsync();
 
+            return order;
         }
     }
 }
