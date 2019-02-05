@@ -155,3 +155,17 @@ p {
 #checkout {
     min-height: 400px;
 }
+
+/* ADMIN PAGE */
+#admin-links li {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+}
+#admin-links {
+    margin: 0;
+    padding: 0;
+}
+.fill-all {
+    min-height: 400px;
+}

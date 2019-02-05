@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using TomasosPizzeria.Models.Entities;
 
 namespace TomasosPizzeria.Services
@@ -37,6 +40,11 @@ namespace TomasosPizzeria.Services
             _context.Entry(kund).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return kund;
+        }
+
+        public IQueryable<Kund> GetAll()
+        {
+            return _context.Kund.AsQueryable();
         }
     }
 }
