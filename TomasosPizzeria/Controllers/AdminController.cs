@@ -33,6 +33,14 @@ namespace TomasosPizzeria.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult UpdateUser()
+        {
+            return Ok(new {val = "Hello"});
+            // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
+            // Returerar till Customers som visar alla Users
+            return RedirectToAction("Customers");
+        }
 
 
 
@@ -40,6 +48,7 @@ namespace TomasosPizzeria.Controllers
         [HttpPost]
         public IActionResult UpdateUser(string id)
         {
+            return Ok(new { val = "Hello" });
             // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
             // Returerar till Customers som visar alla Users
             return RedirectToAction("Customers");

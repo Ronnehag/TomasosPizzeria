@@ -6,7 +6,8 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<script src="js/customers.js" defer></script>
+<script src="/js/customers.js" defer></script>*
+
 
 
 <div class="container-fluid mt-5">
@@ -53,7 +54,8 @@
                     </td>
                     <td>
                         <form asp-action="UpdateUser" asp-route-id="@user.Id" method="POST">
-                            <button type="submit" class="btn btn-sm btn-primary">Ändra roll</button>
+                            <input type="hidden" value="@user.Id" />
+                            <button type="submit" class="btn btn-sm btn-primary change-role">Ändra roll</button>
                         </form> <!-- TODO Behövs Delete? -->
                     </td>
                 </tr>
@@ -61,5 +63,6 @@
         </tbody>
     </table>
 </div>
+
 
 
