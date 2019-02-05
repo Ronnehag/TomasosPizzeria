@@ -38,10 +38,7 @@ namespace TomasosPizzeria.Controllers
                 };
                 return View(model);
             }
-
             return BadRequest(new {Error = "User not found"});
-            // TODO lägga in Admin i en egen model till View
-
         }
 
         [HttpPost]

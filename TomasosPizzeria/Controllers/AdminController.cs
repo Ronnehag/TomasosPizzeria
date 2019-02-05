@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
+using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
 namespace TomasosPizzeria.Controllers
@@ -22,16 +25,11 @@ namespace TomasosPizzeria.Controllers
             _orderService = orderService;
         }
 
-
-        private IActionResult FillCustomerGrid()
+        public IActionResult Customers()
         {
-            var data = _userService.GetAll();
-            return null;
-        }
 
-        public IActionResult Index()
-        {
-            return View(_userManager.Users);
+
+            return View(_userManager.Users.ToList());
         }
 
 
@@ -43,8 +41,8 @@ namespace TomasosPizzeria.Controllers
         public IActionResult UpdateUser(string id)
         {
             // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
-            // Returerar till Index som visar alla Users
-            return RedirectToAction("Index");
+            // Returerar till Customers som visar alla Users
+            return RedirectToAction("Customers");
         }
 
         public IActionResult EditDetails()
