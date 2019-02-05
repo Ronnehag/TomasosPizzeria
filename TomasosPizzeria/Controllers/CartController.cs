@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Services;
@@ -19,13 +19,15 @@ namespace TomasosPizzeria.Controllers
         private readonly IDishService _dishService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
 
 
-        public CartController(IDishService dishService, UserManager<AppUser> userManager, IUserService userService)
+        public CartController(IDishService dishService, UserManager<AppUser> userManager, IUserService userService, IOrderService orderService)
         {
             _dishService = dishService;
             _userManager = userManager;
             _userService = userService;
+            _orderService = orderService;
         }
 
         [Route("product/{id}")]
@@ -67,15 +69,19 @@ namespace TomasosPizzeria.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) Challenge();
 
-            // Hämta kund
-            var kund = await _userService.FindUserAsync(user.Id);
-
             var serializedValue = ( HttpContext.Session.GetString("varukorg") );
             var model = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
 
-            return null; //TODO not added
+            if (await _userManager.IsInRoleAsync(user, UserRole.RegularUser.ToString()))
+            {
+                var result = await _orderService.AddOrder(user.Id, model);
+            }
 
-            //return View(model);
+            // todo check premium user, addOrder
+
+            
+
+            return null;
         }
 
     }

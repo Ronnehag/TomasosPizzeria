@@ -56,7 +56,7 @@
                             <!-- Group items by name, count and totalsum to display in the list-->
                             foreach (var item in Model.ShoppingCart.GroupItems())
                             {
-                                <li>@item.Count - @item.ProductName - @item.TotalSum</li>
+                                <li>@item.Count - @item.ProductName - @item.TotalSum.ToString("C")</li>
                             }
                         }
 
