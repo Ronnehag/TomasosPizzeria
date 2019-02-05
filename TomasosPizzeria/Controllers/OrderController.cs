@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
-using TomasosPizzeria.Models;
+using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
+using ShoppingCart = TomasosPizzeria.Models.ShoppingCart;
 
 namespace TomasosPizzeria.Controllers
 {
@@ -31,12 +31,27 @@ namespace TomasosPizzeria.Controllers
 
         public async Task<IActionResult> Products()
         {
+            ShoppingCart cart;
+            if (HttpContext.Session.GetString("varukorg") == null)
+            {
+                cart = new ShoppingCart
+                {
+                    Products = new List<Matratt>()
+                };
+            }
+            else
+            {
+                var serializedValue = ( HttpContext.Session.GetString("varukorg") );
+                cart = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
+            }
+
             var allDishes = await _dishService.GetAllDishesAsync();
             var model = new FoodMenu
             {
                 PizzaDishes = allDishes.Where(d => d.MatrattTyp == 1),
                 PastaDishes = allDishes.Where(d => d.MatrattTyp == 2),
-                SaladDishes = allDishes.Where(d => d.MatrattTyp == 3)
+                SaladDishes = allDishes.Where(d => d.MatrattTyp == 3),
+                ShoppingCart = cart
             };
             return View(model);
         }

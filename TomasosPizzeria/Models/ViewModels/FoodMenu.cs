@@ -11,5 +11,6 @@ namespace TomasosPizzeria.Models.ViewModels
         public IEnumerable<Matratt> PizzaDishes { get; set; }
         public IEnumerable<Matratt> PastaDishes { get; set; }
         public IEnumerable<Matratt> SaladDishes { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
     }
 }

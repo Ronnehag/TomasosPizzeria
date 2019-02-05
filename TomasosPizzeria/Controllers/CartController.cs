@@ -73,7 +73,9 @@ namespace TomasosPizzeria.Controllers
             var serializedValue = ( HttpContext.Session.GetString("varukorg") );
             var model = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
 
-            return View(model);
+            return null; //TODO not added
+
+            //return View(model);
         }
 
     }

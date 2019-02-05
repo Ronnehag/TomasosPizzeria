@@ -4,8 +4,6 @@
     ViewData["Title"] = "Products";
 }
 
-<script src="/js/order.js" defer></script>
-
 <div class="container-fluid mt-5">
 
     <h1 class="text-center">Skapa en beställning</h1>
@@ -52,11 +50,22 @@
             <div class="card">
                 <div class="card-body">
                     <ul id="cartList">
-                        
+                        <!-- Null check of session object shoppingCart & it's products -->
+                        @if (Model.ShoppingCart?.Products != null)
+                        {
+                            foreach (var item in Model.ShoppingCart.Products)
+                            {
+                                <li>@item.MatrattNamn : @item.Pris.ToString("C")</li>
+                            }
+                        }
+
                     </ul>
-                    <hr class="sm-light"/>
+                    <hr class="sm-light" />
                     <p class="card-text">
-                        Summa:
+                        Summa: @if (Model.ShoppingCart?.Products != null)
+                        {
+                            @Model.ShoppingCart.TotalSum().ToString("C");
+                        }
                     </p>
                     <div class="text-center">
                         <a class="btn btn-primary p-2 mt-2" href="#">Beställ</a>

@@ -21,7 +21,7 @@ namespace TomasosPizzeria.Services
         {
             var kund = await _context.Kund.FirstOrDefaultAsync(u => u.UserId == userId);
 
-
+            //TODO bestallningmatratt ??
             var order = new Bestallning
             {
                 BestallningDatum = DateTime.Now,
@@ -29,6 +29,7 @@ namespace TomasosPizzeria.Services
                 Levererad = false,
                 Totalbelopp = cart.TotalSum(),
             };
+            return null;
 
         }
     }
