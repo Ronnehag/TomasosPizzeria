@@ -2,7 +2,9 @@
 $(document).ready(function () {
 
 
-    $("#customertable").DataTable({});
+    $("#customertable").DataTable({
+    });
+
 });
 
 
