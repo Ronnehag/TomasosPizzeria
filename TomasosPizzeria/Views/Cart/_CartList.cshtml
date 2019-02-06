@@ -12,7 +12,12 @@
                 {
                     <li>
                         @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
-                        <a class="btn btn-sm btn-danger" asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
+                        <a class="btn btn-sm btn-danger"
+                           data-ajax="true"
+                           data-ajax-method="GET"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#cartList"
+                           asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
                     </li>
                 }
             } <!-- Todo add delete btn -->
@@ -32,7 +37,10 @@
             </div>
         </div>
         <div class="text-center">
-            <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOut">Beställ</a>
+            @if (Model?.Products?.Count > 0)
+            {
+                <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOut">Beställ</a>
+            }
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
@@ -76,7 +77,7 @@ namespace TomasosPizzeria.Controllers
             // Check users Role
             if (await _userManager.IsInRoleAsync(user, UserRole.RegularUser.ToString()))
             {
-                bestallning = await _orderService.AddOrder(user.Id, model);
+                bestallning = await _orderService.AddOrder(user?.Id, model);
             }
 
             // todo check premium user, addOrder
@@ -89,10 +90,17 @@ namespace TomasosPizzeria.Controllers
             return View(bestallning);
         }
 
+        [HttpGet]
         public IActionResult RemoveItem(int id)
         {
-            // TODO, implement
-            throw new System.NotImplementedException();
+            var serializedValue = ( HttpContext.Session.GetString("varukorg") );
+            var cart = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
+            cart.Products.Remove(cart.Products.First(x => x.MatrattId == id));
+
+            var temp = JsonConvert.SerializeObject(cart);
+            HttpContext.Session.SetString("varukorg", temp);
+
+            return PartialView("_CartList", cart);
         }
     }
 }

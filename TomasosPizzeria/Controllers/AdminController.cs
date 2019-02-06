@@ -1,10 +1,9 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
-using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
 namespace TomasosPizzeria.Controllers
@@ -25,32 +24,41 @@ namespace TomasosPizzeria.Controllers
             _orderService = orderService;
         }
 
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult Customers()
         {
-            return View(_userManager.Users.ToList());
+            return PartialView("_CustomersPartialView", _userManager.Users.ToList());
         }
 
-
-        [HttpPost]
-        public IActionResult UpdateUser()
+        public async Task<IActionResult> UpdateUserRole(string id)
         {
-            return Ok(new {val = "Hello"});
-            // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
-            // Returerar till Customers som visar alla Users
+            var user = await _userManager.FindByIdAsync(id);
+
+            //Check current role, if role is regular change it to premium else the other way around.
+            if (await _userManager.IsInRoleAsync(user, UserRole.RegularUser.ToString()))
+            {
+                await _userManager.RemoveFromRoleAsync(user, UserRole.RegularUser.ToString());
+                await _userManager.AddToRoleAsync(user, UserRole.PremiumUser.ToString());
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, UserRole.PremiumUser.ToString());
+                await _userManager.AddToRoleAsync(user, UserRole.RegularUser.ToString());
+            }
+
+            // Redirect to customers action to rerender the partial
             return RedirectToAction("Customers");
         }
 
 
 
 
-        [HttpPost]
-        public IActionResult UpdateUser(string id)
-        {
-            return Ok(new { val = "Hello" });
-            // TODO Hämta user, ändra roll. Om Regular -> Premium annars tvärtom.
-            // Returerar till Customers som visar alla Users
-            return RedirectToAction("Customers");
-        }
 
         public IActionResult EditDetails()
         {

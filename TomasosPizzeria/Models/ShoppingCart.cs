@@ -20,12 +20,6 @@ namespace TomasosPizzeria.Models
             return sum;
         }
 
-        public int CountProducts(int id)
-        {
-            return Products.Count(p => p.MatrattId == id);
-        }
-
-
         public List<CartItemViewModel> GroupItems()
         {
             var q = Products

@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<AppUser>
+@inject UserManager<AppUser> UserManager
+<!-- Section scripts for this partial -->
+<script src="/js/customers.js" defer></script>
+
+<table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
+    <thead>
+        <tr>
+            <th scope="col">Användarnamn</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roll</th>
+            <th scope="col">Ändra</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @foreach (var role in await UserManager.GetRolesAsync(await UserManager.FindByIdAsync(user.Id)))
+                    {
+                        @role
+                    }
+                </td>
+                <td>
+                    @if (!await UserManager.IsInRoleAsync(user, UserRole.Admin.ToString()))
+                    {
+                        <a data-ajax="true"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#content-div"
+                           asp-controller="Admin"
+                           asp-action="UpdateUserRole"
+                           asp-route-id="@user.Id"
+                           class="btn btn-sm btn-info">
+                            Ändra Roll
+                        </a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

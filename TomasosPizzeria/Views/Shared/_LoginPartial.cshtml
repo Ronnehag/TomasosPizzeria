@@ -1,16 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
-<!--Om användaren är inloggad-->
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <!-- Om användaren är admin -->
+
     if (User.IsInRole(UserRole.Admin.ToString()))
     {
-        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Customers">Admin</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="AdminPage">Admin</a></li>
     }
-
-    <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Products">Beställning</a></li>
 
     if (User.IsInRole(UserRole.Admin.ToString()))
     {
@@ -18,9 +16,9 @@
     }
     else
     {
-        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="EditDetails" asp-route-username="@User.Identity.Name"><i class="fas fa-user-alt"></i> Mina sidor</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Products"><i class="fas fa-shopping-cart"></i> Beställning</a></li>
 
-        <li class="nav-item"><a class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="EditDetails" asp-route-username="@User.Identity.Name"><i class="fas fa-user-alt"></i> Mina sidor</a></li>
     }
 
     <li class="nav-item"><a class="nav-link" asp-controller="User" asp-action="LogOut"><i class="fas fa-sign-out-alt"></i> Logga ut</a></li>
