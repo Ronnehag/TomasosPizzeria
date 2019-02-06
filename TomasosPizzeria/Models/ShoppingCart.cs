@@ -33,6 +33,7 @@ namespace TomasosPizzeria.Models
                 .Select(g => new CartItemViewModel
                 {
                     ProductName = g.First().MatrattNamn,
+                    Id = g.First().MatrattId,
                     Count = g.Count(),
                     TotalSum = g.Sum(d => d.Pris),
                 }).ToList();

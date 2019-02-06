@@ -169,3 +169,13 @@ p {
 .fill-all {
     min-height: 400px;
 }
+#cartList ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#cartList ul li {
+    justify-content: space-between;
+    display: flex;
+    padding: 3px;
+}

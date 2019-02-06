@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
@@ -58,7 +59,6 @@ namespace TomasosPizzeria.Controllers
             //Lägga tillbaka listan i sessionsvariabeln
             var temp = JsonConvert.SerializeObject(cart);
             HttpContext.Session.SetString("varukorg", temp);
-
             return PartialView("_CartList", cart);
         }
 
@@ -81,13 +81,18 @@ namespace TomasosPizzeria.Controllers
 
             // todo check premium user, addOrder
 
-            // Resetting cart
+            // Resetting cart to 0 items
             model.Products = new List<Matratt>();
             var temp = JsonConvert.SerializeObject(model);
             HttpContext.Session.SetString("varukorg", temp);
-
+            
             return View(bestallning);
         }
 
+        public IActionResult RemoveItem(int id)
+        {
+            // TODO, implement
+            throw new System.NotImplementedException();
+        }
     }
 }

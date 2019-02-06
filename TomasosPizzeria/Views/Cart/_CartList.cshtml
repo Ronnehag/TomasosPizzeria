@@ -10,7 +10,10 @@
                 <!-- Group items by name, count and totalsum to display in the list-->
                 foreach (var item in Model.GroupItems())
                 {
-                    <li>@item.Count - @item.ProductName - @item.TotalSum.ToString("C")</li>
+                    <li>
+                        @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
+                        <a class="btn btn-sm btn-danger" asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
+                    </li>
                 }
             } <!-- Todo add delete btn -->
         </ul>
