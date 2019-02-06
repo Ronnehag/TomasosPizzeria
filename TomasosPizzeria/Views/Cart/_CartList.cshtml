@@ -1,0 +1,35 @@
+﻿
+@model ShoppingCart
+
+<div class="card">
+    <div class="card-body">
+        <ul>
+            <!-- Null check of session object shoppingCart & it's products -->
+            @if (Model?.Products != null)
+            {
+                <!-- Group items by name, count and totalsum to display in the list-->
+                foreach (var item in Model.GroupItems())
+                {
+                    <li>@item.Count - @item.ProductName - @item.TotalSum.ToString("C")</li>
+                }
+            } <!-- Todo add delete btn -->
+        </ul>
+        <hr class="sm-light" />
+
+        <div class="row">
+            <div class="col-6 text-left">
+                Totalt:
+            </div>
+            <div class="col-6 text-right">
+                <!-- Total sum for the items in the cart -->
+                @if (Model?.Products != null)
+                {
+                    @Model.TotalSum().ToString("C")
+                }
+            </div>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOut">Beställ</a>
+        </div>
+    </div>
+</div>

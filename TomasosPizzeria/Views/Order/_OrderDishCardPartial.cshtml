@@ -1,7 +1,4 @@
 ﻿@model Matratt
-<!-- TODO skriva ut varje enskild produkt i en div med information -->
-
-
 
 <div class="card p-1">
     <div class="card-body">
@@ -19,7 +16,10 @@
 
             <div class="text-right col-6">
                 <span class="price-text mr-2">@Model.Pris.ToString("C")</span>
-                <a class="btn btn-sm btn-success add" asp-controller="Cart" asp-action="AddItem" asp-route-id="@Model.MatrattId">+</a>
+                <a class="btn btn-sm btn-success add"
+                   data-ajax="true"
+                   data-ajax-mode="replace"
+                   data-ajax-update="#cartList" asp-controller="Cart" asp-action="AddItem" asp-route-id="@Model.MatrattId">+</a>
             </div>
 
         </div>

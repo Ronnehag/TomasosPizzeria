@@ -27,8 +27,6 @@ namespace TomasosPizzeria.Controllers
 
         public IActionResult Customers()
         {
-
-
             return View(_userManager.Users.ToList());
         }
 

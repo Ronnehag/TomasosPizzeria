@@ -28,6 +28,7 @@ namespace TomasosPizzeria.Controllers
             _orderService = orderService;
         }
 
+
         [Route("product/{id}")]
         public async Task<IActionResult> AddItem(int id)
         {
@@ -58,7 +59,7 @@ namespace TomasosPizzeria.Controllers
             var temp = JsonConvert.SerializeObject(cart);
             HttpContext.Session.SetString("varukorg", temp);
 
-            return RedirectToAction("Products", "Order");
+            return PartialView("_CartList", cart);
         }
 
         [Route("checkout")]

@@ -47,38 +47,8 @@
         <div class="col-6">
             <h4 class="text-center p-2"><span class="dotted-red">• • •</span> Din beställning <span class="dotted-red">• • •</span></h4>
 
-            <div class="card">
-                <div class="card-body">
-                    <ul id="cartList">
-                        <!-- Null check of session object shoppingCart & it's products -->
-                        @if (Model.ShoppingCart?.Products != null)
-                        {
-                            <!-- Group items by name, count and totalsum to display in the list-->
-                            foreach (var item in Model.ShoppingCart.GroupItems())
-                            {
-                                <li>@item.Count - @item.ProductName - @item.TotalSum.ToString("C")</li>
-                            }
-                        }
-
-                    </ul>
-                    <hr class="sm-light" />
-
-                    <div class="row">
-                        <div class="col-6 text-left">
-                            Totalt:
-                        </div>
-                        <div class="col-6 text-right">
-                            <!-- Total sum for the items in the cart -->
-                            @if (Model.ShoppingCart?.Products != null)
-                            {
-                                @Model.ShoppingCart.TotalSum().ToString("C")
-                            }
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOut">Beställ</a>
-                    </div>
-                </div>
+            <div id="cartList">
+                <partial name="../Cart/_CartList" model="@Model.ShoppingCart"/>
             </div>
 
         </div>
