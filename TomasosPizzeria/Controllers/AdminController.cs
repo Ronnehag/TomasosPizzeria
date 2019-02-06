@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using TomasosPizzeria.Services;
 namespace TomasosPizzeria.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [Route("admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -24,18 +26,25 @@ namespace TomasosPizzeria.Controllers
             _orderService = orderService;
         }
 
+        // PAGES
+        [Route("dashboard")]
         public IActionResult AdminPage()
         {
             return View();
         }
 
 
+
+
+
         [HttpGet]
+        [Route("customers")]
         public IActionResult Customers()
         {
             return PartialView("_CustomersPartialView", _userManager.Users.ToList());
         }
 
+        [Route("updateuserrole")]
         public async Task<IActionResult> UpdateUserRole(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -53,12 +62,9 @@ namespace TomasosPizzeria.Controllers
             }
 
             // Redirect to customers action to rerender the partial
-            return RedirectToAction("Customers");
+            return PartialView("_CustomerTableRowPartialView", user);
+            //return RedirectToAction("Customers");
         }
-
-
-
-
 
         public IActionResult EditDetails()
         {

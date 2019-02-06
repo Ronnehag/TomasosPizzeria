@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model AppUser
+@inject UserManager<AppUser> UserManager
+
+
+<td id="@Model.UserName" style="padding: 0; border-top: none;">
+    @foreach (var role in await UserManager.GetRolesAsync(await UserManager.FindByIdAsync(Model.Id)))
+    {
+        @role
+    }
+</td>
