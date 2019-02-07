@@ -17,7 +17,13 @@
                        asp-controller="Admin" asp-action="Customers">Kunder</a>
                 </li>
                 <li>
-                    <a class="nav-link" href="#">Ordrar</a>
+                    <a class="nav-link"
+                       asp-controller="Admin"
+                       asp-action="GetOrders"
+                       data-ajax="true"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#content-div"
+                       data-ajax-loading="#spinner">Ordrar</a>
                 </li>
                 <li>
                     <a class="nav-link" href="#">Maträtter</a>

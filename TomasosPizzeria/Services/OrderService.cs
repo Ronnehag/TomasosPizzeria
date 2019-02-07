@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TomasosPizzeria.Models;
 using TomasosPizzeria.Models.Entities;
 
@@ -16,7 +17,7 @@ namespace TomasosPizzeria.Services
             _context = context;
         }
 
-        public async Task<Bestallning> AddOrder(string userId, ShoppingCart cart)
+        public async Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart)
         {
             var kund = await _context.Kund.FirstOrDefaultAsync(u => u.UserId == userId);
             if (kund == null) return null;
@@ -44,6 +45,20 @@ namespace TomasosPizzeria.Services
             return await _context.Bestallning
                 .Include(b => b.BestallningMatratt)
                 .Include(b => b.Kund).FirstOrDefaultAsync(x => x.KundId == kund.KundId);
+        }
+
+        public IEnumerable<Bestallning> GetAllOrders()
+        {
+            return _context.Bestallning.Include("Kund")
+                .Include(x => x.BestallningMatratt).ThenInclude(o => o.Matratt)
+                .AsEnumerable();
+        }
+
+        public async Task<Bestallning> GetOrderedDishesAsync(int id)
+        {
+            return await _context.Bestallning
+                .Include(o => o.BestallningMatratt).ThenInclude(x => x.Matratt)
+                .FirstOrDefaultAsync(o => o.BestallningId == id);
         }
     }
 }

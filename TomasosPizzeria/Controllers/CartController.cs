@@ -77,7 +77,7 @@ namespace TomasosPizzeria.Controllers
             // Check users Role
             if (await _userManager.IsInRoleAsync(user, UserRole.RegularUser.ToString()))
             {
-                bestallning = await _orderService.AddOrder(user?.Id, model);
+                bestallning = await _orderService.AddOrderAsync(user?.Id, model);
             }
 
             // todo check premium user, addOrder

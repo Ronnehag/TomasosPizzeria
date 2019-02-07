@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using TomasosPizzeria.Models;
 using TomasosPizzeria.Models.Entities;
-using ShoppingCart = TomasosPizzeria.Models.ShoppingCart;
 
 namespace TomasosPizzeria.Services
 {
     public interface IOrderService
     {
-        Task<Bestallning> AddOrder(string userId, ShoppingCart cart);
+        Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart);
+        IEnumerable<Bestallning> GetAllOrders();
+        Task<Bestallning> GetOrderedDishesAsync(int orderId);
     }
 }

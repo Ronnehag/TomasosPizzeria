@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Bestallning>
+<!-- Section scripts for this partial -->
+<script src="/js/customers.js" defer></script>
+
+
+<table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
+    <thead>
+        <tr>
+            <th scope="col">Beställare</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Orderdetaljer</th>
+            <th scope="col">Totalbelopp</th>
+            <th scope="col">Levererad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Kund.Namn</td>
+                <td>@order.BestallningDatum</td>
+                <td>
+                    <a data-toggle="modal"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#order-modal"
+                       asp-action="GetDishData" asp-controller="Admin" 
+                       asp-route-id="@order.BestallningId"
+                       data-target="#myModal">Order</a>
+
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="order-modal">
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>@order.Totalbelopp.ToString("C")</td>
+                <td id="@order.BestallningId">
+                    <form method="post" asp-action="ValidateOrder"
+                          data-ajax="true"
+                          data-ajax-method="POST"
+                          data-ajax-mode="replace"
+                          data-ajax-update="#@order.BestallningId">
+                        <input type="checkbox" />
+                        <input type="hidden" name="id" value="@order.BestallningId" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

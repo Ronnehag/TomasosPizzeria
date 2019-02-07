@@ -26,15 +26,12 @@ namespace TomasosPizzeria.Controllers
             _orderService = orderService;
         }
 
-        // PAGES
+        // Admin dashboard main page
         [Route("dashboard")]
         public IActionResult AdminPage()
         {
             return View();
         }
-
-
-
 
 
         [HttpGet]
@@ -63,13 +60,40 @@ namespace TomasosPizzeria.Controllers
 
             // Redirect to customers action to rerender the partial
             return PartialView("_CustomerTableRowPartialView", user);
-            //return RedirectToAction("Customers");
         }
+
+        [Route("orders")]
+        public IActionResult GetOrders()
+        {
+            var model = _orderService.GetAllOrders();
+            return PartialView("_OrderTablePartialView", model);
+        }
+
+
+
+
+
+        public IActionResult ValidateOrder()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+
+
+
 
         public IActionResult EditDetails()
         {
             // TODO admin setting dashboard, change password and email only
             throw new System.NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDishData(int id)
+        {
+            var model = await _orderService.GetOrderedDishesAsync(id);
+            return PartialView("_OrderDishDataPartialView", model);
         }
     }
 }
