@@ -26,11 +26,15 @@
         <hr class="sm-light" />
         <div class="row">
             <div class="col-6 text-left">
-                @if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                @if (Model?.Products != null && Model?.User != null)
                 {
-                    <span>Rabatt:</span>
-                    <br /><br />
+                    if(await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                    {
+                        <span>Rabatt:</span>
+                        <br /><br />
+                    }
                 }
+
                 Totalt:
             </div>
             <div class="col-6 text-right">
