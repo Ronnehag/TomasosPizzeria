@@ -73,14 +73,18 @@ namespace TomasosPizzeria.Controllers
             var serializedValue = ( HttpContext.Session.GetString("varukorg") );
             var model = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue);
 
-            Bestallning bestallning = null;
+            Bestallning bestallning;
 
             // Check users Role
             if (await _userManager.IsInRoleAsync(user, UserRole.RegularUser.ToString()))
             {
-                bestallning = await _orderService.AddOrderAsync(user?.Id, model);
+                bestallning = await _orderService.AddOrderAsync(user.Id, model, UserRole.RegularUser);
             }
+            else
+            {
+                bestallning = await _orderService.AddOrderAsync(user.Id, model, UserRole.PremiumUser);
 
+            }
             // todo check premium user, addOrder
 
             // Resetting cart to 0 items

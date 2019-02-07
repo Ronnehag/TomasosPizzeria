@@ -18,6 +18,7 @@ namespace TomasosPizzeria.Models.Entities
         public string Email { get; set; }
         public string Telefon { get; set; }
         public string UserId { get; set; }
+        public int? Bonuspoäng { get; set; }
 
         public virtual AspNetUsers User { get; set; }
         public virtual ICollection<Bestallning> Bestallning { get; set; }

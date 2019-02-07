@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models;
 using TomasosPizzeria.Models.Entities;
 
@@ -17,10 +18,19 @@ namespace TomasosPizzeria.Services
             _context = context;
         }
 
-        public async Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart)
+        public async Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart, UserRole role)
         {
             var kund = await _context.Kund.FirstOrDefaultAsync(u => u.UserId == userId);
             if (kund == null) return null;
+
+            if (role == UserRole.PremiumUser)
+            {
+                foreach (var dish in cart.Products)
+                {
+                    kund.Bonuspoäng += 10;
+                }
+            }
+
 
             // Group the products by ID and counting them into new BestallningMatratt objects
             var orders = cart.Products
@@ -29,6 +39,7 @@ namespace TomasosPizzeria.Services
                 {
                     MatrattId = g.First().MatrattId,
                     Antal = g.Count()
+
                 }).ToList();
 
             var order = new Bestallning
@@ -36,15 +47,17 @@ namespace TomasosPizzeria.Services
                 BestallningDatum = DateTime.Now,
                 KundId = kund.KundId,
                 Levererad = false,
-                Totalbelopp = cart.TotalSum(),
+                Totalbelopp = role == UserRole.PremiumUser ? cart.DiscountSum() : cart.TotalSum(),
                 BestallningMatratt = orders
             };
             _context.Add(order);
+            _context.Entry(kund).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return await _context.Bestallning
                 .Include(b => b.BestallningMatratt)
-                .Include(b => b.Kund).FirstOrDefaultAsync(x => x.KundId == kund.KundId);
+                .Include(b => b.Kund)
+                .FirstOrDefaultAsync(x => x.KundId == kund.KundId);
         }
 
         public IEnumerable<Bestallning> GetAllOrders()
@@ -70,6 +83,11 @@ namespace TomasosPizzeria.Services
             }
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
+        }
+
+        public async Task<Bestallning> GetOrderAsync(int orderId)
+        {
+            return await _context.Bestallning.FirstOrDefaultAsync(o => o.BestallningId == orderId);
         }
     }
 }

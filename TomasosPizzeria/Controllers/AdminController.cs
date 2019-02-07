@@ -81,7 +81,9 @@ namespace TomasosPizzeria.Controllers
                 return RedirectToAction("GetOrders");
             }
 
-            return RedirectToAction("GetOrders");
+            var model = await _orderService.GetOrderAsync(id);
+
+            return PartialView("_OrderValidatedPartial", model);
         }
 
 

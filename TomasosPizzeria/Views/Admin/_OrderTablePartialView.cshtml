@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Bestallning>
 <!-- Section scripts for this partial -->
+
 <script src="/js/customers.js" defer></script>
 <script src="/js/ordervalidation.js" defer></script>
 
@@ -9,52 +10,58 @@
         <tr>
             <th scope="col">Levererad</th>
             <th scope="col">Beställare</th>
-            <th scope="col">Orderdetaljer</th>
             <th scope="col">Orderdatum</th>
             <th scope="col">Totalbelopp</th>
+            <th scope="col">Orderhanterare</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in Model.OrderByDescending(o => !o.Levererad))
+        @foreach (var order in Model.OrderByDescending(o => o.BestallningDatum).ThenBy(o => !o.Levererad))
         {
-        <tr>
-            <td id="@order.BestallningId">
-                <form method="post" asp-action="ValidateOrder">
-                    @if (order.Levererad)
-                    {
-                        <input type="checkbox" class="done-checkbox" checked disabled />
-                    }
-                    else
-                    {
-                        <input type="checkbox" value="@order.Levererad" class="done-checkbox" />
-                    }
+            <tr>
+                <td id="@order.BestallningId">
+                    <form method="post" 
+                          data-ajax="true"
+                          data-ajax-method="post"
+                          data-ajax-mode="replace"
+                          data-ajax-update="#@order.BestallningId"
+                          asp-action="ValidateOrder">
+                        @if (order.Levererad)
+                        {
+                            <input type="checkbox" class="done-checkbox" checked disabled />
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="@order.Levererad" class="done-checkbox" />
+                        }
+                        <input type="hidden" name="id" value="@order.BestallningId" />
+                    </form>
+                </td>
+                <td>@order.Kund.Namn</td>
+                <td>@order.BestallningDatum</td>
+                <td>@order.Totalbelopp.ToString("C")</td>
+                <td>
+                    <a class="btn btn-sm btn-info"
+                       data-toggle="modal"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#order-modal"
+                       asp-action="GetDishData" asp-controller="Admin"
+                       asp-route-id="@order.BestallningId"
+                       data-target="#myModal">Detaljer</a>
 
-                    <input type="hidden" name="id" value="@order.BestallningId" />
-                </form>
-            </td>
-            <td>@order.Kund.Namn</td>
-            <td>
-                <a class="btn btn-sm btn-info"
-                   data-toggle="modal"
-                   data-ajax="true"
-                   data-ajax-method="GET"
-                   data-ajax-mode="replace"
-                   data-ajax-update="#order-modal"
-                   asp-action="GetDishData" asp-controller="Admin"
-                   asp-route-id="@order.BestallningId"
-                   data-target="#myModal">Detaljer</a>
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="order-modal">
 
-                <div class="modal fade" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content" id="order-modal">
-
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-            <td>@order.BestallningDatum</td>
-            <td>@order.Totalbelopp.ToString("C")</td>
-        </tr>
+                    <a class="btn btn-sm btn-danger ml-2">Ta bort</a>
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>
