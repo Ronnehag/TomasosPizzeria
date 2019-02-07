@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Bestallning>
+
 <!-- Section scripts for this partial -->
 <script src="/js/customers.js" defer></script>
+<script src="/js/ordervalidation.js" defer></script>
 
 
 <table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
@@ -14,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in Model)
+        @foreach (var order in Model.OrderByDescending(o => !o.Levererad))
         {
             <tr>
                 <td>@order.Kund.Namn</td>
@@ -39,13 +41,17 @@
                 </td>
                 <td>@order.Totalbelopp.ToString("C")</td>
                 <td id="@order.BestallningId">
-                    <form method="post" asp-action="ValidateOrder"
-                          data-ajax="true"
-                          data-ajax-method="POST"
-                          data-ajax-mode="replace"
-                          data-ajax-update="#@order.BestallningId">
-                        <input type="checkbox" />
-                        <input type="hidden" name="id" value="@order.BestallningId" />
+                    <form method="post" asp-action="ValidateOrder">
+                        @if (order.Levererad)
+                        {
+                            <input type="checkbox" class="done-checkbox" checked disabled/>
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="@order.Levererad" class="done-checkbox"/>
+                        }
+
+                        <input type="hidden" name="id" value="@order.BestallningId"/>
                     </form>
                 </td>
             </tr>

@@ -10,5 +10,6 @@ namespace TomasosPizzeria.Services
         Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart);
         IEnumerable<Bestallning> GetAllOrders();
         Task<Bestallning> GetOrderedDishesAsync(int orderId);
+        Task<bool> MarkOrderAsDeliveredAsync(int orderId);
     }
 }

@@ -60,5 +60,16 @@ namespace TomasosPizzeria.Services
                 .Include(o => o.BestallningMatratt).ThenInclude(x => x.Matratt)
                 .FirstOrDefaultAsync(o => o.BestallningId == id);
         }
+
+        public async Task<bool> MarkOrderAsDeliveredAsync(int orderId)
+        {
+            var order = await _context.Bestallning.FirstOrDefaultAsync(o => o.BestallningId == orderId);
+            if (order != null)
+            {
+                order.Levererad = true;
+            }
+            var saveResult = await _context.SaveChangesAsync();
+            return saveResult == 1;
+        }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Services;
 
@@ -72,10 +71,17 @@ namespace TomasosPizzeria.Controllers
 
 
 
-
-        public IActionResult ValidateOrder()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ValidateOrder(int id)
         {
-            throw new System.NotImplementedException();
+            var success = await _orderService.MarkOrderAsDeliveredAsync(id);
+            if (!success)
+            {
+                return RedirectToAction("GetOrders");
+            }
+
+            return RedirectToAction("GetOrders");
         }
 
 

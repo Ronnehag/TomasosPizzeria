@@ -9,18 +9,21 @@
 </div>
 
 <div class="modal-body">
-    <h2>Maträtter</h2>
+    <h3>Orderdetaljer</h3>
     @foreach (var order in Model.BestallningMatratt)
     {
-        <h5>
+        <h6>
             @order.Antal st @order.Matratt.MatrattNamn
-        </h5>
+        </h6>
     }
     <h6>Totalt pris: @Model.Totalbelopp.ToString("C")</h6>
+    <br/>
+    <p>
+        Status: @(Model.Levererad ? "Levererad" : "Ej levererad")
+    </p>
 
 </div>
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary">Save changes</button>
 </div>
