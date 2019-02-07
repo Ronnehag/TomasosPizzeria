@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,12 +49,32 @@ namespace TomasosPizzeria
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 1;
+                options.Password.RequiredLength = 3;
                 options.Password.RequiredUniqueChars = 0;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/user/login";
+                options.SlidingExpiration = true;
             });
 
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddSession(options =>
+                options.IdleTimeout = TimeSpan.FromHours(1)); // Session is stored for 1 hour (Shopping cart)
 
         }
 
@@ -112,7 +133,7 @@ namespace TomasosPizzeria
             roleCheck = await roleManager.RoleExistsAsync("PremiumUser");
             if (!roleCheck)
             {
-               
+
                 await roleManager.CreateAsync(new IdentityRole("PremiumUser"));
             }
 
@@ -120,7 +141,7 @@ namespace TomasosPizzeria
             roleCheck = await roleManager.RoleExistsAsync("RegularUser");
             if (!roleCheck)
             {
-                
+
                 await roleManager.CreateAsync(new IdentityRole("RegularUser"));
             }
 
