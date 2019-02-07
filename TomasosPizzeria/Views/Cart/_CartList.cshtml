@@ -1,4 +1,5 @@
-﻿
+﻿@inject UserManager<AppUser> UserManager
+@using Microsoft.AspNetCore.Identity
 @model ShoppingCart
 
 <div class="card">
@@ -23,16 +24,30 @@
             } <!-- Todo add delete btn -->
         </ul>
         <hr class="sm-light" />
-
         <div class="row">
             <div class="col-6 text-left">
+                @if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                {
+                    <span>Rabatt:</span>
+                    <br /><br />
+                }
                 Totalt:
             </div>
             <div class="col-6 text-right">
                 <!-- Total sum for the items in the cart -->
-                @if (Model?.Products != null)
+                @if (Model?.Products != null && Model?.User != null)
                 {
-                    @Model.TotalSum().ToString("C")
+                    <!-- If user is premium and has more than 3 products in cart -->
+                    if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                    {
+                        @Model.DiscountAmount().ToString("C")
+                        <br /><br />
+                        @Model.DiscountSum().ToString("C");
+                    }
+                    else
+                    {
+                        @Model.TotalSum().ToString("C")
+                    }
                 }
             </div>
         </div>

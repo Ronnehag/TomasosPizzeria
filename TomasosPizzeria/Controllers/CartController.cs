@@ -46,7 +46,8 @@ namespace TomasosPizzeria.Controllers
             {
                 cart = new ShoppingCart
                 {
-                    Products = new List<Matratt>()
+                    Products = new List<Matratt>(),
+                    User = user
                 };
             }
             else

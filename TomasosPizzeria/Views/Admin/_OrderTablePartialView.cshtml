@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Bestallning>
-
 <!-- Section scripts for this partial -->
 <script src="/js/customers.js" defer></script>
 <script src="/js/ordervalidation.js" defer></script>
@@ -8,53 +7,54 @@
 <table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
     <thead>
         <tr>
-            <th scope="col">Beställare</th>
-            <th scope="col">Datum</th>
-            <th scope="col">Orderdetaljer</th>
-            <th scope="col">Totalbelopp</th>
             <th scope="col">Levererad</th>
+            <th scope="col">Beställare</th>
+            <th scope="col">Orderdetaljer</th>
+            <th scope="col">Orderdatum</th>
+            <th scope="col">Totalbelopp</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var order in Model.OrderByDescending(o => !o.Levererad))
         {
-            <tr>
-                <td>@order.Kund.Namn</td>
-                <td>@order.BestallningDatum</td>
-                <td>
-                    <a data-toggle="modal"
-                       data-ajax="true"
-                       data-ajax-method="GET"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#order-modal"
-                       asp-action="GetDishData" asp-controller="Admin" 
-                       asp-route-id="@order.BestallningId"
-                       data-target="#myModal">Order</a>
+        <tr>
+            <td id="@order.BestallningId">
+                <form method="post" asp-action="ValidateOrder">
+                    @if (order.Levererad)
+                    {
+                        <input type="checkbox" class="done-checkbox" checked disabled />
+                    }
+                    else
+                    {
+                        <input type="checkbox" value="@order.Levererad" class="done-checkbox" />
+                    }
 
-                    <div class="modal fade" id="myModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content" id="order-modal">
+                    <input type="hidden" name="id" value="@order.BestallningId" />
+                </form>
+            </td>
+            <td>@order.Kund.Namn</td>
+            <td>
+                <a class="btn btn-sm btn-info"
+                   data-toggle="modal"
+                   data-ajax="true"
+                   data-ajax-method="GET"
+                   data-ajax-mode="replace"
+                   data-ajax-update="#order-modal"
+                   asp-action="GetDishData" asp-controller="Admin"
+                   asp-route-id="@order.BestallningId"
+                   data-target="#myModal">Detaljer</a>
 
-                            </div>
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="order-modal">
+
                         </div>
                     </div>
-                </td>
-                <td>@order.Totalbelopp.ToString("C")</td>
-                <td id="@order.BestallningId">
-                    <form method="post" asp-action="ValidateOrder">
-                        @if (order.Levererad)
-                        {
-                            <input type="checkbox" class="done-checkbox" checked disabled/>
-                        }
-                        else
-                        {
-                            <input type="checkbox" value="@order.Levererad" class="done-checkbox"/>
-                        }
-
-                        <input type="hidden" name="id" value="@order.BestallningId"/>
-                    </form>
-                </td>
-            </tr>
+                </div>
+            </td>
+            <td>@order.BestallningDatum</td>
+            <td>@order.Totalbelopp.ToString("C")</td>
+        </tr>
         }
     </tbody>
 </table>
