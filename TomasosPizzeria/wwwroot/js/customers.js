@@ -5,7 +5,7 @@ $(document).ready(function () {
         table = $('#customertable').DataTable();
     } else {
         $("#customertable").DataTable({});
-        table.order([5, "desc"]);
+        table.order([1, "desc"]);
     }
 
 });

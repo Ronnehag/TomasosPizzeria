@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<Bestallning>
 <!-- Section scripts for this partial -->
-
 <script src="/js/customers.js" defer></script>
-<script src="/js/ordervalidation.js" defer></script>
 
 
 <table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
@@ -16,26 +14,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in Model.OrderByDescending(o => o.BestallningDatum).ThenBy(o => !o.Levererad))
+        @foreach (var order in Model.OrderBy(o => o.Levererad).ThenBy(o => o.BestallningDatum))
         {
             <tr>
+                <!-- Todo, make button for request -->
                 <td id="@order.BestallningId">
-                    <form method="post" 
-                          data-ajax="true"
-                          data-ajax-method="post"
-                          data-ajax-mode="replace"
-                          data-ajax-update="#@order.BestallningId"
-                          asp-action="ValidateOrder">
-                        @if (order.Levererad)
-                        {
-                            <input type="checkbox" class="done-checkbox" checked disabled />
-                        }
-                        else
-                        {
-                            <input type="checkbox" value="@order.Levererad" class="done-checkbox" />
-                        }
-                        <input type="hidden" name="id" value="@order.BestallningId" />
-                    </form>
+                    @if (order.Levererad)
+                    {
+                        <h4><span class="badge badge-success">&#x2713; Levererad</span></h4>
+                    }
+                    else
+                    {
+                        <h4><span class="badge badge-warning">&#x2717; Ej levererad</span></h4>
+                    }
                 </td>
                 <td>@order.Kund.Namn</td>
                 <td>@order.BestallningDatum</td>
@@ -58,7 +49,22 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-danger ml-2">Ta bort</a>
+                    <a class="btn btn-sm btn-danger">Ta bort</a>
+                    @if (order.Levererad)
+                    {
+                        
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-success"
+                           asp-controller="Admin"
+                           asp-action="ValidateOrder"
+                           asp-route-id="@order.BestallningId"
+                           data-ajax="true"
+                           data-ajax-method="POST"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#@order.BestallningId">Bekräfta leverans</a>
+                    }
                 </td>
 
             </tr>

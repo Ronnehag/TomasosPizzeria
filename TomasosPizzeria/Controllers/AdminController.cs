@@ -70,7 +70,6 @@ namespace TomasosPizzeria.Controllers
 
 
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ValidateOrder(int id)
@@ -81,9 +80,9 @@ namespace TomasosPizzeria.Controllers
                 return RedirectToAction("GetOrders");
             }
 
-            var model = await _orderService.GetOrderAsync(id);
+            var order = await _orderService.GetOrderAsync(id);
 
-            return PartialView("_OrderValidatedPartial", model);
+            return PartialView("_OrderValidatedPartial", order);
         }
 
 

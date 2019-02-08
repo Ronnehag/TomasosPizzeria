@@ -1,21 +1,12 @@
 ﻿@model Bestallning
 
-
 <td id="@Model.BestallningId" style="padding: 0; border-top: none;">
-    <form method="post"
-          data-ajax="true"
-          data-ajax-method="POST"
-          data-ajax-mode="replace"
-          data-ajax-update="#@Model.BestallningId"
-          asp-action="ValidateOrder">
-        @if (Model.Levererad)
-        {
-            <input type="checkbox" class="done-checkbox" checked disabled />
-        }
-        else
-        {
-            <input type="checkbox" value="@Model.Levererad" class="done-checkbox" />
-        }
-        <input type="hidden" name="id" value="@Model.BestallningId" />
-    </form>
+    @if (Model.Levererad)
+    {
+        <h4><span class="badge badge-success">&#x2713; Levererad</span></h4>
+    }
+    else
+    {
+        <h4><span class="badge badge-warning">&#x2717; Ej levererad</span></h4>
+    }
 </td>
