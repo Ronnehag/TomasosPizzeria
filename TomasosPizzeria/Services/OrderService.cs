@@ -95,7 +95,7 @@ namespace TomasosPizzeria.Services
         public async Task<bool> RemoveOrderAsync(int orderId)
         {
             var order = await this.GetOrderAsync(orderId);
-            if (order == null) return false;
+            if (order == null || !order.Levererad) return false;
             foreach (var dish in order.BestallningMatratt)
             {
                 _context.BestallningMatratt.Remove(dish);
