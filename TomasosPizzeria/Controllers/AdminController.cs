@@ -91,6 +91,7 @@ namespace TomasosPizzeria.Controllers
 
 
 
+
         public IActionResult EditDetails()
         {
             // TODO admin setting dashboard, change password and email only
@@ -103,5 +104,7 @@ namespace TomasosPizzeria.Controllers
             var model = await _orderService.GetOrderedDishesAsync(id);
             return PartialView("_OrderDishDataPartialView", model);
         }
+
+
     }
 }

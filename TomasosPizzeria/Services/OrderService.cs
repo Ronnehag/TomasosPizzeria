@@ -87,7 +87,23 @@ namespace TomasosPizzeria.Services
 
         public async Task<Bestallning> GetOrderAsync(int orderId)
         {
-            return await _context.Bestallning.FirstOrDefaultAsync(o => o.BestallningId == orderId);
+            return await _context.Bestallning
+                .Include(o => o.BestallningMatratt)
+                .FirstOrDefaultAsync(o => o.BestallningId == orderId);
+        }
+
+        public async Task<bool> RemoveOrderAsync(int orderId)
+        {
+            var order = await this.GetOrderAsync(orderId);
+            if (order == null) return false;
+            foreach (var dish in order.BestallningMatratt)
+            {
+                _context.BestallningMatratt.Remove(dish);
+            }
+
+            _context.Bestallning.Remove(order);
+            var result = await _context.SaveChangesAsync();
+            return result == 1;
         }
     }
 }

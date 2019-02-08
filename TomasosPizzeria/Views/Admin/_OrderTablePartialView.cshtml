@@ -17,7 +17,6 @@
     });
 </script>
 
-
 <table class="table table-hover table-sm table-striped" style="width:100%" id="ordertable">
     <thead>
         <tr>
@@ -31,7 +30,7 @@
     <tbody>
         @foreach (var order in Model.OrderBy(o => o.Levererad).ThenBy(o => o.BestallningDatum))
         {
-            <tr>
+            <tr id="@order.BestallningId-@order.KundId">
                 <!-- Todo, make button for request -->
                 <td id="@order.BestallningId">
                     @if (order.Levererad)
@@ -65,7 +64,14 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-danger">Ta bort</a>
+                    <a class="btn btn-sm btn-danger"
+                       data-ajax="true"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#@order.BestallningId-@order.KundId"
+                       asp-action="RemoveOrder"
+                       asp-controller="Order"
+                       asp-route-id="@order.BestallningId">Ta bort</a>
+
                     @if (!order.Levererad)
                     {
                         <a class="btn btn-sm btn-success confirm-order"

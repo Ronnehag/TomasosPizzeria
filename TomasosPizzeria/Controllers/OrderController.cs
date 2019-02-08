@@ -15,17 +15,30 @@ using ShoppingCart = TomasosPizzeria.Models.ShoppingCart;
 namespace TomasosPizzeria.Controllers
 {
     [Authorize]
+    [Route("order")]
     public class OrderController : Controller
     {
         private readonly IDishService _dishService;
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _usermanager;
+        private readonly IOrderService _orderService;
 
-        public OrderController(IDishService dishService, IUserService userService, UserManager<AppUser> usermanager)
+        public OrderController(IDishService dishService, IUserService userService, UserManager<AppUser> usermanager, IOrderService orderService)
         {
             _dishService = dishService;
             _userService = userService;
             _usermanager = usermanager;
+            _orderService = orderService;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("removeorder")]
+        public async Task<IActionResult> RemoveOrder(int id)
+        {
+            // Todo check if order is not levererad
+            var success = await _orderService.RemoveOrderAsync(id);
+
+            return null;
         }
 
 

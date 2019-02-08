@@ -13,5 +13,6 @@ namespace TomasosPizzeria.Services
         Task<Bestallning> GetOrderedDishesAsync(int orderId);
         Task<bool> MarkOrderAsDeliveredAsync(int orderId);
         Task<Bestallning> GetOrderAsync(int orderid);
+        Task<bool> RemoveOrderAsync(int orderId);
     }
 }
