@@ -10,6 +10,9 @@
                 "order": [[0, "desc"]]
             });
         }
+
+        // Click event for order confirmation, will remove the disabled class from "Ta bort" button.
+        // Also deletes itself.
         $(".confirm-order").click(function (e) {
             var btn = $(this).parent().find($(".delete-btn"));
             btn.removeClass("disabled");
@@ -23,89 +26,101 @@
     });
 </script>
 
-<table class="table table-hover table-sm table-striped" style="width:100%" id="ordertable">
-    <thead>
-        <tr>
-            <th scope="col">Status</th>
-            <th scope="col">Beställare</th>
-            <th scope="col">Orderdatum</th>
-            <th scope="col">Totalbelopp</th>
-            <th scope="col">Orderhanterare</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model.OrderBy(o => o.Levererad).ThenBy(o => o.BestallningDatum))
-        {
-            <tr id="@order.BestallningId-@order.KundId">
-                <td id="@order.BestallningId">
-                    @if (order.Levererad)
-                    {
-                        <h4><span class="badge badge-success">&#x2713; Levererad</span></h4>
-                    }
-                    else
-                    {
-                        <h4><span class="badge badge-warning">&#x2717; Ej levererad</span></h4>
-                    }
-                </td>
-                <td>@order.Kund.Namn</td>
-                <td>@order.BestallningDatum</td>
-                <td>@order.Totalbelopp.ToString("C")</td>
-                <td>
-                    <a class="btn btn-sm btn-info"
-                       data-toggle="modal"
-                       data-ajax="true"
-                       data-ajax-method="GET"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#order-modal"
-                       asp-action="GetDishData"
-                       asp-controller="Admin"
-                       asp-route-id="@order.BestallningId"
-                       data-target="#myModal">Detaljer</a>
+@if (!Model.Any())
+{
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Finns inga ordrar</h3>
+        </div>
+    </div>
+}
+else
+{
 
-                    <div class="modal fade" id="myModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content" id="order-modal">
 
+    <table class="table table-hover table-sm table-striped" style="width:100%" id="ordertable">
+        <thead>
+            <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Beställare</th>
+                <th scope="col">Orderdatum</th>
+                <th scope="col">Totalbelopp</th>
+                <th scope="col">Orderhanterare</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.OrderBy(o => o.Levererad).ThenBy(o => o.BestallningDatum))
+            {
+                <tr id="@order.BestallningId-@order.KundId">
+                    <td id="@order.BestallningId">
+                        @if (order.Levererad)
+                        {
+                            <h4><span class="badge badge-success">&#x2713; Levererad</span></h4>
+                        }
+                        else
+                        {
+                            <h4><span class="badge badge-warning">&#x2717; Ej levererad</span></h4>
+                        }
+                    </td>
+                    <td>@order.Kund.Namn</td>
+                    <td>@order.BestallningDatum</td>
+                    <td>@order.Totalbelopp.ToString("C")</td>
+                    <td>
+                        <a class="btn btn-sm btn-info"
+                           data-toggle="modal"
+                           data-ajax="true"
+                           data-ajax-method="GET"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#order-modal"
+                           asp-action="GetDishData"
+                           asp-controller="Admin"
+                           asp-route-id="@order.BestallningId"
+                           data-target="#myModal">Detaljer</a>
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content" id="order-modal">
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @if (order.Levererad)
-                    {
-                        <a class="btn btn-sm btn-danger delete-btn"
-                           data-ajax="true"
-                           data-ajax-mode="replace"
-                           data-ajax-update="#@order.BestallningId-@order.KundId"
-                           asp-action="RemoveOrder"
-                           asp-controller="Order"
-                           asp-route-id="@order.BestallningId">Ta bort</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-sm btn-danger delete-btn disabled"
-                           data-ajax="true"
-                           data-ajax-mode="replace"
-                           data-ajax-update="#@order.BestallningId-@order.KundId"
-                           asp-action="RemoveOrder"
-                           asp-controller="Order"
-                           asp-route-id="@order.BestallningId">Ta bort</a>
-                    }
+                        @if (order.Levererad)
+                        {
+                            <a class="btn btn-sm btn-danger delete-btn"
+                               data-ajax="true"
+                               data-ajax-mode="replace"
+                               data-ajax-confirm="Är du säker att du vill ta bort denna order?"
+                               data-ajax-update="#@order.BestallningId-@order.KundId"
+                               asp-action="RemoveOrder"
+                               asp-controller="Order"
+                               asp-route-id="@order.BestallningId">Ta bort</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-danger delete-btn disabled"
+                               data-ajax="true"
+                               data-ajax-mode="replace"
+                               data-ajax-update="#@order.BestallningId-@order.KundId"
+                               asp-action="RemoveOrder"
+                               asp-controller="Order"
+                               asp-route-id="@order.BestallningId">Ta bort</a>
+                        }
 
 
-                    @if (!order.Levererad)
-                    {
-                        <a class="btn btn-sm btn-success confirm-order"
-                           data-ajax="true"
-                           data-ajax-method="POST"
-                           data-ajax-mode="replace"
-                           data-ajax-confirm="Är du säker att du vill ta bort denna order?"
-                           asp-controller="Admin"
-                           asp-action="ValidateOrder"
-                           asp-route-id="@order.BestallningId"
-                           data-ajax-update="#@order.BestallningId">Bekräfta leverans</a>
-                    }
-                </td>
+                        @if (!order.Levererad)
+                        {
+                            <a class="btn btn-sm btn-success confirm-order"
+                               data-ajax="true"
+                               data-ajax-method="POST"
+                               data-ajax-mode="replace"
+                               asp-controller="Admin"
+                               asp-action="ValidateOrder"
+                               asp-route-id="@order.BestallningId"
+                               data-ajax-update="#@order.BestallningId">Bekräfta leverans</a>
+                        }
+                    </td>
 
-            </tr>
-        }
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
