@@ -1,8 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model List<AppUser>
 @inject UserManager<AppUser> UserManager
-<!-- Section scripts for this partial -->
-<script src="/js/customers.js" defer></script>
+
+<!-- Script for partial view -->
+<script>
+    $(document).ready(function () {
+
+        if ($.fn.dataTable.isDataTable('#customertable')) {
+            $('#customertable').DataTable();
+        } else {
+            $("#customertable").DataTable({
+                "order": [[3, "asc"]]
+            });
+        }
+    });
+</script>
+
 
 <table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
     <thead>

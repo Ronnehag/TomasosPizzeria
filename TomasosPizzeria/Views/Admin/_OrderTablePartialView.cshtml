@@ -1,12 +1,27 @@
 ﻿@model IEnumerable<Bestallning>
 <!-- Section scripts for this partial -->
-<script src="/js/customers.js" defer></script>
+<script>
+    $(document).ready(function () {
+
+        if ($.fn.dataTable.isDataTable('#ordertable')) {
+            $('#ordertable').DataTable();
+        } else {
+            $("#ordertable").DataTable({
+                "order": [[0, "desc"]]
+            });
+        }
+        $(".confirm-order").click((e) => {
+            console.log(e.target);
+            $(e.target).remove();
+        });
+    });
+</script>
 
 
-<table class="table table-hover table-sm table-striped" style="width:100%" id="customertable">
+<table class="table table-hover table-sm table-striped" style="width:100%" id="ordertable">
     <thead>
         <tr>
-            <th scope="col">Levererad</th>
+            <th scope="col">Status</th>
             <th scope="col">Beställare</th>
             <th scope="col">Orderdatum</th>
             <th scope="col">Totalbelopp</th>
@@ -38,7 +53,8 @@
                        data-ajax-method="GET"
                        data-ajax-mode="replace"
                        data-ajax-update="#order-modal"
-                       asp-action="GetDishData" asp-controller="Admin"
+                       asp-action="GetDishData"
+                       asp-controller="Admin"
                        asp-route-id="@order.BestallningId"
                        data-target="#myModal">Detaljer</a>
 
@@ -50,19 +66,15 @@
                         </div>
                     </div>
                     <a class="btn btn-sm btn-danger">Ta bort</a>
-                    @if (order.Levererad)
+                    @if (!order.Levererad)
                     {
-                        
-                    }
-                    else
-                    {
-                        <a class="btn btn-sm btn-success"
-                           asp-controller="Admin"
-                           asp-action="ValidateOrder"
-                           asp-route-id="@order.BestallningId"
+                        <a class="btn btn-sm btn-success confirm-order"
                            data-ajax="true"
                            data-ajax-method="POST"
                            data-ajax-mode="replace"
+                           asp-controller="Admin"
+                           asp-action="ValidateOrder"
+                           asp-route-id="@order.BestallningId"
                            data-ajax-update="#@order.BestallningId">Bekräfta leverans</a>
                     }
                 </td>

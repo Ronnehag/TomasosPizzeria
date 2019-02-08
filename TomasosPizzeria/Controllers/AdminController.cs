@@ -61,6 +61,9 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_CustomerTableRowPartialView", user);
         }
 
+
+        /* ORDER SECTION OF THE ADMIN CONTROLLER */
+
         [Route("orders")]
         public IActionResult GetOrders()
         {
@@ -71,7 +74,6 @@ namespace TomasosPizzeria.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ValidateOrder(int id)
         {
             var success = await _orderService.MarkOrderAsDeliveredAsync(id);
@@ -79,7 +81,6 @@ namespace TomasosPizzeria.Controllers
             {
                 return RedirectToAction("GetOrders");
             }
-
             var order = await _orderService.GetOrderAsync(id);
 
             return PartialView("_OrderValidatedPartial", order);
