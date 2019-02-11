@@ -18,25 +18,43 @@
     <thead>
         <tr>
             <th scope="col">Namn</th>
-            <th scope="col">Produkttyp</th>
+            <th scope="col">Typ</th>
             <th scope="col">Beskrivning</th>
-            <th scope="col">Ingredienser</th>
             <th scope="col">Pris</th>
             <th scope="col">Hantering</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var dish in Model)
-    {
-        <tr>
-            <td>@dish.MatrattNamn</td>
-            <td>@dish.MatrattTypNavigation.Beskrivning</td>
-            <td>@dish.Beskrivning</td>
-            <td>TODO</td>
-            <td>@dish.Pris.ToString("C")</td>
-            <td><a href="#" class="btn btn-sm btn-secondary">Ändra</a></td>
-        </tr>
-    }
+        @foreach (var dish in Model)
+        {
+            <tr>
+                <td>@dish.MatrattNamn</td>
+                <td>@dish.MatrattTypNavigation.Beskrivning</td>
+                <td>@dish.Beskrivning</td>
+                <td>@dish.Pris.ToString("C")</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-secondary">Ändra</a>
+                    
+                    <a class="btn btn-sm btn-info"
+                       data-toggle="modal"
+                       data-target="#dishModal"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#dish-modal"
+                       asp-action="GetTotalDishInformation"
+                       asp-controller="Admin"
+                       asp-route-id="@dish.MatrattId">Produktinfo</a>
+                    <div class="modal fade" id="dishModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="dish-modal">
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
 
 
 

@@ -13,14 +13,12 @@ namespace TomasosPizzeria.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly IUserService _userService;
         private readonly IDishService _dishService;
         private readonly IOrderService _orderService;
 
-        public AdminController(UserManager<AppUser> userManager, IUserService userService, IDishService dishService, IOrderService orderService)
+        public AdminController(UserManager<AppUser> userManager, IDishService dishService, IOrderService orderService)
         {
             _userManager = userManager;
-            _userService = userService;
             _dishService = dishService;
             _orderService = orderService;
         }
@@ -94,6 +92,12 @@ namespace TomasosPizzeria.Controllers
 
 
         /* DISH SECTION */
+        [Route("dish")]
+        public async Task<IActionResult> GetTotalDishInformation(int id)
+        {
+            var model = await _dishService.GetDishAsync(id);
+            return PartialView("_ProductModal", model);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetDishData(int id)
