@@ -8,5 +8,7 @@ namespace TomasosPizzeria.Services
     {
         Task<List<Matratt>> GetAllDishesAsync();
         Task<Matratt> GetDishAsync(int id);
+        Task<List<Produkt>> GetDishIngredientsAsync();
+        Task<List<MatrattTyp>> GetDishCategoriesAsync();
     }
 }

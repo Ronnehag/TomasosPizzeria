@@ -8,12 +8,16 @@
 </div>
 
 <div class="modal-body">
-    <h3>Produktbeskrivning</h3>
-    @foreach (var ingredient in Model.MatrattProdukt)
-    {
-        @ingredient.Produkt.ProduktNamn
-    }
+    <h3>Ingredienser</h3>
+    <form>
+        <div class="form-group">
+            @foreach (var ingredient in Model.MatrattProdukt)
+            {
 
+                @ingredient.Produkt.ProduktNamn <br/>
+            }
+        </div>
+    </form>
 </div>
 
 <div class="modal-footer">

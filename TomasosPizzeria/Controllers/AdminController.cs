@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
+using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
 namespace TomasosPizzeria.Controllers
@@ -99,6 +101,29 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_ProductModal", model);
         }
 
+        [Route("dish/edit/{id}")]
+        public async Task<IActionResult> EditDish(int id)
+        {
+            var model = new EditDishViewModel
+            {
+                Dish = await _dishService.GetDishAsync(id),
+                Categories = await _dishService.GetDishCategoriesAsync(),
+                Ingredients = await _dishService.GetDishIngredientsAsync()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("dish/edit/{id}")]
+        public async Task<IActionResult> EditDish(EditDishViewModel mdl)
+        {
+
+            return null;
+
+            //return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDishData(int id)
         {
@@ -109,7 +134,7 @@ namespace TomasosPizzeria.Controllers
         [Route("dishes")]
         public async Task<IActionResult> GetFoodDishes()
         {
-           var dishes = await _dishService.GetAllDishesAsync();
+            var dishes = await _dishService.GetAllDishesAsync();
 
             return PartialView("_DishesTablePartialView", dishes
                 .OrderBy(d => d.MatrattTyp)
