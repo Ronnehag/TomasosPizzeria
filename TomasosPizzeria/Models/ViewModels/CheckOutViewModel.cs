@@ -10,5 +10,6 @@ namespace TomasosPizzeria.Models.ViewModels
     {
         public Kund Kund { get; set; }
         public ShoppingCart Cart { get; set; }
+        public bool UsePoints { get; set; }
     }
 }

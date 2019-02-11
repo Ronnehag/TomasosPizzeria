@@ -77,7 +77,8 @@ namespace TomasosPizzeria.Controllers
             var model = new CheckOutViewModel
             {
                 Kund = await _userService.FindUserAsync(user.Id),
-                Cart = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue)
+                Cart = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue),
+                UsePoints = false
             };
             return View(model);
         }

@@ -1,12 +1,65 @@
-﻿@model CheckOutViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model CheckOutViewModel
+@inject UserManager<AppUser> UserManager
 
 @{
     ViewData["Title"] = "CheckOutPage";
 }
 
 
-<div class="container-fluid fill-all mt-5">
-    <h1>CheckOutPage</h1>
+<div class="container-fluid fill-all mt-5 mx-auto">
+    <h1 class="text-center">Bekräfta din order</h1>
+
+    <div class="row mt-3 ml-auto">
+        <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+            <form asp-controller="Cart" asp-action="CheckOut" method="post">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="@Model.Kund.Namn">Namn</label>
+                        <input class="form-control" asp-for="Kund.Namn" disabled />
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Summa</label>
+                        <input class="form-control" value="@(User.IsInRole(UserRole.PremiumUser.ToString()) ?
+                                                                Model.Cart.TotalSum(UserRole.PremiumUser).ToString("C") :
+                                                                Model.Cart.TotalSum().ToString("C"))" disabled />
+                    </div>
+                </div>
+
+                @if (User.IsInRole(UserRole.PremiumUser.ToString()))
+                {
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <label for="@Model.Kund.Bonuspoäng">Bonuspoäng</label>
+                            <input class="form-control" asp-for="Kund.Bonuspoäng" disabled />
+                        </div>
+                    </div>
+                }
+                <div class="text-left mt-5">
+                    <button class="btn btn-primary" type="submit">Skicka beställningen</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+            <div class="card">
+                <div class="card-header text-center"><h5>Din beställning</h5></div>
+                <div class="card-body">
+                    <ul>
+
+                        @foreach (var item in Model.Cart.GroupItems())
+                        {
+                            <li>@item.Count st @item.ProductName</li>
+                        }
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- Form for checkout, load user points etc.
     Use points for free pizza, checkout button -->

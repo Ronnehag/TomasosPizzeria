@@ -12,11 +12,21 @@ namespace TomasosPizzeria.Models
         public List<Matratt> Products { get; set; }
         public AppUser User { get; set; }
         public Kund Kund { get; set; }
+        public bool CalculatedPoints { get; set; }
 
-        // TODO kolla om användaren har 100poäng eller mer, ge gratis pizza.
-        public bool HasPointsForFreePizza()
+        private bool HasPointsForFreePizza()
         {
-            return Kund.Bonuspoäng >= 100;
+            var value = Kund.Bonuspoäng >= 100 && Products.Count >= 1;
+            if (value)
+            {
+                CalculatedPoints = true;
+            }
+            else
+            {
+                CalculatedPoints = false;
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -36,11 +46,15 @@ namespace TomasosPizzeria.Models
             var sum = TotalSum();
             if (role == UserRole.PremiumUser)
             {
+                if (HasPointsForFreePizza())
+                {
+                    sum -= Products[0].Pris;
+                }
                 sum -= (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
             }
             return sum;
         }
-
+        
         /// <summary>
         /// Gets the total sum in the cart for regular users.
         /// </summary>

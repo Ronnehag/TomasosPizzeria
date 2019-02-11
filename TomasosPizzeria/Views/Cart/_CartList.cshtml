@@ -28,7 +28,7 @@
             <div class="col-6 text-left">
                 @if (Model?.Products != null && Model?.User != null)
                 {
-                    if(await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                    if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
                     {
                         <span>Rabatt:</span>
                         <br /><br />
@@ -46,8 +46,13 @@
                         if (Model.Products.Count >= 3)
                         {
                             @Model.DiscountAmount().ToString("C")
-                            <br /><br/>
+                            <br /><br />
                             @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                            if (Model.Kund.Bonuspoäng >= 100)
+                            {
+                                <br/>
+                                <span>Du får en pizza gratis!</span>
+                            }
                             <br />
                         }
                         else
@@ -65,7 +70,7 @@
         <div class="text-center">
             @if (Model?.Products?.Count > 0)
             {
-                <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOut">Beställ</a>
+                <a class="btn btn-primary p-2 mt-2" asp-controller="Cart" asp-action="CheckOutPage">Beställ</a>
             }
         </div>
     </div>
