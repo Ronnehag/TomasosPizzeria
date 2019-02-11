@@ -86,17 +86,14 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_OrderValidatedPartial", order);
         }
 
-
-
-
-
-
-
         public IActionResult EditDetails()
         {
             // TODO admin setting dashboard, change password and email only
             throw new System.NotImplementedException();
         }
+
+
+        /* DISH SECTION */
 
         [HttpGet]
         public async Task<IActionResult> GetDishData(int id)
@@ -105,6 +102,14 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_OrderDishDataPartialView", model);
         }
 
+        [Route("dishes")]
+        public async Task<IActionResult> GetFoodDishes()
+        {
+           var dishes = await _dishService.GetAllDishesAsync();
 
+            return PartialView("_DishesTablePartialView", dishes
+                .OrderBy(d => d.MatrattTyp)
+                .ToList());
+        }
     }
 }

@@ -16,9 +16,10 @@ namespace TomasosPizzeria.Services
 
         public async Task<List<Matratt>> GetAllDishesAsync()
         {
-            return await _context.Matratt
+            return await _context.Matratt.Include(x => x.MatrattTypNavigation)
                  .Include(m => m.MatrattProdukt)
-                 .ThenInclude(p => p.Produkt).ToListAsync();
+                 .ThenInclude(p => p.Produkt)
+                .ToListAsync();
         }
 
         public async Task<Matratt> GetDishAsync(int id)

@@ -26,7 +26,13 @@
                        data-ajax-loading="#spinner">Ordrar</a>
                 </li>
                 <li>
-                    <a class="nav-link" href="#">Maträtter</a>
+                    <a class="nav-link"
+                       asp-controller="Admin"
+                       asp-action="GetFoodDishes"
+                       data-ajax="true"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#content-div"
+                       data-ajax-loading="#spinner">Maträtter</a>
                 </li>
             </ul>
         </nav>
