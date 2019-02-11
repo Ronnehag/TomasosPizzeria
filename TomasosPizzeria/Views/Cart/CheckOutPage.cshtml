@@ -16,22 +16,21 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label for="@Model.Kund.Namn">Namn</label>
-                        <input class="form-control" asp-for="Kund.Namn" disabled />
+                        <input class="form-control" asp-for="Kund.Namn" value="@Model.Kund.Namn" disabled/>
                     </div>
                     <div class="col-sm-6">
-                        <label>Summa</label>
+                        <label asp-for="@Model.TotalPrice">Summa</label>
                         <input class="form-control" value="@(User.IsInRole(UserRole.PremiumUser.ToString()) ?
                                                                 Model.Cart.TotalSum(UserRole.PremiumUser).ToString("C") :
                                                                 Model.Cart.TotalSum().ToString("C"))" disabled />
                     </div>
                 </div>
-
                 @if (User.IsInRole(UserRole.PremiumUser.ToString()))
                 {
                     <div class="form-group row">
                         <div class="col-sm-3">
                             <label for="@Model.Kund.Bonuspoäng">Bonuspoäng</label>
-                            <input class="form-control" asp-for="Kund.Bonuspoäng" disabled />
+                            <input class="form-control" asp-for="Kund.Bonuspoäng" value="@Model.Kund.Bonuspoäng" disabled />
                         </div>
                     </div>
                 }

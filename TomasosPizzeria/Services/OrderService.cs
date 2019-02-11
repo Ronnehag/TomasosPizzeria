@@ -18,6 +18,9 @@ namespace TomasosPizzeria.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Adds the order to the database. PremiumUser will get the calculated price based on the discount and bonus points.
+        /// </summary>
         public async Task<Bestallning> AddOrderAsync(string userId, ShoppingCart cart, UserRole role)
         {
             var kund = await _context.Kund.FirstOrDefaultAsync(u => u.UserId == userId);
@@ -27,6 +30,7 @@ namespace TomasosPizzeria.Services
             {
                 foreach (var dish in cart.Products)
                 {
+                    // instantiates the int if it's null, meaning this user hasn't had any points before.
                     if (kund.Bonuspoäng == null) kund.Bonuspoäng = 0;
                     kund.Bonuspoäng += 10;
                 }
@@ -51,6 +55,7 @@ namespace TomasosPizzeria.Services
                 Totalbelopp = role == UserRole.PremiumUser ? cart.TotalSum(UserRole.PremiumUser) : cart.TotalSum(),
                 BestallningMatratt = orders
             };
+            if (kund.Bonuspoäng >= 100) kund.Bonuspoäng -= 100;
             _context.Add(order);
             _context.Entry(kund).State = EntityState.Modified;
             await _context.SaveChangesAsync();

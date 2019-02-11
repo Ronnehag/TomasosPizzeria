@@ -84,7 +84,9 @@ namespace TomasosPizzeria.Controllers
         }
 
         [Route("checkout")]
-        public async Task<IActionResult> CheckOut()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckOut(CheckOutViewModel mod)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) Challenge();
