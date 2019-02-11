@@ -28,6 +28,13 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-6">
+                        <label asp-for="Dish.Beskrivning"></label>
+                        <textarea maxlength="200" class="form-control" asp-for="Dish.Beskrivning" value="@Model.Dish.Beskrivning"></textarea>
+                        <small><span asp-validation-for="Dish.Beskrivning"></span></small>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
                         <label asp-for="@Model.Categories"></label>
                         <select class="form-control" asp-for="@Model.Dish.MatrattTyp"
                                 asp-items="@(new SelectList(Model.Categories, "MatrattTyp1", "Beskrivning"))"></select>
@@ -52,8 +59,14 @@
                 </div>
 
                 <div class="card-footer">
-                    <label asp-for=""></label>
-                    <input type="text" class="form-control"/>
+                    <!-- TODO ADD AJAX FOR THIS FORM, APPEND TO LIST ABOVE -->
+                    <form>
+                        <div class="form-group">
+                            <label asp-for="NewIngredient"></label>
+                            <input type="text" class="form-control" asp-for="NewIngredient"/>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-success">Lägg till</button>
+                    </form>
                 </div>
 
             </div>
