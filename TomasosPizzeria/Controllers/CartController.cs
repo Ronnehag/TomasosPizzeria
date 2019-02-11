@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
+using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 using ShoppingCart = TomasosPizzeria.Models.ShoppingCart;
 
@@ -67,6 +67,21 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_CartList", cart);
         }
 
+        [Route("confirm")]
+        public async Task<IActionResult> CheckOutPage()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) Challenge();
+            var serializedValue = ( HttpContext.Session.GetString("varukorg") );
+
+            var model = new CheckOutViewModel
+            {
+                Kund = await _userService.FindUserAsync(user.Id),
+                Cart = JsonConvert.DeserializeObject<ShoppingCart>(serializedValue)
+            };
+            return View(model);
+        }
+
         [Route("checkout")]
         public async Task<IActionResult> CheckOut()
         {
@@ -94,7 +109,7 @@ namespace TomasosPizzeria.Controllers
             model.Products = new List<Matratt>();
             var temp = JsonConvert.SerializeObject(model);
             HttpContext.Session.SetString("varukorg", temp);
-            
+
             return View(bestallning);
         }
 

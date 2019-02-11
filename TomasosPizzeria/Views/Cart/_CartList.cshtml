@@ -41,11 +41,19 @@
                 @if (Model?.Products != null && Model?.User != null)
                 {
                     <!-- If user is premium and has more than 3 products in cart -->
-                    if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()) && Model.Products.Count >= 3)
+                    if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()))
                     {
-                        @Model.DiscountAmount().ToString("C")
-                        <br /><br />
-                        @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                        if (Model.Products.Count >= 3)
+                        {
+                            @Model.DiscountAmount().ToString("C")
+                            <br /><br/>
+                            @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                            <br />
+                        }
+                        else
+                        {
+                            @Model.TotalSum().ToString("C")
+                        }
                     }
                     else
                     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
@@ -15,18 +14,17 @@ namespace TomasosPizzeria.Models
         public Kund Kund { get; set; }
 
         // TODO kolla om användaren har 100poäng eller mer, ge gratis pizza.
-        public bool HasPointsForFreePizza() => Kund.Bonuspoäng >= 100;
+        public bool HasPointsForFreePizza()
+        {
+            return Kund.Bonuspoäng >= 100;
+        }
 
         /// <summary>
         /// Gets the discount amount, used for display purposes in the view model.
         /// </summary>
         public int DiscountAmount()
         {
-            int sum = 0;
-            foreach (var product in Products)
-            {
-                sum += product.Pris;
-            }
+            var sum = TotalSum();
             return (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
         }
 
@@ -35,17 +33,14 @@ namespace TomasosPizzeria.Models
         /// </summary>
         public int TotalSum(UserRole role)
         {
-            int sum = 0;
-            foreach (var product in Products)
-            {
-                sum += product.Pris;
-            }
+            var sum = TotalSum();
             if (role == UserRole.PremiumUser)
             {
-                sum = (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
+                sum -= (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
             }
             return sum;
         }
+
         /// <summary>
         /// Gets the total sum in the cart for regular users.
         /// </summary>
