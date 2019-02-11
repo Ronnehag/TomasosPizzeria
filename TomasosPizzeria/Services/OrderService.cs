@@ -17,7 +17,6 @@ namespace TomasosPizzeria.Services
         {
             _context = context;
         }
-
         /// <summary>
         /// Adds the order to the database. PremiumUser will get the calculated price based on the discount and bonus points.
         /// </summary>
@@ -28,14 +27,11 @@ namespace TomasosPizzeria.Services
 
             if (role == UserRole.PremiumUser)
             {
-                foreach (var dish in cart.Products)
-                {
-                    // instantiates the int if it's null, meaning this user hasn't had any points before.
-                    if (kund.Bonuspoäng == null) kund.Bonuspoäng = 0;
-                    kund.Bonuspoäng += 10;
-                }
+                // instantiates the int if it's null, meaning this user hasn't had any points before.
+                // Add the points to the Kund, 10 points per item in the cart.
+                if (kund.Bonuspoäng == null) kund.Bonuspoäng = 0;
+                kund.Bonuspoäng += (cart.Products.Count * 10);
             }
-
 
             // Group the products by ID and counting them into new BestallningMatratt objects
             var orders = cart.Products
@@ -47,6 +43,7 @@ namespace TomasosPizzeria.Services
 
                 }).ToList();
 
+            // Puts the order together
             var order = new Bestallning
             {
                 BestallningDatum = DateTime.Now,
@@ -55,6 +52,8 @@ namespace TomasosPizzeria.Services
                 Totalbelopp = role == UserRole.PremiumUser ? cart.TotalSum(UserRole.PremiumUser) : cart.TotalSum(),
                 BestallningMatratt = orders
             };
+
+            // Calculates the points and saves to database
             if (kund.Bonuspoäng >= 100) kund.Bonuspoäng -= 100;
             _context.Add(order);
             _context.Entry(kund).State = EntityState.Modified;

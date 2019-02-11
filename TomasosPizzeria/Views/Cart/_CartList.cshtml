@@ -13,18 +13,26 @@
                 {
                     <li>
                         @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
-                        <a class="btn btn-sm btn-danger"
-                           data-ajax="true"
-                           data-ajax-method="GET"
-                           data-ajax-mode="replace"
-                           data-ajax-update="#cartList"
-                           asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
+                        <div class="text-right">
+                            <a class="btn btn-sm btn-success" style="padding:0 10px 0 10px;"
+                               data-ajax="true"
+                               data-ajax-method="GET"
+                               data-ajax-mode="replace"
+                               data-ajax-update="#cartList"
+                               asp-controller="Cart" asp-action="AddItem" asp-route-id="@item.Id">+</a>
+
+                            <a class="btn btn-sm btn-danger" style="padding:0 10px 0 10px;"
+                               data-ajax="true"
+                               data-ajax-method="GET"
+                               data-ajax-mode="replace"
+                               data-ajax-update="#cartList"
+                               asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
+                        </div>
                     </li>
                 }
             }
         </ul>
-        <hr class="sm-light" />
-        <div class="row">
+        <div class="row card-footer mt-3">
             <div class="col-6 text-left">
                 @if (Model?.Products != null && Model?.User != null)
                 {
@@ -48,16 +56,12 @@
                             @Model.DiscountAmount().ToString("C")
                             <br /><br />
                             @Model.TotalSum(UserRole.PremiumUser).ToString("C")
-                            if (Model.Kund.Bonuspoäng >= 100)
-                            {
-                                <br/>
-                                <span>Du får en pizza gratis!</span>
-                            }
                             <br />
                         }
-                        else
+                        if (Model.Kund.Bonuspoäng >= 100)
                         {
-                            @Model.TotalSum().ToString("C")
+                            <br />
+                            <span>Du får en pizza gratis!</span>
                         }
                     }
                     else
