@@ -21,7 +21,7 @@
                            asp-controller="Cart" asp-action="RemoveItem" asp-route-id="@item.Id">-</a>
                     </li>
                 }
-            } <!-- Todo add delete btn -->
+            }
         </ul>
         <hr class="sm-light" />
         <div class="row">
@@ -45,7 +45,7 @@
                     {
                         @Model.DiscountAmount().ToString("C")
                         <br /><br />
-                        @Model.DiscountSum().ToString("C");
+                        @Model.TotalSum(UserRole.PremiumUser).ToString("C")
                     }
                     else
                     {

@@ -21,13 +21,15 @@ namespace TomasosPizzeria.Controllers
         private readonly IDishService _dishService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
 
 
-        public CartController(IDishService dishService, UserManager<AppUser> userManager, IOrderService orderService)
+        public CartController(IDishService dishService, UserManager<AppUser> userManager, IOrderService orderService, IUserService userService)
         {
             _dishService = dishService;
             _userManager = userManager;
             _orderService = orderService;
+            _userService = userService;
         }
 
 
@@ -47,7 +49,8 @@ namespace TomasosPizzeria.Controllers
                 cart = new ShoppingCart
                 {
                     Products = new List<Matratt>(),
-                    User = user
+                    User = user,
+                    Kund = await _userService.FindUserAsync(user.Id)
                 };
             }
             else

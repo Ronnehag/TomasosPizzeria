@@ -27,6 +27,7 @@ namespace TomasosPizzeria.Services
             {
                 foreach (var dish in cart.Products)
                 {
+                    if (kund.Bonuspoäng == null) kund.Bonuspoäng = 0;
                     kund.Bonuspoäng += 10;
                 }
             }
@@ -47,7 +48,7 @@ namespace TomasosPizzeria.Services
                 BestallningDatum = DateTime.Now,
                 KundId = kund.KundId,
                 Levererad = false,
-                Totalbelopp = role == UserRole.PremiumUser ? cart.DiscountSum() : cart.TotalSum(),
+                Totalbelopp = role == UserRole.PremiumUser ? cart.TotalSum(UserRole.PremiumUser) : cart.TotalSum(),
                 BestallningMatratt = orders
             };
             _context.Add(order);
