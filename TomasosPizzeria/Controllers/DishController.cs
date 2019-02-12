@@ -32,8 +32,9 @@ namespace TomasosPizzeria.Controllers
                 _dishService.AddIngredientToDish(ingredient, matrattId);
             }
 
-            // Go to DB, check if it exists, append that to the Matratt, else create it and then append.
-            throw new System.NotImplementedException();
+
+
+            return null;
         }
 
         public IActionResult RemoveIngredient(int id)

@@ -46,8 +46,12 @@ namespace TomasosPizzeria.Services
 
         public async void AddIngredientToDish(string name, int matrattId)
         {
-            // Get all ingredients in DB
+            // Get the current dish
+            var dish = await GetDishAsync(matrattId);
+
+            // Get all ingredients in DB           
             var produkter = await _produktService.GetAllProduktsAsync();
+            MatrattProdukt matrattProdukt = null;
 
             // Check if the name doesn't already exists in the DB
             if (!produkter.Any(p => string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
@@ -55,25 +59,31 @@ namespace TomasosPizzeria.Services
                 // Name doesn't exist, create it and return the new produkt.
                 var newProdukt = await _produktService.AddNewProduktAsync(name);
                 // Attach tne new produkt to MatrattProdukt and add that to the database context.
-                var matrattProdukt = new MatrattProdukt
+                matrattProdukt = new MatrattProdukt
                 {
                     MatrattId = matrattId,
                     ProduktId = newProdukt.ProduktId,
                     Produkt = newProdukt
                 };
-                _context.Add(matrattProdukt);
+                
             }
             else
             {
-                // Take the produkt from the list of existing produkts and attach it to the dish.
-                var matrattProdukt = new MatrattProdukt
+                // Check if the dish doesn't have that produkt already
+                if(!dish.MatrattProdukt.Any(p => string.Equals(p.Produkt.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    MatrattId = matrattId,
-                    Produkt = produkter.First(p =>
-                        string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase))
-                };
-                _context.Add(matrattProdukt);
+                    // Take the produkt from the list of existing produkts and attach it to the dish.
+                    matrattProdukt = new MatrattProdukt
+                    {
+                        MatrattId = matrattId,
+                        Produkt = produkter.First(p =>
+                            string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase))
+                    };
+                }
             }
+
+            if (matrattProdukt == null) return;
+            _context.Add(matrattProdukt);
             _context.SaveChanges();
         }
     }
