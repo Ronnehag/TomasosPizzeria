@@ -12,5 +12,6 @@ namespace TomasosPizzeria.Services
     public interface IProduktService
     {
         Task<List<Produkt>> GetAllProduktsAsync();
+        Task<Produkt> AddNewProduktAsync(string name);
     }
 }

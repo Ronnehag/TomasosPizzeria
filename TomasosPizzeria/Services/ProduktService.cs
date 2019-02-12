@@ -19,5 +19,10 @@ namespace TomasosPizzeria.Services
         {
             return await _context.Produkt.ToListAsync();
         }
+
+        public Task<Produkt> AddNewProduktAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.Models.Entities;
 
@@ -50,7 +51,9 @@ namespace TomasosPizzeria.Services
 
             // Get all ingredients in DB
             var produkter = await _produktService.GetAllProduktsAsync();
-            foreach (var produkt in dish.MatrattProdukt)
+
+            // Check if the name doesn't exists in the DB
+            if (!produkter.Any(p => string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
             {
 
             }
