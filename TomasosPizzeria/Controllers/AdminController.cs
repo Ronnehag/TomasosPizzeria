@@ -98,6 +98,19 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_ProductModal", model);
         }
 
+        [HttpPost("dish/edit/{id?}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeDishValues(EditDishViewModel mdl)
+        {
+
+            if (ModelState.IsValid)
+            {
+                await _dishService.UpdateDishAsync(mdl.Dish);
+                return RedirectToAction("AdminPage");
+            }
+            return View("EditDish", mdl);
+        }
+
         [HttpGet]
         [Route("dish/edit/{id}")]
         public async Task<IActionResult> EditDish(int id)

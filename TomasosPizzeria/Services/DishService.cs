@@ -42,6 +42,13 @@ namespace TomasosPizzeria.Services
             return await _context.MatrattTyp.ToListAsync();
         }
 
+        public async Task<bool> UpdateDishAsync(Matratt dish)
+        {
+            _context.Entry(dish).State = EntityState.Modified;
+            var result = await _context.SaveChangesAsync();
+            return result == 1;
+        }
+
         public async Task<bool> AddIngredientToDish(string name, int matrattId)
         {
             // Get the current dish

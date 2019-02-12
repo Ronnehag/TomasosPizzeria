@@ -96,6 +96,7 @@ namespace TomasosPizzeria
                     name: "default",
                     template: "{Controller=Home}/{Action=Index}"
                 );
+
             });
 
             CreateUserRoles(service).Wait(); // Creates the IdentityRoles
