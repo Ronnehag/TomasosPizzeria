@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <a asp-controller="Admin" asp-action="AdminPage" class="btn btn-secondary">Avbryt</a>
-                    <button type="submit" class="btn btn-primary">Bekräfta ändringar</button>
+                    <button type="submit" asp-action="SaveDishDetails" asp-controller="Admin" class="btn btn-primary">Spara ändringar</button>
                 </div>
             </form>
         </div>
@@ -53,8 +53,12 @@
                     <ul id="ingredients-list">
                         @foreach (var ingredient in Model.Dish.MatrattProdukt)
                         {
-                            <li>@ingredient.Produkt.ProduktNamn <a href="#" class="btn btn-sm btn-danger">-</a></li>
-                        }
+                            <li>
+                                @ingredient.Produkt.ProduktNamn <a asp-action="RemoveIngredient"
+                                                                   asp-controller="Admin"
+                                                                   asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger">-</a>
+                        </li>
+                    }
                     </ul>
                 </div>
 
@@ -63,9 +67,16 @@
                     <form>
                         <div class="form-group">
                             <label asp-for="NewIngredient"></label>
-                            <input type="text" class="form-control" asp-for="NewIngredient"/>
+                            <input type="text" class="form-control" asp-for="NewIngredient" />
                         </div>
-                        <button type="submit" class="btn btn-sm btn-success">Lägg till</button>
+                        <button type="submit" class="btn btn-sm btn-success"
+                                asp-action="AddIngredient"
+                                asp-controller="Admin"
+                                data-ajax="true"
+                                data-ajax-method="GET"
+                                data-ajax-mode="after"
+                                data-ajax-update="#ingredients-list"
+                                >Lägg till</button>
                     </form>
                 </div>
 

@@ -12,12 +12,8 @@ namespace TomasosPizzeria.Models.ViewModels
         [Display(Name = "Ingredienser")]
         public List<Produkt> Ingredients { get; set; }
 
-        public SelectList IngredientsSelectList { get; set; }
-
         [Display(Name = "Kategori")]
         public List<MatrattTyp> Categories { get; set; }
-
-        public List<int> SelectedIngredients { get; set; }
 
         [Display(Name="Lägg till ingrediens")]
         public string NewIngredient { get; set; }

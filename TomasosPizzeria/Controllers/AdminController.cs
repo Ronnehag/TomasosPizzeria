@@ -140,5 +140,22 @@ namespace TomasosPizzeria.Controllers
                 .OrderBy(d => d.MatrattTyp)
                 .ToList());
         }
+
+        [Route("dish/save")]
+        public IActionResult SaveDishDetails()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        [Route("dish/remove/{id}")]
+        public IActionResult RemoveIngredient(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IActionResult AddIngredient()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
