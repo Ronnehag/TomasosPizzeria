@@ -106,8 +106,6 @@ namespace TomasosPizzeria.Controllers
                 bestallning = await _orderService.AddOrderAsync(user.Id, model, UserRole.PremiumUser);
 
             }
-            // todo check premium user, addOrder
-
             // Resetting cart to 0 items
             model.Products = new List<Matratt>();
             var temp = JsonConvert.SerializeObject(model);

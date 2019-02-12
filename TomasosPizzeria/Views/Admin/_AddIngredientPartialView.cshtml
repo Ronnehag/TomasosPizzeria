@@ -13,7 +13,7 @@
 
                         <div class="text-right">
                             <a asp-action="RemoveIngredient"
-                               asp-controller="Dish"
+                               asp-controller="Admin"
                                asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger minor-btn">-</a>
                         </div>
                     </li>
@@ -23,19 +23,13 @@
     </div>
 
     <div class="card-footer">
-        <form asp-controller="Dish" asp-action="AddIngredient" method="post">
+        <form asp-controller="Admin" asp-action="AddIngredient" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#ingredients">
             <div class="form-group">
                 <input asp-for="@Model.Dish.MatrattId" value="@Model.Dish.MatrattId" hidden />
                 <label asp-for="@Model.NewIngredient">Ingredient</label>
-                <input asp-for="@Model.NewIngredient" type="text" class="form-control" maxlength="50" />
+                <input asp-for="@Model.NewIngredient" type="text" value="@Model.NewIngredient" class="form-control" maxlength="50" />
             </div>
-            <button type="submit" class="btn btn-sm btn-success minor-btn"
-                    data-ajax="true"
-                    data-ajax-method="POST"
-                    data-ajax-mode="replace"
-                    data-ajax-update="#ingredients">
-                Lägg till
-            </button>
+            <button type="submit" class="btn btn-sm btn-success minor-btn">Lägg till</button>
         </form>
     </div>
 

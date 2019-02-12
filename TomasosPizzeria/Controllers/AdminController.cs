@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
@@ -99,6 +98,7 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_ProductModal", model);
         }
 
+        [HttpGet]
         [Route("dish/edit/{id}")]
         public async Task<IActionResult> EditDish(int id)
         {
@@ -113,13 +113,27 @@ namespace TomasosPizzeria.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("dish/edit/{id}")]
-        public async Task<IActionResult> EditDish(EditDishViewModel mdl)
+        public async Task<IActionResult> AddIngredient(EditDishViewModel mdl)
         {
+            // Get the ID of the dish
+            var matrattId = mdl.Dish.MatrattId;
 
-            return null;
+            // Check if modelstate is valid
 
-            //return View(model);
+            // Loop the ingredients, attach them to the dish
+            await _dishService.AddIngredientToDish(mdl.NewIngredient, matrattId);
+
+
+            var dish = await _dishService.GetDishAsync(matrattId);
+            var model = new EditDishViewModel
+            {
+                Dish = dish,
+                NewIngredient = ""
+            };
+
+            return PartialView("_AddIngredientPartialView", model);
         }
 
         [HttpGet]
@@ -139,5 +153,9 @@ namespace TomasosPizzeria.Controllers
                 .ToList());
         }
 
+        public IActionResult RemoveIngredient()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

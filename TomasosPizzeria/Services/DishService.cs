@@ -9,7 +9,7 @@ namespace TomasosPizzeria.Services
 {
     public class DishService : IDishService
     {
-        private TomasosContext _context;
+        private readonly TomasosContext _context;
 
         public DishService(TomasosContext context)
         {
@@ -78,15 +78,14 @@ namespace TomasosPizzeria.Services
                 matrattProdukt = new MatrattProdukt
                 {
                     MatrattId = matrattId,
-                    Produkt = produkter.First(p =>
-                        string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase))
+                    ProduktId = produkter.First(p =>
+                        string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)).ProduktId
                 };
                 _context.MatrattProdukt.Add(matrattProdukt);
                 _context.Entry(dish).State = EntityState.Modified;
                 var result = await _context.SaveChangesAsync();
                 return result == 1;
             }
-
 
             return false;
         }
