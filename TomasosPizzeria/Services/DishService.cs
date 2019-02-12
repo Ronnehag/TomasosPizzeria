@@ -9,13 +9,11 @@ namespace TomasosPizzeria.Services
 {
     public class DishService : IDishService
     {
-        private readonly TomasosContext _context;
-        private readonly IProduktService _produktService;
+        private TomasosContext _context;
 
-        public DishService(TomasosContext context, IProduktService produktService)
+        public DishService(TomasosContext context)
         {
             _context = context;
-            _produktService = produktService;
         }
 
         public async Task<List<Matratt>> GetAllDishesAsync()
@@ -44,47 +42,53 @@ namespace TomasosPizzeria.Services
             return await _context.MatrattTyp.ToListAsync();
         }
 
-        public async void AddIngredientToDish(string name, int matrattId)
+        public async Task<bool> AddIngredientToDish(string name, int matrattId)
         {
             // Get the current dish
             var dish = await GetDishAsync(matrattId);
 
             // Get all ingredients in DB           
-            var produkter = await _produktService.GetAllProduktsAsync();
-            MatrattProdukt matrattProdukt = null;
+            var produkter = await GetDishIngredientsAsync();
+            MatrattProdukt matrattProdukt;
 
             // Check if the name doesn't already exists in the DB
             if (!produkter.Any(p => string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
             {
                 // Name doesn't exist, create it and return the new produkt.
-                var newProdukt = await _produktService.AddNewProduktAsync(name);
-                // Attach tne new produkt to MatrattProdukt and add that to the database context.
+                var newProdukt = new Produkt { ProduktNamn = name };
+                _context.Add(newProdukt);
+                _context.SaveChanges();
+
+                // Attach tne new produkt to MatrattProdukt.
                 matrattProdukt = new MatrattProdukt
                 {
                     MatrattId = matrattId,
-                    ProduktId = newProdukt.ProduktId,
-                    Produkt = newProdukt
+                    ProduktId = newProdukt.ProduktId
                 };
-                
-            }
-            else
-            {
-                // Check if the dish doesn't have that produkt already
-                if(!dish.MatrattProdukt.Any(p => string.Equals(p.Produkt.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
-                {
-                    // Take the produkt from the list of existing produkts and attach it to the dish.
-                    matrattProdukt = new MatrattProdukt
-                    {
-                        MatrattId = matrattId,
-                        Produkt = produkter.First(p =>
-                            string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase))
-                    };
-                }
+                dish.MatrattProdukt.Add(matrattProdukt);
+                _context.Entry(dish).State = EntityState.Modified;
+                var result = await _context.SaveChangesAsync();
+                return result == 1;
             }
 
-            if (matrattProdukt == null) return;
-            _context.Add(matrattProdukt);
-            _context.SaveChanges();
+            // Check if the dish doesn't have that produkt already
+            if (!dish.MatrattProdukt.Any(p => string.Equals(p.Produkt.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                // Take the produkt from the list of existing produkts and attach it to the dish.
+                matrattProdukt = new MatrattProdukt
+                {
+                    MatrattId = matrattId,
+                    Produkt = produkter.First(p =>
+                        string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase))
+                };
+                _context.MatrattProdukt.Add(matrattProdukt);
+                _context.Entry(dish).State = EntityState.Modified;
+                var result = await _context.SaveChangesAsync();
+                return result == 1;
+            }
+
+
+            return false;
         }
     }
 }
