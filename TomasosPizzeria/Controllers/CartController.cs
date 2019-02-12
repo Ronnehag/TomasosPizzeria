@@ -41,7 +41,7 @@ namespace TomasosPizzeria.Controllers
 
             ShoppingCart cart;
 
-            var product = await _dishService.GetDishAsync(id);
+            var product = await _dishService.GetOnlyDishAsync(id);
 
             // If shopping cart doesn't exist
             if (HttpContext.Session.GetString("varukorg") == null)
@@ -62,8 +62,16 @@ namespace TomasosPizzeria.Controllers
             cart.Products.Add(product);
 
             //Lägga tillbaka listan i sessionsvariabeln
-            var temp = JsonConvert.SerializeObject(cart);
-            HttpContext.Session.SetString("varukorg", temp);
+            try
+            {
+                var temp = JsonConvert.SerializeObject(cart);
+                HttpContext.Session.SetString("varukorg", temp);
+            }
+            catch (JsonException ex)
+            {
+
+            }
+
             return PartialView("_CartList", cart);
         }
 
@@ -106,10 +114,13 @@ namespace TomasosPizzeria.Controllers
                 bestallning = await _orderService.AddOrderAsync(user.Id, model, UserRole.PremiumUser);
 
             }
-            // Resetting cart to 0 items
+            // Resetting cart to 0 items for this session
+
             model.Products = new List<Matratt>();
             var temp = JsonConvert.SerializeObject(model);
             HttpContext.Session.SetString("varukorg", temp);
+
+
 
             return View(bestallning);
         }

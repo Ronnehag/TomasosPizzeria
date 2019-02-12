@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
@@ -26,7 +27,10 @@ namespace TomasosPizzeria
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDishService, DishService>();
@@ -74,8 +78,7 @@ namespace TomasosPizzeria
             });
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-                options.IdleTimeout = TimeSpan.FromHours(1)); // Session is stored for 1 hour (Shopping cart)
+            services.AddSession();
 
         }
 

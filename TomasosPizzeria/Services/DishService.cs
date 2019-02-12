@@ -32,6 +32,11 @@ namespace TomasosPizzeria.Services
                 .FirstOrDefaultAsync(m => m.MatrattId == id);
         }
 
+        public async Task<Matratt> GetOnlyDishAsync(int id)
+        {
+            return await _context.Matratt.FirstOrDefaultAsync(p => p.MatrattId == id);
+        }
+
         public async Task<List<Produkt>> GetDishIngredientsAsync()
         {
             return await _context.Produkt.ToListAsync();

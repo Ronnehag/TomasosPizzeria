@@ -30,7 +30,8 @@ namespace TomasosPizzeria.Services
                 // instantiates the int if it's null, meaning this user hasn't had any points before.
                 // Add the points to the Kund, 10 points per item in the cart.
                 if (kund.Bonuspoäng == null) kund.Bonuspoäng = 0;
-                kund.Bonuspoäng += (cart.Products.Count * 10);
+                if (kund.Bonuspoäng >= 100) kund.Bonuspoäng -= 100;
+                kund.Bonuspoäng += ( cart.Products.Count * 10 );
             }
 
             // Group the products by ID and counting them into new BestallningMatratt objects
@@ -54,7 +55,6 @@ namespace TomasosPizzeria.Services
             };
 
             // Calculates the points and saves to database
-            if (kund.Bonuspoäng >= 100) kund.Bonuspoäng -= 100;
             _context.Add(order);
             _context.Entry(kund).State = EntityState.Modified;
             await _context.SaveChangesAsync();

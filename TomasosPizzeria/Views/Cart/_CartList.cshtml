@@ -14,14 +14,14 @@
                     <li>
                         @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
                         <div class="text-right">
-                            <a class="btn btn-sm btn-success minor-btn"
+                            <a class="btn btn-sm btn-success"
                                data-ajax="true"
                                data-ajax-method="GET"
                                data-ajax-mode="replace"
                                data-ajax-update="#cartList"
                                asp-controller="Cart" asp-action="AddItem" asp-route-id="@item.Id">+</a>
 
-                            <a class="btn btn-sm btn-danger minor-btn"
+                            <a class="btn btn-sm btn-danger"
                                data-ajax="true"
                                data-ajax-method="GET"
                                data-ajax-mode="replace"
@@ -49,7 +49,7 @@
                 @if (Model?.Products != null && Model?.User != null)
                 {
                     <!-- If user is premium and has more than 3 products in cart -->
-                    if (await UserManager.IsInRoleAsync(Model.User, UserRole.PremiumUser.ToString()))
+                    if (User.IsInRole(UserRole.PremiumUser.ToString()))
                     {
                         if (Model.Products.Count >= 3)
                         {
@@ -58,17 +58,26 @@
                             @Model.TotalSum(UserRole.PremiumUser).ToString("C")
                             <br />
                         }
+                        else
+                        {
+                            @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                        }
                         if (Model.Kund.Bonuspoäng >= 100)
                         {
                             <br />
-                            <span>Du får en pizza gratis!</span>
+                            <small>
+                                <span>Du får en pizza gratis!</span>
+                            </small>
                         }
+
                     }
                     else
                     {
                         @Model.TotalSum().ToString("C")
                     }
+
                 }
+
             </div>
         </div>
         <div class="text-center">

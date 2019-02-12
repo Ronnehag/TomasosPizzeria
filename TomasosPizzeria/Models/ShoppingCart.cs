@@ -50,7 +50,11 @@ namespace TomasosPizzeria.Models
                 {
                     sum -= Products[0].Pris;
                 }
-                sum -= (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
+
+                if (Products.Count >= 3)
+                {
+                    sum -= (int) Math.Round(sum * 0.20, MidpointRounding.ToEven);
+                }
             }
             return sum;
         }
