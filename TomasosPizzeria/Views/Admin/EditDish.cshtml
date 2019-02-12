@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <a asp-controller="Admin" asp-action="AdminPage" class="btn btn-secondary">Avbryt</a>
-                    <button type="submit" asp-action="SaveDishDetails" asp-controller="Admin" class="btn btn-primary">Spara ändringar</button>
+                    <button type="submit" asp-controller="Admin" class="btn btn-primary">Spara ändringar</button>
                 </div>
             </form>
         </div>
@@ -54,11 +54,16 @@
                         @foreach (var ingredient in Model.Dish.MatrattProdukt)
                         {
                             <li>
-                                @ingredient.Produkt.ProduktNamn <a asp-action="RemoveIngredient"
-                                                                   asp-controller="Admin"
-                                                                   asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger">-</a>
-                        </li>
-                    }
+
+                                @ingredient.Produkt.ProduktNamn
+
+                                <div class="text-right">
+                                    <a asp-action="RemoveIngredient"
+                                       asp-controller="Admin"
+                                       asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger minor-btn">-</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
 
@@ -67,16 +72,15 @@
                     <form>
                         <div class="form-group">
                             <label asp-for="NewIngredient"></label>
-                            <input type="text" class="form-control" asp-for="NewIngredient" />
+                            <input type="text" class="form-control" asp-for="NewIngredient" maxlength="50" />
                         </div>
-                        <button type="submit" class="btn btn-sm btn-success"
+                        <button type="submit" class="btn btn-sm btn-success minor-btn"
                                 asp-action="AddIngredient"
                                 asp-controller="Admin"
                                 data-ajax="true"
                                 data-ajax-method="GET"
                                 data-ajax-mode="after"
-                                data-ajax-update="#ingredients-list"
-                                >Lägg till</button>
+                                data-ajax-update="#ingredients-list">Lägg till</button>
                     </form>
                 </div>
 

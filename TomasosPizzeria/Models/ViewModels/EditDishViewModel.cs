@@ -15,7 +15,7 @@ namespace TomasosPizzeria.Models.ViewModels
         [Display(Name = "Kategori")]
         public List<MatrattTyp> Categories { get; set; }
 
-        [Display(Name="Lägg till ingrediens")]
+        [Display(Name="Ingrediens")]
         public string NewIngredient { get; set; }
     }
 }

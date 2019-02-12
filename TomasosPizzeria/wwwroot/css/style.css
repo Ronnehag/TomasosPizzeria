@@ -79,7 +79,6 @@ p {
     background: #343A40;
     color: #fff;
     width: 100%;
-   
 }
 
     #main-footer hr {
@@ -147,9 +146,9 @@ p {
     text-align: center;
 }
 
-.scrollable::-webkit-scrollbar {
-      background: transparent;
-}
+    .scrollable::-webkit-scrollbar {
+        background: transparent;
+    }
 
 /* CHECKOUT */
 #checkout {
@@ -162,26 +161,44 @@ p {
     list-style: none;
     padding: 0;
 }
+
 #admin-links {
     margin: 0;
     padding: 0;
 }
+
 .fill-all {
     min-height: 400px;
 }
+
 #cartList ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-#cartList ul li {
-    justify-content: space-between;
-    display: flex;
-    padding: 3px;
-}
+
+    #cartList ul li {
+        justify-content: space-between;
+        display: flex;
+        padding: 3px;
+    }
+
 .modal-open {
     padding-right: 0 !important;
 }
+
 .minor-btn {
     padding: 0 10px 0 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#ingredients-list li {
+    justify-content: space-between;
+    display: flex;
+    padding: 3px;
 }
