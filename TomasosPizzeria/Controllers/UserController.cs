@@ -77,8 +77,9 @@ namespace TomasosPizzeria.Controllers
                 return View(model);
             }
 
-            var userIdentity = new AppUser { UserName = model.AnvandarNamn, Email = model.Kund.Email }; // New user
-            var result = await _userManager.CreateAsync(userIdentity, model.Losenord); // Products core identity user
+            // Create new user
+            var userIdentity = new AppUser { UserName = model.AnvandarNamn, Email = model.Kund.Email };
+            var result = await _userManager.CreateAsync(userIdentity, model.Losenord);
             if (result.Succeeded)
             {
                 model.Kund.UserId = userIdentity.Id; // Link Core Identity UserId with Kund
