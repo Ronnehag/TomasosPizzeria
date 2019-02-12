@@ -106,5 +106,14 @@ namespace TomasosPizzeria.Services
             var result = await _context.SaveChangesAsync();
             return result == 1;
         }
+        /// <summary>
+        /// Adds new Dish to database, returns the added entity.
+        /// </summary>
+        public Matratt AddNewDish(Matratt dish)
+        {
+            _context.Add(dish);
+            _context.SaveChanges();
+            return dish;
+        }
     }
 }
