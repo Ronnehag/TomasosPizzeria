@@ -89,5 +89,15 @@ namespace TomasosPizzeria.Services
 
             return false;
         }
+
+        public async Task<bool> RemoveIngredientFromDish(int produktId, int matrattId)
+        {
+            var dish = await GetDishAsync(matrattId);
+
+            dish.MatrattProdukt = dish.MatrattProdukt.Where(d => d.ProduktId != produktId).ToList();
+            _context.Entry(dish).State = EntityState.Modified;
+            var result = await _context.SaveChangesAsync();
+            return result == 1;
+        }
     }
 }

@@ -125,6 +125,24 @@ namespace TomasosPizzeria.Controllers
             // Loop the ingredients, attach them to the dish
             await _dishService.AddIngredientToDish(mdl.NewIngredient, matrattId);
 
+            var dish = await _dishService.GetDishAsync(matrattId);
+            var model = new EditDishViewModel
+            {
+                Dish = dish,
+                NewIngredient = ""
+            };
+
+            return PartialView("_AddIngredientPartialView", model);
+        }
+
+        [Route("dish/edit")]
+        public async Task<IActionResult> RemoveIngredient(string id)
+        {
+            var arr = id.Split("-");
+            var produktId = int.Parse(arr[0]);
+            var matrattId = int.Parse(arr[1]);
+
+            await _dishService.RemoveIngredientFromDish(produktId, matrattId);
 
             var dish = await _dishService.GetDishAsync(matrattId);
             var model = new EditDishViewModel
@@ -135,6 +153,8 @@ namespace TomasosPizzeria.Controllers
 
             return PartialView("_AddIngredientPartialView", model);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetDishData(int id)
@@ -153,9 +173,7 @@ namespace TomasosPizzeria.Controllers
                 .ToList());
         }
 
-        public IActionResult RemoveIngredient()
-        {
-            throw new System.NotImplementedException();
-        }
+
+
     }
 }

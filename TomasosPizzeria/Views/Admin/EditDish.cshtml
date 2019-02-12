@@ -50,42 +50,6 @@
         <div class="col-3 mr-auto">
             <div id="ingredients">
                 <partial name="_AddIngredientPartialView" model="@Model"/>
-                @*<div class="card">
-                    <div class="card-header text-center"><h4>Ingredienser</h4></div>
-                    <div class="card-body">
-                        <ul id="ingredients-list">
-                            @foreach (var ingredient in Model.Dish.MatrattProdukt)
-                            {
-                                <li>
-                                    @ingredient.Produkt.ProduktNamn
-
-                                    <div class="text-right">
-                                        <a asp-action="RemoveIngredient"
-                                           asp-controller="Dish"
-                                           asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger minor-btn">-</a>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <form asp-controller="Dish" asp-action="AddIngredient" method="post">
-                        <div class="form-group">
-                            <input asp-for="@Model.Dish.MatrattId" value="@Model.Dish.MatrattId" hidden />
-                            <label asp-for="NewIngredient"></label>
-                            <input type="text" class="form-control" asp-for="NewIngredient" maxlength="50" />
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-success minor-btn"
-                                data-ajax="true"
-                                data-ajax-method="POST"
-                                data-ajax-mode="replace"
-                                data-ajax-update="#ingredients">
-                            Lägg till
-                        </button>
-                    </form>
-                </div>*@
             </div>
         </div>
 

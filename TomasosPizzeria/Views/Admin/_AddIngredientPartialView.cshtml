@@ -14,7 +14,12 @@
                         <div class="text-right">
                             <a asp-action="RemoveIngredient"
                                asp-controller="Admin"
-                               asp-route-id="@ingredient.ProduktId" class="btn btn-sm btn-danger minor-btn">-</a>
+                               asp-route-id="@ingredient.ProduktId-@Model.Dish.MatrattId"
+                               data-ajax="true"
+                               data-ajax-method="get"
+                               data-ajax-mode="replace"
+                               data-ajax-update="#ingredients"
+                               class="btn btn-sm btn-danger minor-btn">-</a>
                         </div>
                     </li>
                 }
