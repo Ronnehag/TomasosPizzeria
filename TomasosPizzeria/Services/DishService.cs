@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TomasosPizzeria.Models.Entities;
@@ -8,10 +9,12 @@ namespace TomasosPizzeria.Services
     public class DishService : IDishService
     {
         private readonly TomasosContext _context;
+        private readonly IProduktService _produktService;
 
-        public DishService(TomasosContext context)
+        public DishService(TomasosContext context, IProduktService produktService)
         {
             _context = context;
+            _produktService = produktService;
         }
 
         public async Task<List<Matratt>> GetAllDishesAsync()
@@ -40,8 +43,20 @@ namespace TomasosPizzeria.Services
             return await _context.MatrattTyp.ToListAsync();
         }
 
-        public void AddIngredientToDish(string name, int matrattId)
+        public async void AddIngredientToDish(string name, int matrattId)
         {
+            // Get the dish for the current ID
+            var dish = await GetDishAsync(matrattId);
+
+            // Get all ingredients in DB
+            var produkter = await _produktService.GetAllProduktsAsync();
+            foreach (var produkt in dish.MatrattProdukt)
+            {
+
+            }
+
+
+
             // Check if name exists in DB, else create it.
             // IF exists, attach that ingredient to the dish.
         }

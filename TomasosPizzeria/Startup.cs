@@ -31,6 +31,7 @@ namespace TomasosPizzeria
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IProduktService, ProduktService>();
 
             services.AddDbContext<TomasosContext>(options =>
                 options.UseSqlServer(Configuration["Data:ConnectionString"]));
