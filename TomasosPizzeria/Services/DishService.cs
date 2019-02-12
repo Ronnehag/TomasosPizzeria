@@ -39,5 +39,11 @@ namespace TomasosPizzeria.Services
         {
             return await _context.MatrattTyp.ToListAsync();
         }
+
+        public void AddIngredientToDish(string name, int matrattId)
+        {
+            // Check if name exists in DB, else create it.
+            // IF exists, attach that ingredient to the dish.
+        }
     }
 }

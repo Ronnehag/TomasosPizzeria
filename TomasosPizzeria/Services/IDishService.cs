@@ -10,5 +10,6 @@ namespace TomasosPizzeria.Services
         Task<Matratt> GetDishAsync(int id);
         Task<List<Produkt>> GetDishIngredientsAsync();
         Task<List<MatrattTyp>> GetDishCategoriesAsync();
+        void AddIngredientToDish(string name, int matrattId);
     }
 }

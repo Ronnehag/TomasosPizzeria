@@ -71,8 +71,6 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_OrderTablePartialView", model);
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> ValidateOrder(int id)
         {
@@ -141,15 +139,5 @@ namespace TomasosPizzeria.Controllers
                 .ToList());
         }
 
-        public IActionResult RemoveIngredient(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        [HttpPost]
-        public IActionResult AddIngredient(EditDishViewModel mdl)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -9,6 +9,8 @@ namespace TomasosPizzeria.Models.ViewModels
     {
         public Matratt Dish { get; set; }
 
+        public int MatrattId { get; set; }
+
         [Display(Name = "Ingredienser")]
         public List<Produkt> Ingredients { get; set; }
 
