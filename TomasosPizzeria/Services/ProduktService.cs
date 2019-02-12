@@ -20,9 +20,20 @@ namespace TomasosPizzeria.Services
             return await _context.Produkt.ToListAsync();
         }
 
-        public Task<Produkt> AddNewProduktAsync(string name)
+        /// <summary>
+        /// Takes in the name of the ingredient and adds it to the database. Returns the added ingredient, method is async.
+        /// </summary>
+        public async Task<Produkt> AddNewProduktAsync(string name)
         {
-            throw new NotImplementedException();
+            var produkt = new Produkt
+            {
+                ProduktNamn = name
+            };
+
+            _context.Produkt.Add(produkt);
+            _context.SaveChanges();
+
+            return await _context.Produkt.FirstOrDefaultAsync(p => p.ProduktId == produkt.ProduktId);
         }
     }
 }
