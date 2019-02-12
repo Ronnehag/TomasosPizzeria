@@ -182,3 +182,6 @@ p {
 .modal-open {
     padding-right: 0 !important;
 }
+.minor-btn {
+    padding: 0 10px 0 10px;
+}

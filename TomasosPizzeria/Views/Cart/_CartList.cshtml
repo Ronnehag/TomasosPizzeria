@@ -14,14 +14,14 @@
                     <li>
                         @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
                         <div class="text-right">
-                            <a class="btn btn-sm btn-success" style="padding:0 10px 0 10px;"
+                            <a class="btn btn-sm btn-success minor-btn"
                                data-ajax="true"
                                data-ajax-method="GET"
                                data-ajax-mode="replace"
                                data-ajax-update="#cartList"
                                asp-controller="Cart" asp-action="AddItem" asp-route-id="@item.Id">+</a>
 
-                            <a class="btn btn-sm btn-danger" style="padding:0 10px 0 10px;"
+                            <a class="btn btn-sm btn-danger minor-btn"
                                data-ajax="true"
                                data-ajax-method="GET"
                                data-ajax-mode="replace"
