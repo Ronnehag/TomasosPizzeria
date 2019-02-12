@@ -15,6 +15,9 @@ namespace TomasosPizzeria.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Returns all the ingredients as a list from the database. Method is async.
+        /// </summary>
         public async Task<List<Produkt>> GetAllProduktsAsync()
         {
             return await _context.Produkt.ToListAsync();
