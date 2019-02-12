@@ -1,0 +1,55 @@
+﻿@model NewDishViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div class="container-fluid fill-all mt-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Skapa ny maträtt</h1>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-6 mx-auto">
+            <form asp-controller="Dish" asp-action="Index" method="post">
+                <div class="row">
+                    <div class="col-8">
+                        <label asp-for="Name"></label>
+                        <input class="form-control" asp-for="Name" maxlength="50">
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="Price"></label>
+                        <input class="form-control" asp-for="Price">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FoodType"></label>
+                    <select class="form-control" asp-for="FoodType" asp-items="@Model.FoodTypeSelectList"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SelectedIngredients"></label>
+                    <select multiple class="form-control" asp-for="SelectedIngredients" asp-items="@Model.Ingredients"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IngrediensNotInList"></label>
+                    <input class="form-control" asp-for="IngrediensNotInList" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea class="form-control" asp-for="Description" rows="2"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <a class="btn btn-secondary" asp-controller="Admin" asp-action="AdminPage">Avbryt</a>
+                        <button type="submit" class="btn btn-primary">Skapa</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

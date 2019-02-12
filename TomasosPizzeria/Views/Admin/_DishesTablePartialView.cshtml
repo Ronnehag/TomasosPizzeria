@@ -14,6 +14,13 @@
     });
 </script>
 
+<div class="text-center">
+    <a class="btn btn-success"
+       asp-controller="Dish"
+       asp-action="Index">Lägg till ny maträtt</a>
+</div>
+<br /><br />
+
 <table class="table table-hover table-sm table-striped" style="width:100%" id="dishtable">
     <thead>
         <tr>
@@ -34,7 +41,7 @@
                 <td>@dish.Pris.ToString("C")</td>
                 <td>
                     <a asp-controller="Admin" asp-action="EditDish" asp-route-id="@dish.MatrattId" class="btn btn-sm btn-secondary">Ändra</a>
-                    
+
                     <a class="btn btn-sm btn-info"
                        data-toggle="modal"
                        data-target="#dishModal"
@@ -55,8 +62,5 @@
                 </td>
             </tr>
         }
-
-
-
     </tbody>
 </table>
