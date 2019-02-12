@@ -146,7 +146,8 @@ namespace TomasosPizzeria.Controllers
             throw new System.NotImplementedException();
         }
 
-        public IActionResult AddIngredient(int id)
+        [HttpPost]
+        public IActionResult AddIngredient(EditDishViewModel mdl)
         {
             throw new System.NotImplementedException();
         }

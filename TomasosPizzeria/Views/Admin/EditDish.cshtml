@@ -68,17 +68,14 @@
                 </div>
 
                 <div class="card-footer">
-                    <!-- TODO ADD AJAX FOR THIS FORM, APPEND TO LIST ABOVE -->
-                    <form>
+                    <form asp-controller="Dish" asp-action="AddIngredient" method="post">
                         <div class="form-group">
                             <label asp-for="NewIngredient"></label>
                             <input type="text" class="form-control" asp-for="NewIngredient" maxlength="50" />
                         </div>
                         <button type="submit" class="btn btn-sm btn-success minor-btn"
-                                asp-action="AddIngredient"
-                                asp-controller="Admin"
                                 data-ajax="true"
-                                data-ajax-method="GET"
+                                data-ajax-method="POST"
                                 data-ajax-mode="after"
                                 data-ajax-update="#ingredients-list">Lägg till</button>
                     </form>
