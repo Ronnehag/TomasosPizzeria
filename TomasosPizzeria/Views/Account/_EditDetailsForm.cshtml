@@ -1,0 +1,104 @@
+﻿@inject UserManager<AppUser> UserManager
+@using Microsoft.AspNetCore.Identity
+@model KundEditDetailsViewModel
+
+<form asp-action="EditDetails" method="post" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#details-form">
+    <input type="hidden" asp-for="@Model.Kund.UserId" />
+    <input type="hidden" asp-for="@Model.Kund.KundId" />
+    <div class="row mt-3">
+        @if (User.IsInRole(UserRole.PremiumUser.ToString()))
+        {
+            <div class="col-sm-6 col-md-2 col-lg-2">
+                <label asp-for="@Model.Kund.Bonuspoäng"></label>
+                <input maxlength="100" class="form-control" asp-for="@Model.Kund.Bonuspoäng" value="@Model.Kund.Bonuspoäng" disabled>
+            </div>
+        }
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <label asp-for="@Model.UserName"></label>
+            <input maxlength="20" class="form-control" asp-for="@Model.UserName" value="@Model.UserName" disabled>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm-12 col-md-10 col-lg-10">
+            <label asp-for="@Model.Kund.Namn"></label>
+            <input maxlength="100" class="form-control" asp-for="@Model.Kund.Namn" value="@Model.Kund.Namn">
+            <small><span asp-validation-for="Kund.Namn"></span></small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-8 col-lg-8">
+            <label asp-for="@Model.Kund.Gatuadress"></label>
+            <input maxlength="50" class="form-control" asp-for="@Model.Kund.Gatuadress" value="@Model.Kund.Gatuadress">
+            <small><span asp-validation-for="Kund.Gatuadress"></span></small>
+        </div>
+        <div class="col-sm-6 col-md-2 col-lg-2">
+            <label asp-for="@Model.Kund.Postnr"></label>
+            <input maxlength="20" class="form-control" asp-for="@Model.Kund.Postnr" value="@Model.Kund.Postnr">
+            <small><span asp-validation-for="Kund.Postnr"></span></small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <label asp-for="@Model.Kund.Postort"></label>
+            <input maxlength="100" class="form-control" asp-for="@Model.Kund.Postort" value="@Model.Kund.Postort">
+            <small><span asp-validation-for="Kund.Postort"></span></small>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <label asp-for="@Model.Kund.Email"></label>
+            <input maxlength="50" class="form-control" asp-for="@Model.Kund.Email" value="@Model.Kund.Email">
+            <small><span asp-validation-for="Kund.Email"></span></small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <label asp-for="@Model.Kund.Telefon"></label>
+            <input maxlength="50" class="form-control" asp-for="@Model.Kund.Telefon" value="@Model.Kund.Telefon">
+            <small><span asp-validation-for="Kund.Telefon"></span></small>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <label asp-for="NewPassword"></label>
+            <input class="form-control" asp-for="NewPassword">
+            <small><span asp-validation-for="NewPassword"></span></small>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <label asp-for="ConfirmPassword"></label>
+            <input class="form-control" asp-for="ConfirmPassword">
+            <small><span asp-validation-for="ConfirmPassword"></span></small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password">
+            <small><span asp-validation-for="Password"></span></small>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="row mt-2">
+                <div class="col mt-4 text-right">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Avbryt</a>
+                    <button type="submit" class="btn btn-primary">Uppdatera</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="col-sm-6 col-md-6 col-lg-6 mx-auto mt-3">
+    @if (!string.IsNullOrEmpty(ViewBag.PasswordChanged) || !string.IsNullOrEmpty(ViewBag.KundUpdated))
+    {
+        <div class="row">
+            <div class="col-12 text-right mx-auto">
+                <h6 id="confirmmsg">
+                    @ViewBag.PasswordChanged - @ViewBag.KundUpdated
+                </h6>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    window.setTimeout(function () {
+        $("#confirmmsg").fadeOut("slow");
+    }, 3000);
+</script>
