@@ -16,7 +16,7 @@ namespace TomasosPizzeria.Models
         [StringLength(50, ErrorMessage = "Gatuadress får inte överstiga 50 karaktärer")]
         public object Gatuadress { get; set; }
 
-        [Required(ErrorMessage = "Postnr är obligatoriskt")]
+        [Required(ErrorMessage = "Postnummer är obligatoriskt")]
         [DataType(DataType.PostalCode)]
         [StringLength(20, ErrorMessage = "Postnr får inte överstiga 20 karaktärer")]
         public object Postnr { get; set; }
@@ -27,10 +27,12 @@ namespace TomasosPizzeria.Models
         public object Postort { get; set; }
 
         [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "Email är obligatoriskt")]
         [StringLength(50, ErrorMessage = "Email får inte överstiga 50 karaktärer")]
         public object Email { get; set; }
 
         [DataType((DataType.PhoneNumber))]
+        [Required(ErrorMessage = "Telefonnummer är obligatoriskt")]
         [StringLength(50, ErrorMessage = "Telefonnummer får inte överstiga 50 karaktärer")]
         [Display(Name = "Telefonnummer")]
         public object Telefon { get; set; }
