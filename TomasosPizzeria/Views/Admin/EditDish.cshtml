@@ -36,13 +36,14 @@
                 <div class="row mt-3">
                     <div class="col-6">
                         <label asp-for="@Model.Categories"></label>
-                        <select class="form-control" asp-for="@Model.Dish.MatrattTyp"
+                        <select class="form-control" asp-for="Dish.MatrattTyp"
                                 asp-items="@(new SelectList(Model.Categories, "MatrattTyp1", "Beskrivning"))"></select>
+                        <small><span asp-validation-for="Dish.MatrattTyp"></span></small>
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <a asp-controller="Admin" asp-action="AdminPage" class="btn btn-secondary">Avbryt</a>
-                    <button type="submit" asp-controller="Admin" asp-action="EditDish" class="btn btn-primary">Spara ändringar</button>
+                    <button type="submit" class="btn btn-primary">Spara ändringar</button>
                 </div>
             </form>
         </div>

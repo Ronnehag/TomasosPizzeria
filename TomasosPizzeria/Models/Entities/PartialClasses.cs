@@ -10,4 +10,10 @@ namespace TomasosPizzeria.Models.Entities
     {
 
     }
+
+    [ModelMetadataType(typeof(DishMetaData))]
+    public partial class Matratt
+    {
+
+    }
 }

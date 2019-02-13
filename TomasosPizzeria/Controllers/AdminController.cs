@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
+using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
@@ -108,6 +109,11 @@ namespace TomasosPizzeria.Controllers
                 await _dishService.UpdateDishAsync(mdl.Dish);
                 return RedirectToAction("AdminPage");
             }
+
+            // Else return new ViewModel
+            mdl.Dish = await _dishService.GetDishAsync(mdl.Dish.MatrattId);
+            mdl.Categories = await _dishService.GetDishCategoriesAsync();
+            mdl.Ingredients = await _dishService.GetDishIngredientsAsync();
             return View("EditDish", mdl);
         }
 

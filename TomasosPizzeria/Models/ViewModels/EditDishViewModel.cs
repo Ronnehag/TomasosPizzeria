@@ -17,7 +17,6 @@ namespace TomasosPizzeria.Models.ViewModels
         [Display(Name = "Ingrediens")]
         [RegularExpression("(^[a-zåäöA-ZÅÄÖ](( [a-zA-ZåäöÅÄÖ]+)|([a-zA-ZåäöÅÄÖ]))*$)|(^[a-zA-ZåäöÅÄÖ]$)"
             , ErrorMessage = "Ingrediens kan endast innehålla a-ö och måste separeras med mellanslag")]
-        [Required(ErrorMessage = "Du måste ange ett namn")]
         public string NewIngredient { get; set; }
     }
 }

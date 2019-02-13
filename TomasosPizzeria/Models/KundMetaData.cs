@@ -4,7 +4,6 @@ using TomasosPizzeria.Models.Entities;
 
 namespace TomasosPizzeria.Models
 {
-    // TODO not needed
     public class KundMetaData
     {
         [Required(ErrorMessage = "Namn är obligatoriskt")]
