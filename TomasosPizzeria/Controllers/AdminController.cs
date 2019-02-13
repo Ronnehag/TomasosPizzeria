@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -94,7 +95,6 @@ namespace TomasosPizzeria.Controllers
                 Username = user.UserName,
                 Email = user.Email
             };
-            // Hämta mail etc.
 
             return View(model);
         }
@@ -117,8 +117,30 @@ namespace TomasosPizzeria.Controllers
                 ModelState.AddModelError("Password", "Fel lösenord angett");
                 return View(model);
             }
-            // Change password
-            await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+
+            if (!string.IsNullOrWhiteSpace(model.NewPassword) && !string.IsNullOrWhiteSpace(model.ConfirmPassword))
+            {
+                // Change password
+                var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    ViewBag.PassWordChanged = "Lösenord har uppdaterats";
+                }
+            }
+            // Check if user has changed email
+            var confirmedEmail = await _userManager.GetEmailAsync(user);
+            if (string.Equals(confirmedEmail, model.Email, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return View(model);
+            }
+
+            // Change email
+            var token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
+            var mail = await _userManager.ChangeEmailAsync(user, model.Email, token);
+            if (mail.Succeeded)
+            {
+                ViewBag.EmailChanged = "Email har uppdaterats";
+            }
             return View(model);
         }
 

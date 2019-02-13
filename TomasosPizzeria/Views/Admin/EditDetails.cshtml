@@ -54,13 +54,22 @@
         </div>
         <div class="col-3 mr-auto">
             <div id="updated-credentials">
-                Uppdaterat!
+                @if (!string.IsNullOrEmpty(ViewBag.PasswordChanged) || !string.IsNullOrEmpty(ViewBag.EmailChanged))
+                {
+                    <h5 id="confirmmsg">
+                        @ViewBag.PasswordChanged
+                        <br />
+                        @ViewBag.EmailChanged
+                    </h5>
+                }
             </div>
         </div>
     </div>
-
-
-
-
-
 </div>
+
+
+<script>
+    window.setTimeout(function () {
+        $("#confirmmsg").fadeOut("slow");
+    }, 3000);
+</script>
