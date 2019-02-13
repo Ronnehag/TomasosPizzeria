@@ -31,8 +31,9 @@
         <form asp-controller="Admin" asp-action="AddIngredient" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#ingredients">
             <div class="form-group">
                 <input asp-for="@Model.Dish.MatrattId" value="@Model.Dish.MatrattId" hidden />
-                <label asp-for="@Model.NewIngredient">Ingredient</label>
+                <label asp-for="@Model.NewIngredient"></label>
                 <input asp-for="@Model.NewIngredient" type="text" value="@Model.NewIngredient" class="form-control" maxlength="50" />
+                <small><span asp-validation-for="NewIngredient"></span></small>
             </div>
             <button type="submit" class="btn btn-sm btn-success minor-btn">Lägg till</button>
         </form>

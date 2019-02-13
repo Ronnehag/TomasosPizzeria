@@ -67,7 +67,10 @@ namespace TomasosPizzeria.Services
             if (!produkter.Any(p => string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
             {
                 // Name doesn't exist, create it and return the new produkt.
-                var newProdukt = new Produkt { ProduktNamn = name };
+                // Changing the first letter to uppercase before saving.
+                var toLower = name.ToLower();
+                var nameResult = toLower.First().ToString().ToUpper() + toLower.Substring(1);
+                var newProdukt = new Produkt { ProduktNamn = nameResult };
                 _context.Add(newProdukt);
                 _context.SaveChanges();
 
@@ -99,6 +102,7 @@ namespace TomasosPizzeria.Services
                 return result == 1;
             }
 
+            // If things go wrong
             return false;
         }
 

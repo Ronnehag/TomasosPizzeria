@@ -126,26 +126,33 @@ namespace TomasosPizzeria.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("dish/edit/{id}")]
+        [Route("dish/edit")]
         public async Task<IActionResult> AddIngredient(EditDishViewModel mdl)
         {
-            // Get the ID of the dish
+            // Check if the state is valid, see EditDishViewModel for valid attributes
+            if (!ModelState.IsValid)
+            {
+                mdl.Dish = await _dishService.GetDishAsync(mdl.Dish.MatrattId);
+                mdl.Categories = await _dishService.GetDishCategoriesAsync();
+                mdl.Ingredients = await _dishService.GetDishIngredientsAsync();
+                return PartialView("_AddIngredientPartialView", mdl);
+            }
+
             var matrattId = mdl.Dish.MatrattId;
 
-            // Check if modelstate is valid
-
             // Loop the ingredients, attach them to the dish
-            await _dishService.AddIngredientToDish(mdl.NewIngredient, matrattId);
-
-            var dish = await _dishService.GetDishAsync(matrattId);
-            var model = new EditDishViewModel
+            var arr = mdl.NewIngredient.Split(" ");
+            foreach (var ingredient in arr)
             {
-                Dish = dish,
-                NewIngredient = ""
-            };
+                await _dishService.AddIngredientToDish(ingredient, matrattId);
+            }
 
-            return PartialView("_AddIngredientPartialView", model);
+            // Refill the ViewModel and return
+            mdl.Dish = await _dishService.GetDishAsync(matrattId);
+            mdl.NewIngredient = string.Empty;
+            mdl.Categories = await _dishService.GetDishCategoriesAsync();
+            mdl.Ingredients = await _dishService.GetDishIngredientsAsync();
+            return PartialView("_AddIngredientPartialView", mdl);
         }
 
         [Route("dish/edit")]
