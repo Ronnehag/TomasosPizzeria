@@ -164,14 +164,16 @@ namespace TomasosPizzeria.Controllers
 
             await _dishService.RemoveIngredientFromDish(produktId, matrattId);
 
-            var dish = await _dishService.GetDishAsync(matrattId);
-            var model = new EditDishViewModel
+            // Refill the ViewModel and return
+            var mdl = new EditDishViewModel
             {
-                Dish = dish,
-                NewIngredient = ""
+                Dish = await _dishService.GetDishAsync(matrattId),
+                NewIngredient = string.Empty,
+                Categories = await _dishService.GetDishCategoriesAsync(),
+                Ingredients = await _dishService.GetDishIngredientsAsync()
             };
 
-            return PartialView("_AddIngredientPartialView", model);
+            return PartialView("_AddIngredientPartialView", mdl);
         }
 
 

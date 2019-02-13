@@ -6,7 +6,7 @@
     <div class="card-body">
         <div id="ingredients">
             <ul id="ingredients-list">
-                @foreach (var ingredient in Model.Dish.MatrattProdukt)
+                @foreach (var ingredient in Model.Dish.MatrattProdukt.OrderBy(i => i.ProduktId))
                 {
                     <li>
                         @ingredient.Produkt.ProduktNamn
