@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
-using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
@@ -84,10 +83,43 @@ namespace TomasosPizzeria.Controllers
             return PartialView("_OrderValidatedPartial", order);
         }
 
-        public IActionResult EditDetails()
+        [Route("editdetails")]
+        public async Task<IActionResult> EditDetails()
         {
-            // TODO admin setting dashboard, change password and email only
-            throw new System.NotImplementedException();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) Challenge();
+
+            var model = new AdminChangeDetailsViewModel
+            {
+                Username = user.UserName,
+                Email = user.Email
+            };
+            // Hämta mail etc.
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("editdetails")]
+        public async Task<IActionResult> EditDetails(AdminChangeDetailsViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) Challenge();
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Validate that the password matches
+            var correctPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (!correctPassword)
+            {
+                ModelState.AddModelError("Password", "Fel lösenord angett");
+                return View(model);
+            }
+            // Change password
+            await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+            return View(model);
         }
 
 

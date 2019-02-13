@@ -51,18 +51,19 @@ namespace TomasosPizzeria.Controllers
             }
 
             // Check if any ingredients in the string
-            string[] arr;
             if (!string.IsNullOrWhiteSpace(model.IngrediensNotInList))
             {
                 var produkts = await _dishService.GetDishIngredientsAsync();
-                arr = model.IngrediensNotInList.Split(" ");
+                var arr = model.IngrediensNotInList.Split(" ");
                 foreach (var str in arr)
                 {
                     // Check if name doesn't exist already
                     if (!produkts.Any(p => string.Equals(p.ProduktNamn, str, StringComparison.CurrentCultureIgnoreCase)))
                     {
+                        var toLower = str.ToLower();
+                        var name = toLower.First().ToString().ToUpper() + toLower.Substring(1);
                         // Create the product, add it to the database and return the ID. Append the ID to the selected products.
-                        var produkt = new Produkt { ProduktNamn = str };
+                        var produkt = new Produkt { ProduktNamn = name };
                         var newId = await _produktService.AddNewProdukt(produkt);
                         model.SelectedIngredients.Add(newId);
                     }
