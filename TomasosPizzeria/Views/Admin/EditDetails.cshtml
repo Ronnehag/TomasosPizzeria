@@ -16,7 +16,7 @@
     </div>
 
     <div class="row mt-5">
-        <div class="col-6 mx-auto">
+        <div class="col-sm-12 col-md-6 col-lg-6 mx-auto">
             <form method="post">
                 <div class="row">
                     <div class="col">
@@ -50,21 +50,25 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Uppdatera</button>
             </form>
-
         </div>
-        <div class="col-3 mr-auto">
+    </div>
+    <div class="row">
+        <div class="col-12 mx-auto text-center">
             <div id="updated-credentials">
                 @if (!string.IsNullOrEmpty(ViewBag.PasswordChanged) || !string.IsNullOrEmpty(ViewBag.EmailChanged))
                 {
+               
                     <h5 id="confirmmsg">
                         @ViewBag.PasswordChanged
                         <br />
                         @ViewBag.EmailChanged
                     </h5>
+              
                 }
             </div>
         </div>
     </div>
+
 </div>
 
 

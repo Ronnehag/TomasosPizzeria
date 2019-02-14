@@ -15,6 +15,7 @@ namespace TomasosPizzeria.Models.ViewModels
         [StringLength(200, ErrorMessage = "Beskrivningens längd får inte överstiga 200 bokstäver")]
         public string Description { get; set; }
 
+        // TODO samma här som i EditDish
         [Display(Name = "Ingrediens inte i listan? Ange med fri text för att skapa nya (separera med mellanslag)")]
         [RegularExpression("(^[a-zåäöA-ZÅÄÖ](( [a-zA-ZåäöÅÄÖ]+)|([a-zA-ZåäöÅÄÖ]))*$)|(^[a-zA-ZåäöÅÄÖ]$)"
             , ErrorMessage = "Du måste separerar varje ingrediens med ett mellanslag")]

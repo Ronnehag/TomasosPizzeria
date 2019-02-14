@@ -14,6 +14,7 @@ namespace TomasosPizzeria.Models.ViewModels
         [Display(Name = "Kategori")]
         public List<MatrattTyp> Categories { get; set; }
 
+        //TODO lägg till en ingrediens itaget istället REGEX a-ö
         [Display(Name = "Ingrediens")]
         [RegularExpression("(^[a-zåäöA-ZÅÄÖ](( [a-zA-ZåäöÅÄÖ]+)|([a-zA-ZåäöÅÄÖ]))*$)|(^[a-zA-ZåäöÅÄÖ]$)"
             , ErrorMessage = "Ingrediens kan endast innehålla a-ö och måste separeras med mellanslag")]
