@@ -104,15 +104,17 @@ namespace TomasosPizzeria.Controllers
             throw new NotImplementedException();
         }
 
-        public IActionResult AddIngredient(NewDishViewModel vm)
+        public async Task<IActionResult> AddIngredient(NewDishViewModel vm)
         {
             if (!string.IsNullOrWhiteSpace(vm.IngrediensNotInList))
             {
-                var ingredient = vm.IngrediensNotInList.ToFirstLetterUpper();
-                
-                // Kolla i DB om inte finns, skapa ny, returera Produkt, adda till VM produkt lista och returera viewmodel
-                // TIll partial
+                var produkt = await _produktService.CreateProdukt(vm.IngrediensNotInList);
+
+                // Kolla i DB om inte finns OM Finns returera den, ANNARS skapa ny och returera Produkt, adda till VM produkt lista, återskapa och returera viewmodel
+                // Till partial
             }
+
+            // Else add model error och returera
 
             return null;
         }

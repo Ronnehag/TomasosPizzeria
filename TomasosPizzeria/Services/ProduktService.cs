@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using TomasosPizzeria.Helpers;
 using TomasosPizzeria.Models.Entities;
 
 namespace TomasosPizzeria.Services
@@ -27,6 +28,21 @@ namespace TomasosPizzeria.Services
                 string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase));
 
             return produkt?.ProduktId ?? 0;
+        }
+
+        public async Task<Produkt> CreateProdukt(string name)
+        {
+            name = name.ToFirstLetterUpper();
+
+            var produkt = await _context.Produkt.FirstOrDefaultAsync(p =>
+                string.Equals(name, p.ProduktNamn, StringComparison.CurrentCultureIgnoreCase));
+            if (produkt != null) return produkt;
+
+            var newProdukt = new Produkt { ProduktNamn = name };
+
+            _context.Add(newProdukt);
+            _context.SaveChanges();
+            return newProdukt;
         }
     }
 }
