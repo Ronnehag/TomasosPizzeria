@@ -1,6 +1,6 @@
 ﻿
 
-@model AddIngredientViewModel 
+@model AddIngredientViewModel
 
 <div class="card">
     <div class="card-header text-center"><h4>Ingredienser</h4></div>
@@ -38,7 +38,11 @@
                 <input asp-for="NewIngredient" type="text" class="form-control" maxlength="50" />
                 <small><span asp-validation-for="NewIngredient"></span></small>
             </div>
-            <button type="submit" class="btn btn-sm btn-success minor-btn">Lägg till</button>
+            <div class="form-group">
+                <label asp-for="SelectedIngredient"></label>
+                <select asp-for="SelectedIngredient" class="form-control" asp-items="@(new SelectList(Model.IngredientsList, "ProduktNamn", "ProduktNamn"))"></select>
+            </div>
+            <button type="submit" class="btn btn-sm btn-success">Bekräfta</button>
         </form>
     </div>
 

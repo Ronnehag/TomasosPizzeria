@@ -190,11 +190,12 @@ namespace TomasosPizzeria.Controllers
         public async Task<IActionResult> AddIngredient(EditDishViewModel mdl)
         {
             // Check if the state is valid, see EditDishViewModel for valid attributes
-            if (!ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(mdl.NewIngredient))
             {
                 mdl.Dish = await _dishService.GetDishAsync(mdl.Dish.MatrattId);
                 mdl.Categories = await _dishService.GetDishCategoriesAsync();
                 mdl.Ingredients = await _dishService.GetDishIngredientsAsync();
+                ModelState.AddModelError("NewIngredient", "Namnet får endast innehålla a-ö.");
                 return PartialView("_AddIngredientPartialView", mdl);
             }
 

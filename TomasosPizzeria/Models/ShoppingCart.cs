@@ -46,9 +46,9 @@ namespace TomasosPizzeria.Models
             var sum = TotalSum();
             if (role == UserRole.PremiumUser)
             {
-                if (HasPointsForFreePizza())
+                if (HasPointsForFreePizza() && Products.Any(p => p.MatrattTyp == 1))
                 {
-                    sum -= Products[0].Pris;
+                    sum -= Products.First(p => p.MatrattTyp == 1).Pris;
                 }
 
                 if (Products.Count >= 3)

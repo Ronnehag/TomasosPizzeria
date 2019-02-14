@@ -7,7 +7,7 @@ namespace TomasosPizzeria.Models.ViewModels
 {
     public class NewDishViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Du måste ange ett namn")]
         [Display(Name = "Namn")]
         [StringLength(50, ErrorMessage = "Namnet får inte överstiga 50 bokstäver")]
         public string Name { get; set; }

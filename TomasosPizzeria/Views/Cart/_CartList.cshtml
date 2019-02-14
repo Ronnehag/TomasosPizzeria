@@ -62,7 +62,7 @@
                         {
                             @Model.TotalSum(UserRole.PremiumUser).ToString("C")
                         }
-                        if (Model.Kund.Bonuspoäng >= 100)
+                        if (Model.Kund.Bonuspoäng >= 100 && Model.Products.Any(p => p.MatrattTyp == 1))
                         {
                             <br />
                             <small>

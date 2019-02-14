@@ -14,8 +14,12 @@
             @foreach (var ingredient in Model.MatrattProdukt)
             {
 
-                @ingredient.Produkt.ProduktNamn <br/>
+                @ingredient.Produkt.ProduktNamn <br />
             }
+            <br /><br />
+            <p>
+                @(Model.Pris == 0 ? "Pizzan är köpt med poäng" : "")
+            </p>
         </div>
     </form>
 </div>
