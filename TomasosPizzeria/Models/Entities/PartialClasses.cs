@@ -16,4 +16,10 @@ namespace TomasosPizzeria.Models.Entities
     {
 
     }
+
+    [ModelMetadataType(typeof(ProduktMetaData))]
+    public partial class Produkt
+    {
+
+    }
 }

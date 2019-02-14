@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TomasosPizzeria.Helpers;
 using TomasosPizzeria.Models.Entities;
 
 namespace TomasosPizzeria.Services
@@ -66,11 +67,8 @@ namespace TomasosPizzeria.Services
             // Check if the name doesn't already exists in the DB
             if (!produkter.Any(p => string.Equals(p.ProduktNamn, name, StringComparison.CurrentCultureIgnoreCase)))
             {
-                // Name doesn't exist, create it and return the new produkt.
-                // Changing the first letter to uppercase before saving.
-                var toLower = name.ToLower();
-                var nameResult = toLower.First().ToString().ToUpper() + toLower.Substring(1);
-                var newProdukt = new Produkt { ProduktNamn = nameResult };
+                // Name doesn't exist, create it and attach the id to the current dish through connection table
+                var newProdukt = new Produkt { ProduktNamn = name.ToFirstLetterUpper() };
                 _context.Add(newProdukt);
                 _context.SaveChanges();
 
@@ -101,8 +99,6 @@ namespace TomasosPizzeria.Services
                 var result = await _context.SaveChangesAsync();
                 return result == 1;
             }
-
-            // If things go wrong
             return false;
         }
 

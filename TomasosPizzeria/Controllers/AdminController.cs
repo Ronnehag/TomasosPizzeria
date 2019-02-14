@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
@@ -198,17 +198,11 @@ namespace TomasosPizzeria.Controllers
                 return PartialView("_AddIngredientPartialView", mdl);
             }
 
-            var matrattId = mdl.Dish.MatrattId;
-
-            // Loop the ingredients, attach them to the dish
-            var arr = mdl.NewIngredient.Split(" ");
-            foreach (var ingredient in arr)
-            {
-                await _dishService.AddIngredientToDish(ingredient, matrattId);
-            }
+            // Save new ingredient and attach it to the dish
+            await _dishService.AddIngredientToDish(mdl.NewIngredient, mdl.Dish.MatrattId);
 
             // Refill the ViewModel and return
-            mdl.Dish = await _dishService.GetDishAsync(matrattId);
+            mdl.Dish = await _dishService.GetDishAsync(mdl.Dish.MatrattId);
             mdl.NewIngredient = string.Empty;
             mdl.Categories = await _dishService.GetDishCategoriesAsync();
             mdl.Ingredients = await _dishService.GetDishIngredientsAsync();
