@@ -103,7 +103,9 @@ namespace TomasosPizzeria
 
             });
 
-            CreateUserRoles(service).Wait(); // Creates the IdentityRoles
+            // Creates the IdentityRoles, will check if they don't already exist.
+            // Also creates the Admin account. Remove this on production.
+            CreateUserRoles(service).Wait();
         }
 
 
@@ -114,10 +116,10 @@ namespace TomasosPizzeria
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
             // Creating Admin Role
-            var roleCheck = await roleManager.RoleExistsAsync("Admin");
+            var roleCheck = await roleManager.RoleExistsAsync(UserRole.Admin.ToString());
             if (!roleCheck)
             {
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole(UserRole.Admin.ToString()));
 
                 // Creating the admin account
                 var user = new AppUser
@@ -130,24 +132,20 @@ namespace TomasosPizzeria
                 var createUser = await userManager.CreateAsync(user, password);
                 if (createUser.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
                 }
             }
-
             // Creating PremiumUser Role
-            roleCheck = await roleManager.RoleExistsAsync("PremiumUser");
+            roleCheck = await roleManager.RoleExistsAsync(UserRole.PremiumUser.ToString());
             if (!roleCheck)
             {
-
-                await roleManager.CreateAsync(new IdentityRole("PremiumUser"));
+                await roleManager.CreateAsync(new IdentityRole(UserRole.PremiumUser.ToString()));
             }
-
             // Creating RegularUser Role
-            roleCheck = await roleManager.RoleExistsAsync("RegularUser");
+            roleCheck = await roleManager.RoleExistsAsync(UserRole.RegularUser.ToString());
             if (!roleCheck)
             {
-
-                await roleManager.CreateAsync(new IdentityRole("RegularUser"));
+                await roleManager.CreateAsync(new IdentityRole(UserRole.RegularUser.ToString()));
             }
 
         }

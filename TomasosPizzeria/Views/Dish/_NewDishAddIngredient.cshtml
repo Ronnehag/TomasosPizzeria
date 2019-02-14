@@ -1,0 +1,45 @@
+﻿
+
+@model NewDishViewModel
+
+<div class="card">
+    <div class="card-header text-center"><h4>Ingredienser</h4></div>
+    <div class="card-body">
+        <div id="ingredients">
+            <ul id="ingredients-list">
+                @if (Model.SelectedIngredientsList != null)
+                {
+                    foreach (var ingredient in Model.SelectedIngredientsList.OrderBy(i => i.ProduktId))
+                    {
+                        <li>
+                            @ingredient.ProduktNamn
+
+                            <div class="text-right">
+                                <a asp-action="RemoveIngredient"
+                                   asp-controller="Dish"
+                                   asp-route-id="@ingredient.ProduktId"
+                                   data-ajax="true"
+                                   data-ajax-method="get"
+                                   data-ajax-mode="replace"
+                                   data-ajax-update="#"
+                                   class="btn btn-sm btn-danger minor-btn">-</a>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <form asp-controller="Dish" asp-action="AddIngredient" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#ingredients-list">
+            <div class="form-group">
+                <label asp-for="@Model.IngrediensNotInList"></label>
+                <input asp-for="@Model.IngrediensNotInList" type="text" class="form-control" maxlength="50" />
+                <small><span asp-validation-for="@Model.IngrediensNotInList"></span></small>
+            </div>
+            <button type="submit" class="btn btn-sm btn-success minor-btn">Lägg till</button>
+        </form>
+    </div>
+
+</div>

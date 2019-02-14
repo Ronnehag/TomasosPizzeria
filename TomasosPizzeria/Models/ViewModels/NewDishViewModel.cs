@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TomasosPizzeria.Models.Entities;
 
 namespace TomasosPizzeria.Models.ViewModels
 {
@@ -16,10 +17,9 @@ namespace TomasosPizzeria.Models.ViewModels
         public string Description { get; set; }
 
         // TODO samma här som i EditDish
-        [Display(Name = "Ingrediens inte i listan? Ange med fri text för att skapa nya (separera med mellanslag)")]
-        [RegularExpression("(^[a-zåäöA-ZÅÄÖ](( [a-zA-ZåäöÅÄÖ]+)|([a-zA-ZåäöÅÄÖ]))*$)|(^[a-zA-ZåäöÅÄÖ]$)"
-            , ErrorMessage = "Du måste separerar varje ingrediens med ett mellanslag")]
         public string IngrediensNotInList { get; set; }
+
+        public List<Produkt> SelectedIngredientsList { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Värdet för {0} kan inte vara 0")]
         [Display(Name = "Pris")]

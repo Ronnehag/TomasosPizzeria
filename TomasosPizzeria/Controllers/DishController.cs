@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TomasosPizzeria.Helpers;
 using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
@@ -75,44 +76,45 @@ namespace TomasosPizzeria.Controllers
                     }
                 }
             }
-
-            // Link the Products with the connection table
-            var matrattProdukter = new List<MatrattProdukt>();
-
             // Creating the new Dish and store it to the DB.
             var dish = new Matratt
             {
-                MatrattNamn = model.Name,
-                Beskrivning = model.Description,
+                MatrattNamn = model.Name.ToFirstLetterUpper(),
+                Beskrivning = model.Description.ToFirstLetterUpper(),
                 MatrattTyp = model.FoodType,
                 Pris = model.Price,
             };
             dish = _dishService.AddNewDish(dish);
 
-            // Remove duplicates incase there is one, fail safe.
-            foreach (var produktId in model.SelectedIngredients.Distinct())
-            {
-                matrattProdukter.Add(new MatrattProdukt
-                {
-                    MatrattId = dish.MatrattId,
-                    ProduktId = produktId
-                });
-            }
+            // Remove duplicates from model incase there is one (fail safe).
+            var matrattProdukter = model.SelectedIngredients
+                .Distinct()
+                .Select(produktId => new MatrattProdukt { MatrattId = dish.MatrattId, ProduktId = produktId }).ToList();
 
             // Add the list of MattrattProdukter to the property of the Matratt, save changes.
             dish.MatrattProdukt = matrattProdukter;
 
             await _dishService.UpdateDishAsync(dish);
-
-
-
-
-
-
-
             return RedirectToAction("AdminPage", "Admin");
 
         }
 
+        public IActionResult RemoveIngredient(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult AddIngredient(NewDishViewModel vm)
+        {
+            if (!string.IsNullOrWhiteSpace(vm.IngrediensNotInList))
+            {
+                var ingredient = vm.IngrediensNotInList.ToFirstLetterUpper();
+                
+                // Kolla i DB om inte finns, skapa ny, returera Produkt, adda till VM produkt lista och returera viewmodel
+                // TIll partial
+            }
+
+            return null;
+        }
     }
 }
