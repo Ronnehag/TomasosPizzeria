@@ -16,8 +16,9 @@ namespace TomasosPizzeria.Models.ViewModels
         [StringLength(200, ErrorMessage = "Beskrivningens längd får inte överstiga 200 bokstäver")]
         public string Description { get; set; }
 
-        // TODO samma här som i EditDish
-        public string IngrediensNotInList { get; set; }
+        [RegularExpression("^[A-ZÅÄÖa-zåäöé ]$", ErrorMessage = "Namn får endast innehålla a-ö")]
+        [StringLength(50, ErrorMessage = "Namn får inte överstiga 50 bokstäver")]
+        public string NewIngredient { get; set; }
 
         public List<Produkt> SelectedIngredientsList { get; set; }
 
@@ -37,6 +38,8 @@ namespace TomasosPizzeria.Models.ViewModels
         public MultiSelectList Ingredients { get; set; }
 
         public SelectList FoodTypeSelectList { get; set; }
+
+        public AddIngredientViewModel IngredientViewModel { get; set; }
 
     }
 }

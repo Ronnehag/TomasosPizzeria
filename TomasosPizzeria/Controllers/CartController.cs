@@ -62,15 +62,10 @@ namespace TomasosPizzeria.Controllers
             cart.Products.Add(product);
 
             //Lägga tillbaka listan i sessionsvariabeln
-            try
-            {
-                var temp = JsonConvert.SerializeObject(cart);
-                HttpContext.Session.SetString("varukorg", temp);
-            }
-            catch (JsonException ex)
-            {
 
-            }
+            var temp = JsonConvert.SerializeObject(cart);
+            HttpContext.Session.SetString("varukorg", temp);
+
 
             return PartialView("_CartList", cart);
         }

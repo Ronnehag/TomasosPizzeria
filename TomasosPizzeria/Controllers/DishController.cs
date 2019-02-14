@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,35 +29,44 @@ namespace TomasosPizzeria.Controllers
         public async Task<IActionResult> Index()
         {
             var categories = await _dishService.GetDishCategoriesAsync();
-            var ingredients = await _dishService.GetDishIngredientsAsync();
 
             var viewModel = new NewDishViewModel
             {
-                SelectedIngredients = new List<int>(),
-                Ingredients = new MultiSelectList(ingredients, "ProduktId", "ProduktNamn"),
-                FoodTypeSelectList = new SelectList(categories, "MatrattTyp1", "Beskrivning")
+                SelectedIngredientsList = new List<Produkt>(),
+                FoodTypeSelectList = new SelectList(categories, "MatrattTyp1", "Beskrivning"),
+                IngredientViewModel = new AddIngredientViewModel()
             };
 
             return View(viewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(NewDishViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                List<Produkt> produktList;
+                if (HttpContext.Session.GetString("ingredients") == null)
+                {
+                    produktList = new List<Produkt>();
+                }
+                else
+                {
+                    var serializedValue = ( HttpContext.Session.GetString("ingredients") );
+                    produktList = JsonConvert.DeserializeObject<List<Produkt>>(serializedValue);
+                }
+                model.IngredientViewModel = new AddIngredientViewModel {Ingredients = produktList};
                 var categories = await _dishService.GetDishCategoriesAsync();
-                var ingredients = await _dishService.GetDishIngredientsAsync();
-                model.Ingredients = new MultiSelectList(ingredients, "ProduktId", "ProduktNamn");
                 model.FoodTypeSelectList = new SelectList(categories, "MatrattTyp1", "Beskrivning");
                 return View(model);
             }
 
             // Check if any ingredients in the string
-            if (!string.IsNullOrWhiteSpace(model.IngrediensNotInList))
+            if (!string.IsNullOrWhiteSpace(model.NewIngredient))
             {
                 var produkts = await _dishService.GetDishIngredientsAsync();
-                var arr = model.IngrediensNotInList.Split(" ");
+                var arr = model.NewIngredient.Split(" ");
                 foreach (var str in arr)
                 {
                     // Check if name doesn't exist already
@@ -101,22 +112,43 @@ namespace TomasosPizzeria.Controllers
 
         public IActionResult RemoveIngredient(int id)
         {
-            throw new NotImplementedException();
+            // Hämta Session Listan, filtrera bort ID, returera session
+            var serializedValue = ( HttpContext.Session.GetString("ingredients") );
+            var produktList = JsonConvert.DeserializeObject<List<Produkt>>(serializedValue);
+            produktList = produktList.Where(p => p.ProduktId != id).ToList();
+
+            var temp = JsonConvert.SerializeObject(produktList);
+            HttpContext.Session.SetString("ingredients", temp);
+            var vm = new AddIngredientViewModel { Ingredients = produktList };
+
+            return PartialView("_NewDishAddIngredient", vm);
         }
 
-        public async Task<IActionResult> AddIngredient(NewDishViewModel vm)
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> AddIngredient(AddIngredientViewModel vm)
         {
-            if (!string.IsNullOrWhiteSpace(vm.IngrediensNotInList))
+            List<Produkt> produktList;
+            if (HttpContext.Session.GetString("ingredients") == null)
             {
-                var produkt = await _produktService.CreateProdukt(vm.IngrediensNotInList);
-
-                // Kolla i DB om inte finns OM Finns returera den, ANNARS skapa ny och returera Produkt, adda till VM produkt lista, återskapa och returera viewmodel
-                // Till partial
+                produktList = new List<Produkt>();
             }
+            else
+            {
+                var serializedValue = ( HttpContext.Session.GetString("ingredients") );
+                produktList = JsonConvert.DeserializeObject<List<Produkt>>(serializedValue);
+            }
+            if (!string.IsNullOrWhiteSpace(vm.NewIngredient) && ModelState.IsValid)
+            {
+                var produkt = await _produktService.CreateProdukt(vm.NewIngredient);
 
-            // Else add model error och returera
+                produktList.Add(produkt);
+                var temp = JsonConvert.SerializeObject(produktList);
+                HttpContext.Session.SetString("ingredients", temp);
+            }
+            vm.Ingredients = produktList;
 
-            return null;
+            return PartialView("_NewDishAddIngredient", vm);
         }
     }
 }
