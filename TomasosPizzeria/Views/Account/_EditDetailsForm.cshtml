@@ -2,6 +2,20 @@
 @using Microsoft.AspNetCore.Identity
 @model KundEditDetailsViewModel
 
+<div class="col-sm-12 ml-auto text-center" style="min-height: 30px;">
+    @if (!string.IsNullOrEmpty(ViewBag.PasswordChanged) || !string.IsNullOrEmpty(ViewBag.KundUpdated))
+    {
+        <h5 id="confirmmsg" style="visibility: visible">
+            @ViewBag.PasswordChanged - @ViewBag.KundUpdated
+        </h5>
+    }
+    else
+    {
+        <h5 style="visibility: hidden">Filler</h5>
+    }
+</div>
+
+
 <form asp-action="EditDetails" method="post" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#details-form">
     <input type="hidden" asp-for="@Model.Kund.UserId" />
     <input type="hidden" asp-for="@Model.Kund.KundId" />
@@ -82,19 +96,6 @@
         </div>
     </div>
 </form>
-
-<div class="col-sm-6 col-md-6 col-lg-6 mx-auto mt-3">
-    @if (!string.IsNullOrEmpty(ViewBag.PasswordChanged) || !string.IsNullOrEmpty(ViewBag.KundUpdated))
-    {
-        <div class="row">
-            <div class="col-12 text-right mx-auto">
-                <h6 id="confirmmsg">
-                    @ViewBag.PasswordChanged - @ViewBag.KundUpdated
-                </h6>
-            </div>
-        </div>
-    }
-</div>
 
 
 <script>

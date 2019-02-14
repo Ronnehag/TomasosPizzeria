@@ -16,10 +16,6 @@ namespace TomasosPizzeria.Models.ViewModels
         [StringLength(200, ErrorMessage = "Beskrivningens längd får inte överstiga 200 bokstäver")]
         public string Description { get; set; }
 
-        [RegularExpression("^[A-ZÅÄÖa-zåäöé ]$", ErrorMessage = "Namn får endast innehålla a-ö")]
-        [StringLength(50, ErrorMessage = "Namn får inte överstiga 50 bokstäver")]
-        public string NewIngredient { get; set; }
-
         public List<Produkt> SelectedIngredientsList { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Värdet för {0} kan inte vara 0")]
@@ -29,13 +25,6 @@ namespace TomasosPizzeria.Models.ViewModels
         [Display(Name = "Kategori")]
         [Range(1, int.MaxValue, ErrorMessage = "Du måste välja en kategori")]
         public int FoodType { get; set; }
-
-        [Required]
-        [MinLength(1, ErrorMessage = "Du måste ange minst en ingrediens")]
-        [Display(Name = "Ingredienser (välj flera, håll ned ctrl)")]
-        public List<int> SelectedIngredients { get; set; }
-
-        public MultiSelectList Ingredients { get; set; }
 
         public SelectList FoodTypeSelectList { get; set; }
 

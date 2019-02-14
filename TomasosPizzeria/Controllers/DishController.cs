@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,37 +55,14 @@ namespace TomasosPizzeria.Controllers
                     var serializedValue = ( HttpContext.Session.GetString("ingredients") );
                     produktList = JsonConvert.DeserializeObject<List<Produkt>>(serializedValue);
                 }
-                model.IngredientViewModel = new AddIngredientViewModel {Ingredients = produktList};
+                model.IngredientViewModel = new AddIngredientViewModel { Ingredients = produktList };
                 var categories = await _dishService.GetDishCategoriesAsync();
                 model.FoodTypeSelectList = new SelectList(categories, "MatrattTyp1", "Beskrivning");
                 return View(model);
             }
 
-            // Check if any ingredients in the string
-            if (!string.IsNullOrWhiteSpace(model.NewIngredient))
-            {
-                var produkts = await _dishService.GetDishIngredientsAsync();
-                var arr = model.NewIngredient.Split(" ");
-                foreach (var str in arr)
-                {
-                    // Check if name doesn't exist already
-                    if (!produkts.Any(p => string.Equals(p.ProduktNamn, str, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        var toLower = str.ToLower();
-                        var name = toLower.First().ToString().ToUpper() + toLower.Substring(1);
-                        // Create the product, add it to the database and return the ID. Append the ID to the selected products.
-                        var produkt = new Produkt { ProduktNamn = name };
-                        var newId = await _produktService.AddNewProdukt(produkt);
-                        model.SelectedIngredients.Add(newId);
-                    }
-                    else
-                    {
-                        // If name exists, get the ID with that name and append it to the list instead.
-                        var produktId = await _produktService.GetProduktIdByName(str);
-                        model.SelectedIngredients.Add(produktId);
-                    }
-                }
-            }
+
+
             // Creating the new Dish and store it to the DB.
             var dish = new Matratt
             {
@@ -97,13 +73,22 @@ namespace TomasosPizzeria.Controllers
             };
             dish = _dishService.AddNewDish(dish);
 
-            // Remove duplicates from model incase there is one (fail safe).
-            var matrattProdukter = model.SelectedIngredients
-                .Distinct()
-                .Select(produktId => new MatrattProdukt { MatrattId = dish.MatrattId, ProduktId = produktId }).ToList();
+            // Get the selected ingredients from the session
+            var value = ( HttpContext.Session.GetString("ingredients") );
+            var ingredientsList = JsonConvert.DeserializeObject<List<Produkt>>(value);
 
+            // Attach them to the dish
+            var dishIngredients = new List<MatrattProdukt>();
+            foreach (var ingredient in ingredientsList)
+            {
+                dishIngredients.Add(new MatrattProdukt
+                {
+                    MatrattId = dish.MatrattId,
+                    ProduktId = ingredient.ProduktId
+                });
+            }
             // Add the list of MattrattProdukter to the property of the Matratt, save changes.
-            dish.MatrattProdukt = matrattProdukter;
+            dish.MatrattProdukt = dishIngredients;
 
             await _dishService.UpdateDishAsync(dish);
             return RedirectToAction("AdminPage", "Admin");
