@@ -15,7 +15,8 @@ namespace TomasosPizzeria.Models.ViewModels
         public List<MatrattTyp> Categories { get; set; }
 
         [Display(Name = "Ingrediens")]
-        [RegularExpression("^[a-z¨åäöèA-Zåäö]{2,}", ErrorMessage = "En ingrediens får endast innehålla bokstäver")]
+        [RegularExpression("^[a-zåäöèA-ZÅÄÖ ]{2,}$", ErrorMessage = "En ingrediens får endast innehålla (a-ö och mellanslag)")]
+        [StringLength(50, ErrorMessage = "Namn får inte överstiga 50 bokstäver")]
         public string NewIngredient { get; set; }
     }
 }
