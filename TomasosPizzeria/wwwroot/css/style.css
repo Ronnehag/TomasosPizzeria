@@ -12,6 +12,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+
 p {
     margin: 0;
     padding: 0;
@@ -33,17 +34,17 @@ p {
     color: silver;
 }
 
-.btn-menu:hover {
-    color: #dadada;
-}
+    .btn-menu:hover {
+        color: #dadada;
+    }
 
 /* SITE NAVIGATION */
 .navbar-dark .navbar-nav .nav-link {
-    color: silver;
+    color: #E1EBE8;
 }
 
     .navbar-dark .navbar-nav .nav-link:hover {
-        color: #dadada;
+        color: #ffffff;
     }
 
 /* FOOD MENU SECTION */
@@ -86,7 +87,7 @@ p {
 /* ABOUT SECTION */
 #about i {
     font-size: 50px;
-    color: #2C344E;
+    color: #CA2A2B;
 }
 
 
@@ -295,8 +296,8 @@ ul {
     transition: background .4s ease-in-out;
 }
 
-.btn-circle:hover, .btn-circle:focus {
-    outline: 0;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-}
+    .btn-circle:hover, .btn-circle:focus {
+        outline: 0;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }

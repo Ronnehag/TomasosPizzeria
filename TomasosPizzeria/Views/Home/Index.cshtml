@@ -31,6 +31,9 @@
         <div class="card-deck mt-3">
             <!-- PIZZA -->
             <div class="card bg-light text-dark">
+                <div class="text-center">
+                    <img class="card-img-top" src="img/pigga-menu-bg.jpg" style="width: 300px;" alt="Card image">
+                </div>
                 <div class="card-body text-center">
                     <h4 class="card-title text-uppercase">pizzor</h4>
                     @foreach (var dish in Model.PizzaDishes)
@@ -51,13 +54,16 @@
             <!-- PASTA -->
             <div class="card bg-light text-dark">
                 <div class="card-body text-center">
+                    <div class="text-center">
+                        <img class="card-img-top mb-3" src="img/pasta-header-bg.jpg" style="width: 300px;" alt="Card image">
+                    </div>
                     <h4 class="card-title text-uppercase">pastarätter</h4>
                     @foreach (var dish in Model.PastaDishes)
                     {
                         <p class="card-text">
                             <span class="text-uppercase">@dish.MatrattNamn</span>
                             <span class="price-text">@dish.Pris.ToString("C")</span>
-                            <br />
+                            <br/>
                             @foreach (var ingredient in dish.MatrattProdukt)
                             {
                                 <small>@ingredient.Produkt.ProduktNamn </small>
@@ -71,13 +77,16 @@
             <!-- SALAD -->
             <div class="card bg-light text-dark">
                 <div class="card-body text-center">
+                    <div class="text-center">
+                        <img class="card-img-top mb-1" src="img/salad-menu-bg.jpg" style="width: 300px;" alt="Card image">
+                    </div>
                     <h4 class="card-title text-uppercase">Sallad</h4>
                     @foreach (var dish in Model.SaladDishes)
                     {
                         <p class="card-text">
                             <span class="text-uppercase">@dish.MatrattNamn</span>
                             <span class="price-text">@dish.Pris.ToString("C")</span>
-                            <br />
+                            <br/>
                             @foreach (var ingredient in dish.MatrattProdukt)
                             {
                                 <small>@ingredient.Produkt.ProduktNamn </small>

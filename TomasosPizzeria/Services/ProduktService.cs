@@ -35,8 +35,9 @@ namespace TomasosPizzeria.Services
             var produkt = await _context.Produkt.FirstOrDefaultAsync(p =>
                 string.Equals(name, p.ProduktNamn, StringComparison.CurrentCultureIgnoreCase));
             if (produkt != null) return produkt;
+            name = name.ToFirstLetterUpper();
 
-            var newProdukt = new Produkt { ProduktNamn = name.ToFirstLetterUpper() };
+            var newProdukt = new Produkt { ProduktNamn = name };
 
             _context.Add(newProdukt);
             _context.SaveChanges();

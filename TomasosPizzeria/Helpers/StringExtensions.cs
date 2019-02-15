@@ -9,10 +9,10 @@ namespace TomasosPizzeria.Helpers
         /// </summary>
         public static string ToFirstLetterUpper(this string str)
         {
-            return str.ToLower()
-                       .First()
+            var lowered = str.ToLower();
+            return str.First()
                        .ToString()
-                       .ToUpper() + str.Substring(1);
+                       .ToUpper() + lowered.Substring(1);
         }
     }
 }
