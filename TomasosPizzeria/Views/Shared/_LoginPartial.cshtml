@@ -1,6 +1,19 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
+
+@{
+    ShoppingCart cartval = null;
+    if (Context.Session.GetString("varukorg") != null)
+    {
+        var cart = Context.Session.GetString("varukorg");
+        cartval = JsonConvert.DeserializeObject<ShoppingCart>(cart);
+    }
+
+}
+
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -16,7 +29,13 @@
     }
     else
     {
-        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Products"><i class="fas fa-shopping-cart"></i> Beställning</a></li>
+        <li class="nav-item cart">
+            <a class="nav-link" asp-controller="Order" asp-action="Products">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cartlabel">@cartval?.Products?.Count</span>
+                Beställning
+            </a>
+        </li>
 
         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="EditDetails" asp-route-username="@User.Identity.Name"><i class="fas fa-user-alt"></i> Mina sidor</a></li>
     }

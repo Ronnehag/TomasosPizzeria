@@ -38,7 +38,6 @@ namespace TomasosPizzeria.Controllers
                 produktList = JsonConvert.DeserializeObject<List<Produkt>>(serializedValue);
             }
 
-
             var categories = await _dishService.GetDishCategoriesAsync();
 
             var viewModel = new NewDishViewModel
@@ -96,12 +95,8 @@ namespace TomasosPizzeria.Controllers
             // Add the list of MattrattProdukter to the property of the Matratt, save changes.
             dish.MatrattProdukt = dishIngredients;
 
-            // Resetting session
-            ingredientsList = new List<Produkt>();
-
             await _dishService.UpdateDishAsync(dish);
             return RedirectToAction("AdminPage", "Admin");
-
         }
 
         public async Task<IActionResult> RemoveIngredient(int id)
@@ -159,6 +154,7 @@ namespace TomasosPizzeria.Controllers
             }
             vm.Ingredients = produktList;
             vm.IngredientsList = await _dishService.GetDishIngredientsAsync();
+            ModelState.Clear();
             return PartialView("_NewDishAddIngredient", vm);
         }
     }

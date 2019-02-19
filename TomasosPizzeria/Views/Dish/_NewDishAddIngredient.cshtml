@@ -40,7 +40,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="SelectedIngredient"></label>
-                <select asp-for="SelectedIngredient" class="form-control" asp-items="@(new SelectList(Model.IngredientsList, "ProduktNamn", "ProduktNamn"))"></select>
+                <select asp-for="SelectedIngredient" class="form-control" asp-items="@(new SelectList(Model.IngredientsList, "ProduktNamn", "ProduktNamn", null))">
+                </select>
             </div>
             <button type="submit" class="btn btn-sm btn-success">Bekräfta</button>
         </form>
