@@ -21,7 +21,9 @@ The shop has 3 roles (Admin / PremiumUser / RegularUser) that has different bene
 
 - Can view all customers and change their roles between Premium and Regular.
 
-- Can create and edit dishes and ingredients.
+- Can create and edit dishes and ingredients (change ingredients used, name, price, details)
+
+( To test the Admin account you can login as username: AdminUser password: admin )
 
 
 #PremiumUser
@@ -29,3 +31,5 @@ The shop has 3 roles (Admin / PremiumUser / RegularUser) that has different bene
 - Gets 20% discount when ordering more than 3 dishes.
 
 - Gets 10 bonus points per dish ordered, when user has 100 points they will recieve a free pizza in their next order.
+
+( To test a PremiumUser you can login as username: FISKEN password: FISKEN )
