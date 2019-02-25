@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TomasosPizzeria.Models.Entities
 {
@@ -14,7 +15,6 @@ namespace TomasosPizzeria.Models.Entities
     [ModelMetadataType(typeof(DishMetaData))]
     public partial class Matratt
     {
-
     }
 
     [ModelMetadataType(typeof(ProduktMetaData))]

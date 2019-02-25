@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using TomasosPizzeria.IdentityData;
+using TomasosPizzeria.Models.Entities;
 using TomasosPizzeria.Models.ViewModels;
 using TomasosPizzeria.Services;
 
@@ -26,6 +30,7 @@ namespace TomasosPizzeria.Controllers
 
         // Register Page
         [Route("register")]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -33,12 +38,14 @@ namespace TomasosPizzeria.Controllers
 
         // Login Page
         [Route("login")]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -69,6 +76,7 @@ namespace TomasosPizzeria.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register(KundViewModel model)
         {
@@ -100,6 +108,65 @@ namespace TomasosPizzeria.Controllers
             }
             return View(model);
 
+        }
+
+        [AllowAnonymous]
+        [Route("signin-facebook")]
+        public IActionResult LoginFacebook(string returnUrl)
+        {
+            var redirectUrl = Url.Action("FacebookResponse", "User", new { ReturnUrl = "/" });
+            var props = _signInManager.ConfigureExternalAuthenticationProperties("Facebook", redirectUrl);
+            return new ChallengeResult("Facebook", props);
+        }
+
+        [AllowAnonymous]
+        [Route("facebook-response")]
+        public async Task<IActionResult> FacebookResponse(string returnUrl = "/")
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var result = await _signInManager.ExternalLoginSignInAsync(
+                info.LoginProvider, info.ProviderKey, false);
+            if (result.Succeeded)
+            {
+                return Redirect(returnUrl);
+            }
+            else // create new kund
+            {
+                var user = new AppUser
+                {
+                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    EmailConfirmed = true
+                };
+                var identityResult = await _userManager.CreateAsync(user);
+                if (identityResult.Succeeded)
+                {
+                    var identResult = await _userManager.AddLoginAsync(user, info);
+                    if (identResult.Succeeded)
+                    {
+                        var kund = new Kund
+                        {
+                            Email = user.Email,
+                            Gatuadress = info.Principal.FindFirst(ClaimTypes.StreetAddress)?.Value ?? "TBA",
+                            Namn = info.Principal.FindFirst(ClaimTypes.Name)?.Value ?? "TBA",
+                            Postnr = info.Principal.FindFirst(ClaimTypes.PostalCode)?.Value ?? "TBA",
+                            Telefon = info.Principal.FindFirst(ClaimTypes.MobilePhone)?.Value ?? "TBA",
+                            UserId = user.Id,
+                            Postort = info.Principal.FindFirst(ClaimTypes.StateOrProvince)?.Value ?? "TBA"
+                        };
+                        await _userService.AddUserAsync(kund);
+                        await _signInManager.SignInAsync(user, false);
+                        return Redirect(returnUrl);
+                    }
+                }
+            }
+
+            return Forbid();
         }
     }
 }

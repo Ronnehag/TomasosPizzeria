@@ -1,8 +1,9 @@
 ﻿@inject UserManager<AppUser> UserManager
+@using System.Globalization
 @using Microsoft.AspNetCore.Identity
 @model ShoppingCart
 
-<div class="card">
+<div class="card" id="shoppingCart">
     <div class="card-body">
         <ul>
             <!-- Null check of session object shoppingCart & it's products -->
@@ -12,7 +13,7 @@
                 foreach (var item in Model.GroupItems())
                 {
                     <li>
-                        @item.Count - @item.ProductName - @item.TotalSum.ToString("C")
+                        @item.Count - @item.ProductName - @item.TotalSum.ToString("C", new CultureInfo("sv-SE"))
                         <div class="text-right">
                             <a class="btn btn-sm btn-success"
                                data-ajax="true"
@@ -53,14 +54,14 @@
                     {
                         if (Model.Products.Count >= 3)
                         {
-                            @Model.DiscountAmount().ToString("C")
+                            @Model.DiscountAmount().ToString("C", new CultureInfo("sv-SE"))
                             <br /><br />
-                            @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                            @Model.TotalSum(UserRole.PremiumUser).ToString("C", new CultureInfo("sv-SE"))
                             <br />
                         }
                         else
                         {
-                            @Model.TotalSum(UserRole.PremiumUser).ToString("C")
+                            @Model.TotalSum(UserRole.PremiumUser).ToString("C", new CultureInfo("sv-SE"))
                         }
                         if (Model.Kund.Bonuspoäng >= 100 && Model.Products.Any(p => p.MatrattTyp == 1))
                         {
@@ -73,7 +74,7 @@
                     }
                     else
                     {
-                        @Model.TotalSum().ToString("C")
+                        @Model.TotalSum().ToString("C", new CultureInfo("sv-SE"))
                     }
 
                 }

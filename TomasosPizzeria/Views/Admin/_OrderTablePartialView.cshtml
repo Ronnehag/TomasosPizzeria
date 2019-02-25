@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Bestallning>
+﻿@using System.Globalization
+@model IEnumerable<Bestallning>
 <!-- Section scripts for this partial -->
 <script>
     $(document).ready(function () {
@@ -7,9 +8,10 @@
             $('#ordertable').DataTable();
         } else {
             $("#ordertable").DataTable({
-                "order": [[2, "desc"]]
+                order: [[2, "desc"]]
             });
         }
+        
 
         // Click event for order confirmation, will remove the disabled class from "Ta bort" button.
         // Also deletes itself.
@@ -61,8 +63,8 @@ else
                         }
                     </td>
                     <td>@order.Kund.Namn</td>
-                    <td>@order.BestallningDatum</td>
-                    <td>@order.Totalbelopp.ToString("C")</td>
+                    <td>@order.BestallningDatum.ToString("yyyy-MM-dd-HH:mm")</td>
+                    <td>@order.Totalbelopp.ToString("C", new CultureInfo("sv-SE"))</td>
                     <td>
                         <a class="btn btn-sm btn-info"
                            data-toggle="modal"

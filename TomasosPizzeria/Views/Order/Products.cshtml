@@ -4,14 +4,14 @@
     ViewData["Title"] = "Products";
 }
 
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5" id="productList">
 
     <h1 class="text-center">Skapa en beställning</h1>
     <h5 class="text-center">Ingår dricka och frakt</h5>
 
 
     <div class="row mt-5">
-        <div class="col-6 scrollable">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 scrollable">
 
             <h4 class="text-center p-2"><span class="dotted-red">• • •</span> Pizzor <span class="dotted-red">• • •</span></h4>
             <div class="row">
@@ -44,9 +44,8 @@
             </div>
         </div>
 
-        <div class="col-4 mx-auto">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mx-auto">
             <h4 class="text-center p-2"><span class="dotted-red">• • •</span> Din beställning <span class="dotted-red">• • •</span></h4>
-
             <div id="cartList">
                 <partial name="../Cart/_CartList" model="@Model.ShoppingCart" />
             </div>

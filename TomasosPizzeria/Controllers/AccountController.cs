@@ -51,6 +51,8 @@ namespace TomasosPizzeria.Controllers
 
             if (!ModelState.IsValid)
             {
+                var kundData = await _service.FindUserAsync(user.Id);
+                model.Kund.Bonuspoäng = kundData?.Bonuspoäng ?? 0;
                 return PartialView("_EditDetailsForm", model);
             }
 

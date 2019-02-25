@@ -1,4 +1,5 @@
-﻿@model List<Matratt>
+﻿@using System.Globalization
+@model List<Matratt>
 
 
 <script>
@@ -38,7 +39,7 @@
                 <td>@dish.MatrattNamn</td>
                 <td>@dish.MatrattTypNavigation.Beskrivning</td>
                 <td>@dish.Beskrivning</td>
-                <td>@dish.Pris.ToString("C")</td>
+                <td>@dish.Pris.ToString("C", new CultureInfo("sv-SE"))</td>
                 <td>
                     <a asp-controller="Admin" asp-action="EditDish" asp-route-id="@dish.MatrattId" class="btn btn-sm btn-secondary">Ändra</a>
 

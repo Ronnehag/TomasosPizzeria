@@ -1,4 +1,5 @@
 ﻿
+@using System.Globalization
 @model Bestallning
 
 <div class="modal-header">
@@ -16,7 +17,7 @@
             @order.Antal st @order.Matratt.MatrattNamn
         </h6>
     }
-    <h6>Totalt pris: @Model.Totalbelopp.ToString("C")</h6>
+    <h6>Totalt pris: @Model.Totalbelopp.ToString("C", new CultureInfo("sv-SE"))</h6>
     <br />
     <p>
         Status: @(Model.Levererad ? "Levererad" : "Ej levererad")

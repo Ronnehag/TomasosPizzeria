@@ -90,6 +90,15 @@ p {
     color: #CA2A2B;
 }
 
+#about h1 {
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+#about p:last-child {
+    margin-bottom: 30px;
+}
+
 
 /* MAIN FOOTER SECTION */
 #main-footer {
@@ -286,10 +295,10 @@ ul {
 }
 
 .btn-circle {
-    width: 90px;
+    width: 30px;
     height: 90px;
     border-radius: 60px;
-    font-size: 40px;
+    font-size: 60px;
     color: rgba(255, 255, 255, 0.6);
     -webkit-transition: background .4s ease-in-out;
     -moz-transition: background .4s ease-in-out;
@@ -299,7 +308,7 @@ ul {
     .btn-circle:hover, .btn-circle:focus {
         outline: 0;
         color: #fff;
-        background: rgba(255, 255, 255, 0.1);
+        background: transparent;
     }
 
 .badge {
@@ -317,4 +326,54 @@ ul {
     padding: 0 5px;
     vertical-align: top;
     margin-left: -10px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .fill-all {
+        min-height: 500px;
+    }
+
+    .header-text {
+        font-size: 50px;
+    }
+
+    .secondary-header {
+        font-size: 35px;
+    }
+
+    .btn-circle {
+        padding: 5px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h6 {
+        font-size: 16px;
+    }
+
+    #about i {
+        padding: 10px 0;
+        margin: 20px 0;
+    }
+
+    #about h1 {
+        font-size: 50px;
+    }
+
+    #productList h4 {
+        font-size: 14px;
+    }
+
+    #productList .dotted-red {
+        font-size: 10px;
+    }
+
+    #shoppingCart .btn-success, #shoppingCart .btn-danger {
+            font-size: 8px;
+            padding: 6px;
+    }
+
 }

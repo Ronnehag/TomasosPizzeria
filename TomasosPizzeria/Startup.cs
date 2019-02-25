@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TomasosPizzeria.IdentityData;
 using TomasosPizzeria.Models.Entities;
@@ -38,10 +39,10 @@ namespace TomasosPizzeria
             services.AddScoped<IProduktService, ProduktService>();
 
             services.AddDbContext<TomasosContext>(options =>
-                options.UseSqlServer(Configuration["Data:ConnectionString"]));
+                options.UseSqlServer(Configuration.GetConnectionString("Tomasos")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration["Data:ConnectionString"]));
+                options.UseSqlServer(Configuration.GetConnectionString("Tomasos")));
 
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -64,21 +65,18 @@ namespace TomasosPizzeria
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-            });
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-                options.LoginPath = "/user/login";
-                options.SlidingExpiration = true;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
             });
 
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddAuthentication().AddFacebook(options =>
+                {
+                    options.AppId = Configuration["Authentication:Facebook:AppId"];
+                    options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                }
+            );
 
         }
 
@@ -105,7 +103,7 @@ namespace TomasosPizzeria
 
             // Creates the IdentityRoles, will check if they don't already exist.
             // Also creates the Admin account. Remove this on production.
-            CreateUserRoles(service).Wait();
+            //CreateUserRoles(service).Wait();
         }
 
 

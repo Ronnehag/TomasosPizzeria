@@ -4,12 +4,12 @@
 <form asp-action="Register" method="post" id="registryForm">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="row">
-        <div class="col">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <label asp-for="Kund.Namn"></label> *
             <input maxlength="100" class="form-control" asp-for="Kund.Namn">
             <span asp-validation-for="Kund.Namn"></span>
         </div>
-        <div class="col">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <label asp-for="Kund.Gatuadress"></label> *
             <input maxlength="50" class="form-control" asp-for="Kund.Gatuadress">
             <span asp-validation-for="Kund.Gatuadress"></span>
@@ -17,12 +17,12 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             <label asp-for="Kund.Postnr"></label> *
             <input maxlength="20" class="form-control" asp-for="Kund.Postnr">
             <span asp-validation-for="Kund.Postnr"></span>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             <label asp-for="Kund.Postort"></label> *
             <input maxlength="100" class="form-control" asp-for="Kund.Postort">
             <span asp-validation-for="Kund.Postort"></span>
@@ -30,12 +30,12 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             <label asp-for="Kund.Email"></label>
             <input maxlength="50" class="form-control" asp-for="Kund.Email">
             <span asp-validation-for="Kund.Email"></span>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             <label asp-for="Kund.Telefon"></label>
             <input maxlength="50" class="form-control" asp-for="Kund.Telefon">
             <span asp-validation-for="Kund.Telefon"></span>
@@ -43,17 +43,19 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             <label asp-for="AnvandarNamn"></label> *
             <input maxlength="20" class="form-control" asp-for="AnvandarNamn">
             <span asp-validation-for="AnvandarNamn"></span>
         </div>
-        <div class="col">
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-6 col-lg-6">
             <label asp-for="Losenord"></label> *
             <input maxlength="20" class="form-control" asp-for="Losenord">
             <span asp-validation-for="Losenord"></span>
         </div>
-        <div class="col">
+        <div class="col-sm-4 col-md-6 col-lg-6">
             <label asp-for="ConfirmPassword"></label> *
             <input maxlength="20" class="form-control" asp-for="ConfirmPassword">
             <span asp-validation-for="ConfirmPassword"></span>

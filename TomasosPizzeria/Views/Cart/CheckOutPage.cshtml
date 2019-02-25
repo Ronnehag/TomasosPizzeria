@@ -1,9 +1,10 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Identity
 @model CheckOutViewModel
 @inject UserManager<AppUser> UserManager
 
 @{
-    ViewData["Title"] = "CheckOutPage";
+    ViewData["Title"] = "Checka ut";
 }
 
 
@@ -21,8 +22,8 @@
                     <div class="col-sm-6">
                         <label asp-for="@Model.TotalPrice">Summa</label>
                         <input class="form-control" value="@(User.IsInRole(UserRole.PremiumUser.ToString()) ?
-                                                                Model.Cart.TotalSum(UserRole.PremiumUser).ToString("C") :
-                                                                Model.Cart.TotalSum().ToString("C"))" disabled />
+                                                                Model.Cart.TotalSum(UserRole.PremiumUser).ToString("C", new CultureInfo("sv-SE")) :
+                                                                Model.Cart.TotalSum().ToString("C", new CultureInfo("sv-SE")))" disabled />
                     </div>
                 </div>
                 @if (User.IsInRole(UserRole.PremiumUser.ToString()))
