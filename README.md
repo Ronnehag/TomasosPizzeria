@@ -7,8 +7,29 @@ A webshop for a Pizzeria using .NET Core 2.2 with Core Identity and MSSQL.
 The shop has 3 roles (Admin / PremiumUser / RegularUser) that has different benefits and permissions.
 
 - Index will show the menu for the pizzeria, a user can log in or use registration to add a new account.
+
 - As logged in a user can make a new order of dishes.
 
-- Admin can log in and see all orders and be able to remove or mark them as completed.
+- The cart is saved as a session until clicking "Beställ"
 
--- More information will be added when project is finished.
+- Using Core Identity to store users and rolemanager to store roles.
+
+
+#Admin
+
+- Can see all made orders, mark them as delivered and delete them.
+
+- Can view all customers and change their roles between Premium and Regular.
+
+- Can create and edit dishes and ingredients (change ingredients used, name, price, details)
+
+( To test the Admin account you can login as username: AdminUser password: admin )
+
+
+#PremiumUser
+
+- Gets 20% discount when ordering more than 3 dishes.
+
+- Gets 10 bonus points per dish ordered, when user has 100 points they will recieve a free pizza in their next order.
+
+( To test a PremiumUser you can login as username: FISKEN password: FISKEN )
